@@ -6,7 +6,7 @@
 		version  = "1.0.0">  
 		
 		<name>Revista Moto</name>  
-		<description>Podrás descargar ediciones gratuitas, ademas de tener la opción de suscripción o compra de ediciones individuales de tu revista favorita RevistaMoto</description>  
+		<description>App RevistaMoto</description>  
 		<author href="http://www.revistamoto.com/" email="webmaster@revistamoto.com"></author>  
 		<!--  
 			If you do not want any permissions to be added to your app, add the  
