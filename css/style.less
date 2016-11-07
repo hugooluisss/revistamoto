@@ -1,0 +1,82 @@
+@import "variables.less";
+
+nav.navbar{
+	background: black;
+	min-height: 70px;
+	.brand{
+		position: absolute;
+		left: 50%;
+		margin-left: -70px !important;  /* 50% of your logo width */
+		display: block;
+		
+		#logo{
+			width: 160px;
+			margin-top: 5px;
+		}
+	}
+}
+
+#menu{
+	border-bottom: 1px solid @menu-botones-borde-color;
+	position: fixed;
+	top: 69px;
+	z-index: 9;
+	
+	a{	
+		&[role=button]{
+			border: none;
+			border-right: 1px solid @menu-botones-borde-color;
+			&:last-child{
+				border: none;
+			}
+			
+			i.fa{
+			}
+		}
+	}
+}
+
+#modulo{
+	margin-top: 120px;
+	margin-bottom: 60px;
+	
+	#frmFiltro{
+		.input-group-addon{
+			border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
+		}
+		
+		#txtFiltro{
+			border: 1px solid @menu-botones-borde-color;
+			border-left-radius: 100px;
+		}
+		
+		margin-bottom: 10px;
+	}
+	
+	.revista{
+		h1{
+			font-size: 18px;
+			margin-top: 1px;
+		}
+		p{
+			font-size: 14px;
+			text-align: justify;
+		}
+		
+		[campo=contenido] br{
+			margin-bottom: 10px;
+		}
+	}
+}
+
+footer{
+	&.navbar-fixed-bottom{
+		background: @footer-background-color;
+		color: white;
+		text-align: center;
+		h4{
+			font-size: 12px;
+		}
+	}
+}
