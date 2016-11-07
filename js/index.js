@@ -44,7 +44,7 @@ $(document).ready(function(){
 							plantilla.find("a.ver").hide();
 							
 						plantilla.find("a.ver").click(function(){
-							window.open(revista.link, "_system", "location=yes");
+							window.open(revista.link, "_blank", "location=no");
 						});
 
 						$("#modulo").append(plantilla);
