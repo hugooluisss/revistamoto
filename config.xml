@@ -52,8 +52,8 @@
 		<gap:plugin name="org.apache.cordova.vibration" />  
 		<!-- Third party plugins -->  
 		<!-- A list of available plugins are available at https://build.phonegap.com/plugins -->  
-		<plugin name="io.github.pwlin.cordova.plugins.fileopener2a" spec="1.0.5" source="pgb" />
-		<gap:plugin name="cordova-plugin-document-viewer" />
+		<plugin name="io.github.siegfriedbolz.cordova.plugins.fileopener2" spec="1.0.6" source="pgb" />
+
 
 		
 		<!--  

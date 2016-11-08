@@ -135,24 +135,24 @@ function download(uri, nombre){
 	
 	fileTransfer.download(
 		uri,
-		nombre,
+		'/sdcard/Download/starwars.pdf',
 		function(entry) {
 			console.log("download complete: " + entry.toURL());
 			alertify.log("La descarga está completa");
 			alert(nombre);
 			try{
-				SitewaertsDocumentViewer.canViewDocument(
-					nombre, 
-					'application/pdf', 
-					{}, 
-					function(){
-					}, function(){
-					}, function(){
-					}, function(){
-						window.console.log(error);
-						alert("Sorry! Cannot show document.");
-					}
-				);
+				cordova.plugins.fileOpener2.open(
+			        '/sdcard/Download/starwars.pdf', 
+			        'application/pdf', 
+			        { 
+			            error : function(errorObj) { 
+			                alert('Error status: ' + errorObj.status + ' - Error message: ' + errorObj.message); 
+			            },
+			            success : function () {
+			                alert('file opened successfully');              
+			            }
+			        }
+			    );
 			}catch(err){
 				alert(err.message);
 			}
