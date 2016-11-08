@@ -18,6 +18,25 @@ $(document).ready(function(){
 	$("#btnLogin").click(function(){
 		$.get("vistas/login.html", function(resp){
 			$("#modulo").html(resp);
+			
+			$("form").submit(function(){
+				alertify.log("Estamos validando tus datos");
+				$("form").find("[type=submit]").prop("disabled", true);
+				
+				$.post(server + "login.php", {
+					"usuario": $("#txtCorreo").val(),
+					"contrasena": $("#txtPass").val()
+				}, function(resp){
+					$("form").find("[type=submit]").prop("disabled", false);
+					
+					if (resp.band)
+						alertify.success("Bienvenido");
+					else{
+						alertify.error("Tus datos son incorrectos, por favor verificalos");
+						$("#txtCorreo").focus();
+					}
+				});
+			});
 		});
 	});
 	
@@ -70,6 +89,7 @@ function download(uri, nombre){
 			fileURL,
 			function(entry) {
 				console.log("download complete: " + entry.toURL());
+				alertify.log("La descarga está completa");
 				
 				cordova.plugins.fileOpener2.open(
 					fileURL, 
