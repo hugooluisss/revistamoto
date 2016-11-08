@@ -63,11 +63,25 @@ function download(uri, nombre){
 		var uri = encodeURI(uri);
 		var fileURL = cordova.file.applicationStorageDirectory + nombre + ".pdf";
 		
+		alertify.log("Por favor espera mientras descargamos ésta edición...");
+		
 		fileTransfer.download(
 			uri,
 			fileURL,
 			function(entry) {
 				console.log("download complete: " + entry.toURL());
+				
+				cordova.plugins.fileOpener2.open(
+					fileURL, 
+					'application/pdf', 
+					{ 
+						error : function(errorObj) { 
+							alert('Error status: ' + errorObj.status + ' - Error message: ' + errorObj.message); 
+						},
+						success : function () {
+							alert('file opened successfully');              
+						}
+					});
 			},
 			function(error) {
 				console.log("download error source " + error.source);
