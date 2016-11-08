@@ -29,19 +29,59 @@ $(document).ready(function(){
 				}, function(resp){
 					$("form").find("[type=submit]").prop("disabled", false);
 					
-					if (resp.band)
+					if (resp.band){
 						alertify.success("Bienvenido");
-					else{
+						window.localStorage.removeItem("usuario");
+						window.localStorage.setItem("usuario", $("#txtCorreo").val());
+						window.localStorage.removeItem("suscripcion");
+						window.localStorage.setItem("suscripcion", resp.suscripcion);
+						
+						$("#btnLogin").hide();
+						$("#btnPerfil").show();
+						
+						home();
+					}else{
 						alertify.error("Tus datos son incorrectos, por favor verificalos");
 						$("#txtCorreo").focus();
 					}
-				});
+				}, "json");
 			});
 		});
 	});
 	
+	$("#btnPerfil").click(function(){
+		$.get("vistas/perfil.html", function(resp){
+			resp = $(resp);
+			var usuario = window.localStorage.getItem("usuario");
+			var suscripcion = window.localStorage.getItem("suscripcion");
+			
+			resp.find("[campo=usuario]").html(usuario);
+			resp.find("[campo=suscripcion]").html(suscripcion == ''?"Sin suscripción":suscripcion);
+			if (suscripcion == '')
+				$("#btnMembresia").show();
+			else
+				$("#btnMembresia").hide();
+			
+			$("#winDatos").find(".modal-body").html(resp);
+			$("#winDatos").modal();
+		});
+	});
+	
+	$("#btnLogout").click(function(){
+		logout();
+	});
+	
 	function home(){
 		var i= 0;
+		var usuario = window.localStorage.getItem("usuario");
+		if (usuario == undefined){
+			$("#btnLogin").show();
+			$("#btnPerfil").hide();
+		}else{
+			$("#btnLogin").hide();
+			$("#btnPerfil").show();
+		}
+		
 		$.get("vistas/inicio.html", function(resp){
 			$("#modulo").html(resp);
 			//Se obtienen todas las revistas
@@ -63,15 +103,27 @@ $(document).ready(function(){
 							plantilla.find("a.ver").hide();
 							
 						plantilla.find("a.ver").click(function(){
-							//window.open(revista.link, "_blank", "location=no");
-							
-							download(revista.link, revista.edicion);
+							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+								alert(fs.root.nativeURL + revista.edicion);
+								download(revista.link, fs.root.nativeURL + revista.edicion);
+							});
 						});
 
 						$("#modulo").append(plantilla);
 					});
 				});
 			}, "json");
+		});
+	}
+	
+	function logout(){
+		alertify.confirm("¿Seguro?", function(e){
+			if (e){
+				window.localStorage.clear();
+				$("#btnLogin").show();
+				$("#btnPerfil").hide();
+				$("#winDatos").modal("hide");
+			}
 		});
 	}
 });
