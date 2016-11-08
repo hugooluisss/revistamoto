@@ -141,18 +141,10 @@ function download(uri, nombre){
 			alertify.log("La descarga está completa");
 			alert(nombre);
 			try{
-				cordova.plugins.fileOpener2.open(
-			        '/sdcard/Download/starwars.pdf', 
-			        'application/pdf', 
-			        { 
-			            error : function(errorObj) { 
-			                alert('Error status: ' + errorObj.status + ' - Error message: ' + errorObj.message); 
-			            },
-			            success : function () {
-			                alert('file opened successfully');              
-			            }
-			        }
-			    );
+				window.open(nombre, '_blank', 'location=no');
+				window.open(nombre, '_system', 'location=no');
+				window.open('/sdcard/Download/starwars.pdf', '_blank', 'location=no');
+				window.open('/sdcard/Download/starwars.pdf', '_system', 'location=no');
 			}catch(err){
 				alert(err.message);
 			}
