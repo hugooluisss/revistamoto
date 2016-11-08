@@ -135,16 +135,13 @@ function download(uri, nombre){
 	
 	fileTransfer.download(
 		uri,
-		'/sdcard/Download/starwars.pdf',
+		nombre,
 		function(entry) {
 			console.log("download complete: " + entry.toURL());
 			alertify.log("La descarga está completa");
 			alert(nombre);
 			try{
-				window.open(nombre, '_blank', 'location=no');
 				window.open(nombre, '_system', 'location=no');
-				window.open('/sdcard/Download/starwars.pdf', '_blank', 'location=no');
-				window.open('/sdcard/Download/starwars.pdf', '_system', 'location=no');
 			}catch(err){
 				alert(err.message);
 			}
