@@ -1,3 +1,8 @@
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    console.log(FileTransfer);
+}
+
 var server = "http://192.168.2.4/webservicesmotos/";
 var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
