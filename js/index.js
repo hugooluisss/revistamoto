@@ -46,22 +46,7 @@ $(document).ready(function(){
 						plantilla.find("a.ver").click(function(){
 							//window.open(revista.link, "_blank", "location=no");
 							
-							var fileTransfer = new FileTransfer();
-							var uri = encodeURI(revista.link);
-							var fileURL = cordova.file.applicationStorageDirectory + revista.edicacion + ".pdf";
-							
-							fileTransfer.download(
-								uri,
-								fileURL,
-								function(entry) {
-									console.log("download complete: " + entry.toURL());
-								},
-								function(error) {
-									console.log("download error source " + error.source);
-									console.log("download error target " + error.target);
-									console.log("upload error code" + error.code);
-								}
-							);
+							download(revista.link, revista.edicion);
 						});
 
 						$("#modulo").append(plantilla);
@@ -71,3 +56,26 @@ $(document).ready(function(){
 		});
 	}
 });
+
+function download(uri, nombre){
+	try{
+		var fileTransfer = new FileTransfer();
+		var uri = encodeURI(uri);
+		var fileURL = cordova.file.applicationStorageDirectory + nombre + ".pdf";
+		
+		fileTransfer.download(
+			uri,
+			fileURL,
+			function(entry) {
+				console.log("download complete: " + entry.toURL());
+			},
+			function(error) {
+				console.log("download error source " + error.source);
+				console.log("download error target " + error.target);
+				console.log("upload error code" + error.code);
+			}
+		);
+	}catch(err){
+		alert(err.message);
+	}
+}
