@@ -140,17 +140,17 @@ function download(uri, nombre){
 			function(entry) {
 				console.log("download complete: " + entry.toURL());
 				alertify.log("La descarga está completa");
-				
-				cordova.plugins.fileOpener2.open(
+				alert(nombre);
+				SitewaertsDocumentViewer.canViewDocument(
 					nombre, 
 					'application/pdf', 
-					{ 
-						error : function(errorObj) { 
-							alert('Error status: ' + errorObj.status + ' - Error message: ' + errorObj.message); 
-						},
-						success : function () {
-							alert('file opened successfully');              
-						}
+					{}, 
+					function(){
+					}, function(){
+					}, function(){
+					}, function(){
+						window.console.log(error);
+						alert("Sorry! Cannot show document.");
 					});
 			},
 			function(error) {
