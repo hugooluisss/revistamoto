@@ -1,8 +1,3 @@
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-    console.log(FileTransfer);
-}
-
 var server = "http://192.168.2.4/webservicesmotos/";
 var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
@@ -53,7 +48,7 @@ $(document).ready(function(){
 							
 							var fileTransfer = new FileTransfer();
 							var uri = encodeURI(revista.link);
-							var fileURL = revista.link.toURL();
+							var fileURL = cordova.file.applicationStorageDirectory + revista.edicacion + ".pdf";
 							
 							fileTransfer.download(
 								uri,
