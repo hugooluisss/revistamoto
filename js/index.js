@@ -104,8 +104,7 @@ $(document).ready(function(){
 							
 						plantilla.find("a.ver").click(function(){
 							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-								alert(fs.root.nativeURL + revista.edicion);
-								download(revista.link, fs.root.nativeURL + revista.edicion);
+								download(revista.link, fs.root.nativeURL + revista.edicion + ".pdf");
 							});
 						});
 
@@ -132,19 +131,18 @@ function download(uri, nombre){
 	try{
 		var fileTransfer = new FileTransfer();
 		var uri = encodeURI(uri);
-		var fileURL = cordova.file.applicationStorageDirectory + nombre + ".pdf";
 		
 		alertify.log("Por favor espera mientras descargamos ésta edición...");
 		
 		fileTransfer.download(
 			uri,
-			fileURL,
+			nombre,
 			function(entry) {
 				console.log("download complete: " + entry.toURL());
 				alertify.log("La descarga está completa");
 				
 				cordova.plugins.fileOpener2.open(
-					fileURL, 
+					nombre, 
 					'application/pdf', 
 					{ 
 						error : function(errorObj) { 
