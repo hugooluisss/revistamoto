@@ -128,19 +128,19 @@ $(document).ready(function(){
 });
 
 function download(uri, nombre){
-	try{
-		var fileTransfer = new FileTransfer();
-		var uri = encodeURI(uri);
-		
-		alertify.log("Por favor espera mientras descargamos ésta edición...");
-		
-		fileTransfer.download(
-			uri,
-			nombre,
-			function(entry) {
-				console.log("download complete: " + entry.toURL());
-				alertify.log("La descarga está completa");
-				alert(nombre);
+	var fileTransfer = new FileTransfer();
+	var uri = encodeURI(uri);
+	
+	alertify.log("Por favor espera mientras descargamos ésta edición...");
+	
+	fileTransfer.download(
+		uri,
+		nombre,
+		function(entry) {
+			console.log("download complete: " + entry.toURL());
+			alertify.log("La descarga está completa");
+			alert(nombre);
+			try{
 				SitewaertsDocumentViewer.canViewDocument(
 					nombre, 
 					'application/pdf', 
@@ -151,15 +151,16 @@ function download(uri, nombre){
 					}, function(){
 						window.console.log(error);
 						alert("Sorry! Cannot show document.");
-					});
-			},
-			function(error) {
-				console.log("download error source " + error.source);
-				console.log("download error target " + error.target);
-				console.log("upload error code" + error.code);
+					}
+				);
+			}catch(err){
+				alert(err.message);
 			}
-		);
-	}catch(err){
-		alert(err.message);
-	}
+		},
+		function(error) {
+			console.log("download error source " + error.source);
+			console.log("download error target " + error.target);
+			console.log("upload error code" + error.code);
+		}
+	);
 }
