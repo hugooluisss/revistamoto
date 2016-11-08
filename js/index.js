@@ -97,17 +97,20 @@ $(document).ready(function(){
 						})
 						
 						plantilla.find("img[imagen]").attr("src", portadas + revista.edicion + ".jpg");
+						
+						$("#modulo").append(plantilla);
+						
 						plantilla.find("a.ver").hide();
 						plantilla.find("a.comprar").hide();
 						
 						if (revista.estatus == "gratis")
-							plantilla.find("a.comprar").hide();
+							plantilla.find("a.ver").show();
 						else{
 							var suscripcion = window.localStorage.getItem("suscripcion");
 							if (suscripcion != '')
 								plantilla.find("a.ver").show();
 							else
-								plantilla.find("a.ver").hide();
+								plantilla.find("a.comprar").hide();
 						}
 							
 						plantilla.find("a.ver").click(function(){
@@ -121,8 +124,6 @@ $(document).ready(function(){
 								});
 							});
 						});
-
-						$("#modulo").append(plantilla);
 					});
 				});
 			}, "json");
