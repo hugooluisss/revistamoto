@@ -57,12 +57,13 @@ $(document).ready(function(){
 			
 			resp.find("[campo=usuario]").html(usuario);
 			resp.find("[campo=suscripcion]").html(suscripcion == ''?"Sin suscripción":suscripcion);
+			
+			$("#winDatos").find(".modal-body").html(resp);
 			if (suscripcion == '')
 				$("#btnMembresia").show();
 			else
 				$("#btnMembresia").hide();
-			
-			$("#winDatos").find(".modal-body").html(resp);
+				
 			$("#winDatos").modal();
 		});
 	});
@@ -96,15 +97,28 @@ $(document).ready(function(){
 						})
 						
 						plantilla.find("img[imagen]").attr("src", portadas + revista.edicion + ".jpg");
-
+						plantilla.find("a.ver").hide();
+						plantilla.find("a.comprar").hide();
+						
 						if (revista.estatus == "gratis")
 							plantilla.find("a.comprar").hide();
-						else
-							plantilla.find("a.ver").hide();
+						else{
+							var suscripcion = window.localStorage.getItem("suscripcion");
+							if (suscripcion != '')
+								plantilla.find("a.ver").show();
+							else
+								plantilla.find("a.ver").hide();
+						}
 							
 						plantilla.find("a.ver").click(function(){
 							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-								download(revista.link, fs.root.nativeURL + revista.edicion + ".pdf");
+								var nombre = fs.root.nativeURL + revista.edicion + ".pdf";
+								
+								fileSystem.root.getFile(path, { create: false }, function(){
+									window.open(nombre, '_system', 'location=no');
+								}, function(){
+									download(revista.link, nombre);
+								});
 							});
 						});
 
@@ -137,14 +151,8 @@ function download(uri, nombre){
 		uri,
 		nombre,
 		function(entry) {
-			console.log("download complete: " + entry.toURL());
 			alertify.log("La descarga está completa");
-			alert(nombre);
-			try{
-				window.open(nombre, '_system', 'location=no');
-			}catch(err){
-				alert(err.message);
-			}
+			window.open(nombre, '_system', 'location=no');
 		},
 		function(error) {
 			console.log("download error source " + error.source);
