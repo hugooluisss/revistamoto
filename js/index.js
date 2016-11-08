@@ -44,7 +44,24 @@ $(document).ready(function(){
 							plantilla.find("a.ver").hide();
 							
 						plantilla.find("a.ver").click(function(){
-							window.open(revista.link, "_blank", "location=no");
+							//window.open(revista.link, "_blank", "location=no");
+							
+							var fileTransfer = new FileTransfer();
+							var uri = encodeURI(revista.link);
+							var fileURL = revista.link.toURL();
+							
+							fileTransfer.download(
+								uri,
+								fileURL,
+								function(entry) {
+									console.log("download complete: " + entry.toURL());
+								},
+								function(error) {
+									console.log("download error source " + error.source);
+									console.log("download error target " + error.target);
+									console.log("upload error code" + error.code);
+								}
+							);
 						});
 
 						$("#modulo").append(plantilla);
