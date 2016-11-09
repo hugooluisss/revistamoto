@@ -119,7 +119,7 @@ $(document).ready(function(){
 							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
 								var nombre = fs.root.nativeURL + revista.edicion + ".pdf";
 								try{
-									fs.root.getFile(path, { create: false }, function(){
+									fs.root.getFile(nombre, { create: false }, function(){
 										window.open(nombre, '_system', 'location=no');
 									}, function(){
 										download(revista.link, nombre);
