@@ -52,7 +52,7 @@
 		<gap:plugin name="org.apache.cordova.vibration" />  
 		<!-- Third party plugins -->  
 		<!-- A list of available plugins are available at https://build.phonegap.com/plugins -->  
-
+		<plugin name="com.paypal.cordova.mobilesdk" spec="3.1.2" source="pgb" />
 
 		
 		<!--  

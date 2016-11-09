@@ -1,7 +1,7 @@
-//var server = "http://192.168.2.4/webservicesmotos/";
-//var portadas = "http://192.168.2.1/motosAnterior/portadas/";
-var server = "http://10.0.0.5/webservicesmotos/";
+var server = "http://192.168.2.4/webservicesmotos/";
 var portadas = "http://192.168.2.1/motosAnterior/portadas/";
+//var server = "http://10.0.0.5/webservicesmotos/";
+//var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
@@ -90,6 +90,8 @@ $(document).ready(function(){
 			//Se obtienen todas las revistas
 			$.get(server + 'getRevistas.php', function(revistas){
 				$.get("vistas/revista.html", function(resp){
+					var suscripcion = window.localStorage.getItem("suscripcion");
+					
 					$.each(revistas, function(i, revista){
 						var plantilla = resp;
 						plantilla = $(plantilla);
@@ -107,12 +109,11 @@ $(document).ready(function(){
 						
 						if (revista.estatus == "gratis")
 							plantilla.find("a.ver").show();
-						else{
-							var suscripcion = window.localStorage.getItem("suscripcion");
-							if (suscripcion != '')
+						else{					
+							if (suscripcion != '' && suscripcion != null)
 								plantilla.find("a.ver").show();
 							else
-								plantilla.find("a.comprar").hide();
+								plantilla.find("a.comprar").show();
 						}
 							
 						plantilla.find("a.ver").click(function(){
@@ -128,6 +129,29 @@ $(document).ready(function(){
 									alert(err.message);
 								}
 							});
+						});
+						
+						plantilla.find("a.comprar").click(function(){
+							var paymentDetails = new PayPalPaymentDetails("10.00", "0.00", "0.00");
+							var payment = new PayPalPayment("10.00", "MX", "Awesome Sauce", "Sale", paymentDetails);
+							
+							var clientIDs = {
+								"PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
+								"PayPalEnvironmentSandbox": "YOUR_SANDBOX_CLIENT_ID"
+							};
+							
+							PayPalMobile.init(clientIDs);
+							
+							PayPalMobile.renderSinglePaymentUI(payment, 
+								function(payment){
+									console.log("payment success: " + JSON.stringify(payment, null, 4));
+									alert(JSON.stringify(payment, null, 4));
+								}, 
+								function(result){
+									console.log(result);
+									alert(result);
+								}
+							);
 						});
 					});
 				});
