@@ -118,12 +118,15 @@ $(document).ready(function(){
 						plantilla.find("a.ver").click(function(){
 							window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
 								var nombre = fs.root.nativeURL + revista.edicion + ".pdf";
-								
-								fileSystem.root.getFile(path, { create: false }, function(){
-									window.open(nombre, '_system', 'location=no');
-								}, function(){
-									download(revista.link, nombre);
-								});
+								try{
+									fileSystem.root.getFile(path, { create: false }, function(){
+										window.open(nombre, '_system', 'location=no');
+									}, function(){
+										download(revista.link, nombre);
+									});
+								}catch(err){
+									alert(err.messaje);
+								}
 							});
 						});
 					});
