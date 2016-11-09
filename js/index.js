@@ -1,4 +1,6 @@
-var server = "http://192.168.2.4/webservicesmotos/";
+//var server = "http://192.168.2.4/webservicesmotos/";
+//var portadas = "http://192.168.2.1/motosAnterior/portadas/";
+var server = "http://10.0.0.5/webservicesmotos/";
 var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
 $(document).ready(function(){
