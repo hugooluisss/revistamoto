@@ -158,6 +158,7 @@ $(document).ready(function(){
 	}
 	
 	renderIAPs($("#modulo"));
+	IAP.onReady();
 	window.storekit.load("mi producto",function(){alert("loaded");});
 });
 
