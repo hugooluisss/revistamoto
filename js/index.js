@@ -125,7 +125,7 @@ $(document).ready(function(){
 										download(revista.link, nombre);
 									});
 								}catch(err){
-									alert(err.messaje);
+									alert(err.message);
 								}
 							});
 						});
