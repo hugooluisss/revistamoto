@@ -132,26 +132,30 @@ $(document).ready(function(){
 						});
 						
 						plantilla.find("a.comprar").click(function(){
-							var paymentDetails = new PayPalPaymentDetails("10.00", "0.00", "0.00");
-							var payment = new PayPalPayment("10.00", "MX", "Awesome Sauce", "Sale", paymentDetails);
-							
-							var clientIDs = {
-								"PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
-								"PayPalEnvironmentSandbox": "YOUR_SANDBOX_CLIENT_ID"
-							};
-							
-							PayPalMobile.init(clientIDs);
-							
-							PayPalMobile.renderSinglePaymentUI(payment, 
-								function(payment){
-									console.log("payment success: " + JSON.stringify(payment, null, 4));
-									alert(JSON.stringify(payment, null, 4));
-								}, 
-								function(result){
-									console.log(result);
-									alert(result);
-								}
-							);
+							try{
+								var paymentDetails = new PayPalPaymentDetails("10.00", "0.00", "0.00");
+								var payment = new PayPalPayment("10.00", "MX", "Awesome Sauce", "Sale", paymentDetails);
+								
+								var clientIDs = {
+									"PayPalEnvironmentProduction": "YOUR_PRODUCTION_CLIENT_ID",
+									"PayPalEnvironmentSandbox": "YOUR_SANDBOX_CLIENT_ID"
+								};
+								
+								PayPalMobile.init(clientIDs);
+								
+								PayPalMobile.renderSinglePaymentUI(payment, 
+									function(payment){
+										console.log("payment success: " + JSON.stringify(payment, null, 4));
+										alert(JSON.stringify(payment, null, 4));
+									}, 
+									function(result){
+										console.log(result);
+										alert(result);
+									}
+								);
+							}catch(err){
+								alert(err.message);
+							}
 						});
 					});
 				});
@@ -166,6 +170,8 @@ $(document).ready(function(){
 				$("#btnLogin").show();
 				$("#btnPerfil").hide();
 				$("#winDatos").modal("hide");
+				
+				home();
 			}
 		});
 	}
