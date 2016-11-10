@@ -1,7 +1,7 @@
-//var server = "http://192.168.2.4/webservicesmotos/";
-//var portadas = "http://192.168.2.1/motosAnterior/portadas/";
-var server = "http://10.0.0.5/webservicesmotos/";
+var server = "http://192.168.2.4/webservicesmotos/";
 var portadas = "http://192.168.2.1/motosAnterior/portadas/";
+//var server = "http://10.0.0.5/webservicesmotos/";
+//var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
@@ -150,7 +150,7 @@ $(document).ready(function(){
 						
 						plantilla.find("a.comprar").click(function(){
 							try{
-								
+								window.storekit.purchase("com.revistamoto.revista01", 1);
 							}catch(err){
 								alert(err.message);
 							}
@@ -173,10 +173,6 @@ $(document).ready(function(){
 			}
 		});
 	}
-	
-	renderIAPs($("#modulo"));
-	IAP.onReady();
-	window.storekit.load("mi producto",function(){alert("loaded");});
 });
 
 function download(uri, nombre){

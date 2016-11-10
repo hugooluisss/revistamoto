@@ -52,9 +52,7 @@
 		<gap:plugin name="org.apache.cordova.vibration" />  
 		<!-- Third party plugins -->  
 		<!-- A list of available plugins are available at https://build.phonegap.com/plugins -->  
-		<gap:plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0">
-			<param name="BILLING_KEY" value="MIIB...."/>
-		</gap:plugin>
+		<plugin name="com.alexvillaro.plugins.inapppurchase" spec="2.0.0" source="pgb" />
 		
 		<!--  
 		 <gap:plugin name="com.phonegap.plugins.barcodescanner" />  
