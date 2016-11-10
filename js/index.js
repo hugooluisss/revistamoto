@@ -1,7 +1,7 @@
-var server = "http://192.168.2.4/webservicesmotos/";
-var portadas = "http://192.168.2.1/motosAnterior/portadas/";
-//var server = "http://10.0.0.5/webservicesmotos/";
+//var server = "http://192.168.2.4/webservicesmotos/";
 //var portadas = "http://192.168.2.1/motosAnterior/portadas/";
+var server = "http://10.0.0.5/webservicesmotos/";
+var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
@@ -14,6 +14,23 @@ $(document).ready(function(){
 	$("#btnContacto").click(function(){
 		$.get("vistas/contacto.html", function(resp){
 			$("#modulo").html(resp);
+			
+			$("form").submit(function(){
+				$("form").find("[type=submit]").prop("disabled", true);
+				$.post(server + "contacto.php", {
+					"correo": $("#txtCorreo").val(),
+					"nombre": $("#txtNombre").val(),
+					"asunto": $("#txtAsunto").val(),
+					"mensaje": $("#txtMensaje").val()
+				}, function(resp){
+					$("form").find("[type=submit]").prop("disabled", false);
+					if (resp.band){
+						$("form")[0].reset();
+						alertify.success("El mensaje se envió con éxito... espera respuesta muy pronto");
+					}else
+						alertify.error("Lamentablemente el mensaje no pudo ser enviado, por favor intentalo más tarde");
+				}, "json");
+			});
 		});
 	});
 	
