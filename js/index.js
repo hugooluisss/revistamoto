@@ -152,7 +152,7 @@ $(document).ready(function(){
 						
 						plantilla.find("a.comprar").click(function(){
 							try{
-								window.storekit.purchase("com.revistamoto.revista01", 1);
+								IAP.buy('com.revistamoto.revista01');
 							}catch(err){
 								alert(err.message);
 							}
@@ -210,53 +210,59 @@ function download(uri, nombre){
 
 
 $(document).ready(function(){
-	if(window.storekit){
-		window.storekit.init({
-		
-		    debug: true, /* Because we like to see logs on the console */
-		
-		    purchase: function (transactionId, productId) {
-		        console.log('purchased: ' + productId);
-		        alert("Purchased");
-		    },
-		    restore: function (transactionId, productId) {
-		        console.log('restored: ' + productId);
-		        alert("Restaurando");
-		    },
-		    restoreCompleted: function () {
-		        console.log('restoreCompleted');
-		        alert("Restore");
-		    },
-		    restoreFailed: function (errCode) {
-		        console.log('Restore Failed: ' + errCode);
-		        alert("Restore falló");
-		    },
-		    error: function (errno, errtext) {
-		        console.log('Failed: ' + errtext);
-		        alert("error" + errtext);
-		    },
-		    ready: function () {
-		    	alert("entrando al ready");
-		        var productIds = [
-		            "com.revistamoto.revista01"
-		        ];
-		        window.storekit.load(productIds, function(validProducts, invalidProductIds) {
-		            $.each(validProducts, function (i, val) {
-		            	var mensaje = "id: " + val.id + " title: " + val.title + " val: " + val.description + " price: " + val.price;
-		                console.log(mensaje);
-		                alert(mensaje);
-		            });
-		            
-		            if(invalidProductIds.length) {
-		            	var mensaje = "Invalid Product IDs: " + JSON.stringify(invalidProductIds);
-		                console.log(mensaje);
-		                alert(mensaje);
-		            }
-		        });
-		        
-		        alert("Saliendo del ready");
-		    }
+	IAP = {
+		list: ["com.revistamoto.revista01"]
+	};
+	
+	IAP.load = function () {
+		// Check availability of the storekit plugin
+		if (!window.storekit) {
+			alert("In-App Purchases not available");
+			return;
+		}
+ 
+		// Initialize
+		storekit.init({
+			debug:    true, // Enable IAP messages on the console
+			ready: storekit.load(IAP.list, function (products, invalidIds) {
+				IAP.products = products;
+				IAP.loaded = true;
+				
+				for (var i = 0; i < invalidIds.length; ++i) {
+					console.log("Error: could not load " + invalidIds[i]);
+					alert("Error: could not load " + invalidIds[i]);
+				}
+			}),
+			purchase: function (transactionId, productId, receipt) {
+				if(productId === 'com.revistamoto.revista01'){
+					alert("Ads Removed!");
+				//Code to remove ads for the user
+				}
+			},
+			restore: function (transactionId, productId, transactionReceipt) {
+				if(productId == 'com.revistamoto.revista01'){
+					//Code to remove ads for the user
+					alert("removido");
+				}
+			},
+			error: function (errorCode, errorMessage) {
+				console.log(errorCode);
+				console.log(errorMessage);
+				
+				alert(errorCode + ': ' + errorMessage);
+			}
 		});
-	}else
-		alert("storekit no funciona");
+	};
+	
+	IAP.buy = function(productId){
+		storekit.purchase(productId);
+	};
+	
+	IAP.restore = function(){
+		storekit.restore();
+	};
 });
+
+document.addEventListener("deviceready", function(){
+     IAP.load();
+}, false);
