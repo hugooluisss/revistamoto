@@ -7,17 +7,22 @@ window.storekit.init({
     },
     restore: function (transactionId, productId) {
         console.log('restored: ' + productId);
+        alert("Restaurando");
     },
     restoreCompleted: function () {
         console.log('restoreCompleted');
+        alert("Restore");
     },
     restoreFailed: function (errCode) {
         console.log('Restore Failed: ' + errCode);
+        alert("Restore falló");
     },
     error: function (errno, errtext) {
         console.log('Failed: ' + errtext);
+        alert("error" + errtext);
     },
     ready: function () {
+    	alert("entrando al ready");
         var productIds = [
             "com.revistamoto.revista01"
         ];
@@ -27,11 +32,14 @@ window.storekit.init({
                 console.log(mensaje);
                 alert(mensaje);
             });
+            
             if(invalidProductIds.length) {
             	var mensaje = "Invalid Product IDs: " + JSON.stringify(invalidProductIds);
                 console.log(mensaje);
                 alert(mensaje);
             }
         });
+        
+        alert("Saliendo del ready");
     }
 });

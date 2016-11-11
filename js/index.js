@@ -1,7 +1,7 @@
 //var server = "http://192.168.2.4/webservicesmotos/";
 //var portadas = "http://192.168.2.1/motosAnterior/portadas/";
 var server = "http://10.0.0.5/webservicesmotos/";
-var portadas = "http://192.168.2.1/motosAnterior/portadas/";
+var portadas = "http://10.0.0.5/motosAnterior/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
@@ -92,6 +92,8 @@ $(document).ready(function(){
 	});
 	
 	function home(){
+		window.storekit.restore();
+		
 		var i= 0;
 		var usuario = window.localStorage.getItem("usuario");
 		if (usuario == undefined){
