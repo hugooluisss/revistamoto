@@ -257,6 +257,3 @@ function download(uri, nombre){
 		}
 	);
 }
-
-	
-});
