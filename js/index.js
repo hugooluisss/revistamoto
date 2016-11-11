@@ -151,7 +151,6 @@ $(document).ready(function(){
 						});
 						
 						plantilla.find("a.comprar").click(function(){
-							alert("Inicio");
 							try{
 								window.storekit.purchase("com.revistamoto.revista01", 1);
 							}catch(err){

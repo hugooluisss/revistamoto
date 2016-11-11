@@ -4,6 +4,7 @@ window.storekit.init({
 
     purchase: function (transactionId, productId) {
         console.log('purchased: ' + productId);
+        alert("Purchased");
     },
     restore: function (transactionId, productId) {
         console.log('restored: ' + productId);
