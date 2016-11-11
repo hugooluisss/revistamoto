@@ -175,41 +175,7 @@ $(document).ready(function(){
 			}
 		});
 	}
-});
-
-function download(uri, nombre){
-	var fileTransfer = new FileTransfer();
-	var uri = encodeURI(uri);
 	
-	alertify.log("Por favor espera mientras descargamos ésta edición...");
-	
-	fileTransfer.download(
-		uri,
-		nombre,
-		function(entry) {
-			alertify.log("La descarga está completa");
-			try{
-				window.open(nombre, '_system', 'location=no');
-				alert("Se abrió");
-			}catch(err){
-				alert(err.menssage);
-			}
-			
-		},
-		function(error) {
-			console.log("download error source " + error.source);
-			console.log("download error target " + error.target);
-			console.log("upload error code" + error.code);
-		}
-	);
-}
-
-
-
-
-
-
-$(document).ready(function(){
 	IAP = {
 		list: ["com.revistamoto.revista01"]
 	};
@@ -261,8 +227,36 @@ $(document).ready(function(){
 	IAP.restore = function(){
 		storekit.restore();
 	};
+	
+	IAP.load();
 });
 
-document.addEventListener("deviceready", function(){
-     IAP.load();
-}, false);
+function download(uri, nombre){
+	var fileTransfer = new FileTransfer();
+	var uri = encodeURI(uri);
+	
+	alertify.log("Por favor espera mientras descargamos ésta edición...");
+	
+	fileTransfer.download(
+		uri,
+		nombre,
+		function(entry) {
+			alertify.log("La descarga está completa");
+			try{
+				window.open(nombre, '_system', 'location=no');
+				alert("Se abrió");
+			}catch(err){
+				alert(err.menssage);
+			}
+			
+		},
+		function(error) {
+			console.log("download error source " + error.source);
+			console.log("download error target " + error.target);
+			console.log("upload error code" + error.code);
+		}
+	);
+}
+
+	
+});
