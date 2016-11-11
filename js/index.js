@@ -182,7 +182,7 @@ $(document).ready(function(){
 	
 	IAP.load = function () {
 		// Check availability of the storekit plugin
-		if (!window.storekit) {
+		if (!storekit) {
 			alert("In-App Purchases not available");
 			return;
 		}
