@@ -92,7 +92,7 @@ $(document).ready(function(){
 	});
 	
 	function home(){
-		window.storekit.restore();
+		storekit.restore();
 		
 		var i= 0;
 		var usuario = window.localStorage.getItem("usuario");
@@ -152,7 +152,7 @@ $(document).ready(function(){
 						
 						plantilla.find("a.comprar").click(function(){
 							try{
-								window.storekit.purchase("com.revistamoto.revista01", 1);
+								storekit.purchase("com.revistamoto.revista01", 1);
 							}catch(err){
 								alert(err.message);
 							}
