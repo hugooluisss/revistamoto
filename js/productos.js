@@ -1,4 +1,4 @@
-window.storekit.init({
+storekit.init({
 
     debug: true, /* Because we like to see logs on the console */
 
