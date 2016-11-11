@@ -27,7 +27,7 @@ window.storekit.init({
         var productIds = [
             "com.revistamoto.revista01"
         ];
-        window.storekit.load(productIds, function(validProducts, invalidProductIds) {
+        storekit.load(productIds, function(validProducts, invalidProductIds) {
             $.each(validProducts, function (i, val) {
             	var mensaje = "id: " + val.id + " title: " + val.title + " val: " + val.description + " price: " + val.price;
                 console.log(mensaje);
