@@ -3,14 +3,7 @@
 var server = "http://10.0.0.5/webservicesmotos/";
 var portadas = "http://10.0.0.5/motosAnterior/portadas/";
 
-var app = {
-	initialize: function() {
-		document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
-	onDeviceReady: onLoad()
-};
-
-function onLoad(){
+$(document).ready(function(){
 	//$("body").css("height", screen.height);
 	home();
 	
@@ -191,21 +184,23 @@ function onLoad(){
 		// Check availability of the storekit plugin
 		if (!window.storekit) {
 			alert("In-App Purchases not available");
-			return;
+			//return;
 		}
  
 		// Initialize
 		window.storekit.init({
 			debug:    true, // Enable IAP messages on the console
-			ready: storekit.load(IAP.list, function (products, invalidIds) {
-				IAP.products = products;
-				IAP.loaded = true;
-				
-				for (var i = 0; i < invalidIds.length; ++i) {
-					console.log("Error: could not load " + invalidIds[i]);
-					alert("Error: could not load " + invalidIds[i]);
-				}
-			}),
+			ready: function(){
+				storekit.load(IAP.list, function (products, invalidIds) {
+					IAP.products = products;
+					IAP.loaded = true;
+					
+					for (var i = 0; i < invalidIds.length; ++i) {
+						console.log("Error: could not load " + invalidIds[i]);
+						alert("Error: could not load " + invalidIds[i]);
+					}
+				});
+			},
 			purchase: function (transactionId, productId, receipt) {
 				if(productId === 'com.revistamoto.revista01'){
 					alert("Ads Removed!");
@@ -236,7 +231,7 @@ function onLoad(){
 	};
 	
 	IAP.load();
-};
+});
 
 function download(uri, nombre){
 	var fileTransfer = new FileTransfer();
