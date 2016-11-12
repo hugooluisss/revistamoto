@@ -1,7 +1,7 @@
-var server = "http://192.168.2.4/webservicesmotos/";
-var portadas = "http://192.168.2.1/motosAnterior/portadas/";
-//var server = "http://10.0.0.5/webservicesmotos/";
-//var portadas = "http://10.0.0.5/motosAnterior/portadas/";
+//var server = "http://192.168.2.4/webservicesmotos/";
+//var portadas = "http://192.168.2.1/motosAnterior/portadas/";
+var server = "http://10.0.0.5/webservicesmotos/";
+var portadas = "http://10.0.0.5/motosAnterior/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
@@ -182,13 +182,13 @@ $(document).ready(function(){
 	
 	IAP.load = function () {
 		// Check availability of the storekit plugin
-		if (!storekit) {
+		if (!window.storekit) {
 			alert("In-App Purchases not available");
 			return;
 		}
  
 		// Initialize
-		storekit.init({
+		window.storekit.init({
 			debug:    true, // Enable IAP messages on the console
 			ready: storekit.load(IAP.list, function (products, invalidIds) {
 				IAP.products = products;
@@ -221,11 +221,11 @@ $(document).ready(function(){
 	};
 	
 	IAP.buy = function(productId){
-		storekit.purchase(productId);
+		window.storekit.purchase(productId);
 	};
 	
 	IAP.restore = function(){
-		storekit.restore();
+		window.storekit.restore();
 	};
 	
 	IAP.load();
