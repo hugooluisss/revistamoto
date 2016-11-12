@@ -3,7 +3,14 @@
 var server = "http://10.0.0.5/webservicesmotos/";
 var portadas = "http://10.0.0.5/motosAnterior/portadas/";
 
-$(document).ready(function(){
+var app = {
+	initialize: function() {
+		document.addEventListener('deviceready', this.onDeviceReady, false);
+	},
+	onDeviceReady: onLoad()
+};
+
+function onLoad(){
 	//$("body").css("height", screen.height);
 	home();
 	
@@ -229,7 +236,7 @@ $(document).ready(function(){
 	};
 	
 	IAP.load();
-});
+};
 
 function download(uri, nombre){
 	var fileTransfer = new FileTransfer();
