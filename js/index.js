@@ -191,7 +191,7 @@ $(document).ready(function(){
 		window.storekit.init({
 			debug:    true, // Enable IAP messages on the console
 			ready: function(){
-				storekit.load(IAP.list, function (products, invalidIds) {
+				window.storekit.load(IAP.list, function (products, invalidIds) {
 					IAP.products = products;
 					IAP.loaded = true;
 					
