@@ -173,7 +173,7 @@ function onDeviceReady(){
 	}
 	
 	IAP = {
-		list: ["com.revistamoto.revista01"]
+		list: ["com.revistamoto.revista01", "rev001"]
 	};
 	
 	IAP.load = function () {
