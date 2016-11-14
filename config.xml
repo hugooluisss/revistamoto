@@ -56,7 +56,7 @@
 		
 		<plugin name="cordova-plugin-inappbrowser" source="npm"/>
 		<plugin name="cordova-plugin-file" source="npm"/>
-		<plugin name="cordova-plugin-filetransfer" source="npm"/>
+		<plugin name="cordova-plugin-file-transfer" source="npm"/>
 		
 		<plugin name="cordova-plugin-inapppurchase" source="npm" />
 		<!--<plugin name ="git://github.com/j3k0/PhoneGap-InAppPurchase-iOS.git" />-->
