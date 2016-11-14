@@ -53,6 +53,7 @@
 		<!-- Third party plugins -->  
 		<!-- A list of available plugins are available at https://build.phonegap.com/plugins -->  
 		<plugin name="cc.fovea.plugins.inapppurchase" spec="3.4.0" source="pgb" />
+		<plugin name ="git://github.com/j3k0/PhoneGap-InAppPurchase-iOS.git" />
 		
 		<!--  
 		 <gap:plugin name="com.phonegap.plugins.barcodescanner" />  
