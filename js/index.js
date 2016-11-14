@@ -1,11 +1,13 @@
 //var server = "http://192.168.2.4/webservicesmotos/";
 //var portadas = "http://192.168.2.1/motosAnterior/portadas/";
-var server = "http://10.0.0.5/webservicesmotos/";
-var portadas = "http://10.0.0.5/motosAnterior/portadas/";
+//var server = "http://10.0.0.5/webservicesmotos/";
+//var portadas = "http://10.0.0.5/motosAnterior/portadas/";
+var server = "http://revistamoto.com/m/www/app/";
+var portadas = "http://revistamoto.com/m/www/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
-	onDeviceReady();
+	//onDeviceReady();
 });
 
 function download(uri, nombre){

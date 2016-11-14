@@ -12,6 +12,7 @@ function onDeviceReady(){
 			$("#modulo").html(resp);
 			
 			$("form").submit(function(){
+				alertify.log("Espera un momento en lo que enviamos tu mensaje");
 				$("form").find("[type=submit]").prop("disabled", true);
 				$.post(server + "contacto.php", {
 					"correo": $("#txtCorreo").val(),
@@ -102,6 +103,22 @@ function onDeviceReady(){
 		
 		$.get("vistas/inicio.html", function(resp){
 			$("#modulo").html(resp);
+			//Este es el buscador
+			$("#txtFiltro").keyup(function(){
+				var texto = $("#txtFiltro").val().toUpperCase();
+				
+				$(".revista").each(function(){
+					el = $(this);
+					if (texto == '')
+						el.show();
+					else if (el.find("[campo=descripción]").text().toUpperCase().search(texto) >= 1)
+						el.show();
+					else
+						el.hide();
+				});
+			});
+			
+			
 			//Se obtienen todas las revistas
 			$.get(server + 'getRevistas.php', function(revistas){
 				$.get("vistas/revista.html", function(resp){
@@ -171,7 +188,7 @@ function onDeviceReady(){
 			}
 		});
 	}
-	
+	/*
 	IAP = {
 		list: ["com.revistamoto.revista01", "rev001"]
 	};
@@ -227,4 +244,5 @@ function onDeviceReady(){
 	};
 	
 	IAP.load();
+	*/
 }
