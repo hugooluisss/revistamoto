@@ -5,6 +5,7 @@ var portadas = "http://10.0.0.5/motosAnterior/portadas/";
 
 $(document).ready(function(){
 	//$("body").css("height", screen.height);
+	onDeviceReady();
 });
 
 function download(uri, nombre){
