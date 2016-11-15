@@ -164,11 +164,14 @@ function onDeviceReady(){
 						});
 						
 						plantilla.find("a.comprar").click(function(){
-							try{
-								IAP.buy('com.revistamoto.revista01');
-							}catch(err){
-								alert(err.message);
-							}
+							inAppPurchase
+								.buy('com.revistamoto.revista01')
+								.then(function (data) {
+									console.log(data);
+								})
+								.catch(function (err) {
+									console.log(err);
+								});
 						});
 					});
 				});
@@ -189,59 +192,14 @@ function onDeviceReady(){
 		});
 	}
 	
-	IAP = {
-		list: ["com.revistamoto.revista01", "rev001"]
-	};
-	
-	IAP.load = function () {
-		// Check availability of the storekit plugin
-		if (!window.storekit) {
-			alert("In-App Purchases not available");
-			//return;
-		}
- 
-		// Initialize
-		window.storekit.init({
-			debug:    true, // Enable IAP messages on the console
-			ready: function(){
-				window.storekit.load(IAP.list, function (products, invalidIds) {
-					IAP.products = products;
-					IAP.loaded = true;
-					
-					for (var i = 0; i < invalidIds.length; ++i) {
-						console.log("Error: could not load " + invalidIds[i]);
-						alert("Error: could not load " + invalidIds[i]);
-					}
-				});
-			},
-			purchase: function (transactionId, productId, receipt) {
-				if(productId === 'com.revistamoto.revista01'){
-					alert("Ads Removed!");
-				//Code to remove ads for the user
-				}
-			},
-			restore: function (transactionId, productId, transactionReceipt) {
-				if(productId == 'com.revistamoto.revista01'){
-					//Code to remove ads for the user
-					alert("removido");
-				}
-			},
-			error: function (errorCode, errorMessage) {
-				console.log(errorCode);
-				console.log(errorMessage);
-				
-				alert(errorCode + ': ' + errorMessage);
-			}
+	inAppPurchase
+		.getProducts(['com.revistamoto.revista01'])
+		.then(function (products) {
+			console.log(products);
+			/*
+			[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
+			*/
+		}).catch(function (err) {
+			console.log(err);
 		});
-	};
-	
-	IAP.buy = function(productId){
-		window.storekit.purchase(productId);
-	};
-	
-	IAP.restore = function(){
-		window.storekit.restore();
-	};
-	
-	IAP.load();
 }
