@@ -188,7 +188,7 @@ function onDeviceReady(){
 			}
 		});
 	}
-	/*
+	
 	IAP = {
 		list: ["com.revistamoto.revista01", "rev001"]
 	};
@@ -244,5 +244,4 @@ function onDeviceReady(){
 	};
 	
 	IAP.load();
-	*/
 }
