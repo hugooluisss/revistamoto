@@ -194,9 +194,9 @@ function onDeviceReady(){
 	
 	store.verbosity = store.INFO;
 	store.register({
-        id:    "com.revistamoto.revista01",
-        alias: "rev001",
-        type:  store.CONSUMABLE
+        id:    "com.revistamoto.revista02",
+        alias: "rev002",
+        type:  store.NOCONSUMABLE
     });
     
     store.ready(function() {
