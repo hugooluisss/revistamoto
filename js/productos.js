@@ -192,14 +192,16 @@ function onDeviceReady(){
 		});
 	}
 	
-	inAppPurchase
-		.getProducts(['com.revistamoto.revista01'])
-		.then(function (products) {
-			console.log(products);
-			/*
-			[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
-			*/
-		}).catch(function (err) {
-			console.log(err);
-		});
+	store.verbosity = store.INFO;
+	store.register({
+        id:    "com.revistamoto.revista01",
+        alias: "rev001",
+        type:  store.CONSUMABLE
+    });
+    
+    store.ready(function() {
+        console.log("\\o/ STORE READY \\o/");
+    });
+    
+    store.refresh();
 }
