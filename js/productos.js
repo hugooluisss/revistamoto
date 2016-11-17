@@ -165,7 +165,7 @@ function onDeviceReady(){
 						
 						plantilla.find("a.comprar").click(function(){
 							inAppPurchase
-								.buy('com.revistamoto.revista01')
+								.buy('com.revistamoto.revista02')
 								.then(function (data) {
 									console.log(data);
 								})
@@ -196,7 +196,7 @@ function onDeviceReady(){
 	store.register({
         id:    "com.revistamoto.revista02",
         alias: "rev002",
-        type:  store.NOCONSUMABLE
+        type:  store.NON_CONSUMABLE
     });
     
     store.ready(function() {
@@ -204,4 +204,8 @@ function onDeviceReady(){
     });
     
     store.refresh();
+    
+    store.when("rev002").approved(function(p) {
+    p.finish();
+});
 }
