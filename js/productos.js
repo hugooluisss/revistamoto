@@ -164,14 +164,10 @@ function onDeviceReady(){
 						});
 						
 						plantilla.find("a.comprar").click(function(){
-							inAppPurchase
-								.buy('com.revistamoto.revista02')
-								.then(function (data) {
-									console.log(data);
-								})
-								.catch(function (err) {
-									console.log(err);
-								});
+							store.when("rev002").approved(function (order) {
+								alert("You got an additional rev002 coins!");
+								order.finish();
+							});
 						});
 					});
 				});
@@ -200,14 +196,5 @@ function onDeviceReady(){
         type:  store.NON_CONSUMABLE
     });
     
-    store.when("rev002").approved(function (order) {
-		UnlockContent();
-		order.finish();
-	});
 	store.refresh();
-	
-	var p = store.get("rev002");
-	alert("Title = " + p.title); 
-	
-	store.order("rev002");
 }
