@@ -164,10 +164,7 @@ function onDeviceReady(){
 						});
 						
 						plantilla.find("a.comprar").click(function(){
-							store.when("rev002").approved(function (order) {
-								alert("You got an additional rev002 coins!");
-								order.finish();
-							});
+							store.order("com.revistamoto.revista02");
 						});
 					});
 				});
@@ -197,4 +194,10 @@ function onDeviceReady(){
     });
     
 	store.refresh();
+	
+	store.when("rev002").approved(function (order) {
+		console.log(order);
+		alert("Producto rev002");
+		order.finish();
+	});
 }
