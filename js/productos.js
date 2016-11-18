@@ -199,13 +199,14 @@ function onDeviceReady(){
         type:  store.NON_CONSUMABLE
     });
     
-    store.ready(function() {
-        console.log("\\o/ STORE READY \\o/");
-    });
-    
-    store.refresh();
-    
-    store.when("rev002").approved(function(p) {
-    p.finish();
-});
+    store.when("rev002").approved(function (order) {
+		UnlockContent();
+		order.finish();
+	});
+	store.refresh();
+	
+	var p = store.get("rev002");
+	alert("Title = " + p.title); 
+	
+	store.order("rev002");
 }
