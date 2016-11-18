@@ -196,8 +196,11 @@ function onDeviceReady(){
 	store.refresh();
 	
 	store.when("rev002").approved(function (order) {
-		console.log(order);
 		alert("Producto rev002");
 		order.finish();
 	});
+	
+	 store.when("product").updated(function (p) {
+	 	alert(p.alias + " " + (p.valid?"Valido":"Inválido"));
+	 });
 }
