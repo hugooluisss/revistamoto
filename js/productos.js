@@ -192,7 +192,8 @@ function onDeviceReady(){
 		});
 	}
 	
-	store.verbosity = store.INFO;
+	//store.verbosity = store.INFO;
+	store.verbosity = store.DEBUG;
 	store.register({
         id:    "com.revistamoto.revista02",
         alias: "rev002",
