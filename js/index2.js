@@ -217,6 +217,16 @@ var app = {
 			alert("product is " + p.state + ", title is " + p.title);
 		});
 		
+		store.error(function(error) {
+			if (error.message == 'Cannot connect to iTunes Store'){
+				// they just cancelled out of the iTunes connection...
+				console.log('Please connect to your app store account to subscribe.');
+				return;
+			}
+
+			console.log('ERROR [' + error.code + '] : ' + error.message);
+		});
+		
 		//var product = store.get("com.revistamoto.revista03");
 		//alert(product.state + ' ' + product.title);
 		
