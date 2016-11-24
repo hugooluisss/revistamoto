@@ -206,13 +206,19 @@ var app = {
 		store.verbosity = store.DEBUG;
 		//"com.revistamoto.revista02",
 	    //    alias: "rev002",
+	    
+	    store.register({
+		    id:    "com.revistamoto.revista03",
+		    type:  store.NON_CONSUMABLE
+        });
+    
 		store.refresh();
-		store.when("rev002").updated(function(p) {
+		store.when("com.revistamoto.revista03").updated(function(p) {
 			alert("product is " + p.state + ", title is " + p.title);
 		});
 		
-		var product = store.get("com.revistamoto.revista02");
-		alert(product.state + ' ' + product.title);
+		//var product = store.get("com.revistamoto.revista03");
+		//alert(product.state + ' ' + product.title);
 		
 	}
 };
