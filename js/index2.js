@@ -211,7 +211,7 @@ var app = {
 			alert("product is " + p.state + ", title is " + p.title);
 		});
 		
-		var product = store.get("cc.fovea.test1");
+		var product = store.get("com.revistamoto.revista02");
 		alert(product.state + ' ' + product.title);
 		
 	}
