@@ -1,3 +1,6 @@
+var server = "http://revistamoto.com/m/www/app/";
+var portadas = "http://revistamoto.com/m/www/portadas/";
+
 var app = {
 	// Application Constructor
 	initialize: function() {
