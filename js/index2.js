@@ -181,7 +181,8 @@ var app = {
 							});
 							
 							plantilla.find("a.comprar").click(function(){
-								store.order("com.revistamoto.revista02");
+								//store.order("com.revistamoto.revista02");
+								alert("Aun no se puede comprar");
 							});
 						});
 					});
@@ -205,25 +206,26 @@ var app = {
 		//store.verbosity = store.INFO;
 		store.verbosity = store.DEBUG;
 		//"com.revistamoto.revista02",
-	    //    alias: "rev002",
-	    
-	    store.register({
-		    id:    "com.revistamoto.revista02",
-		    type:  store.NON_CONSUMABLE
-        });
-    
+		//    alias: "rev002",
+		
+		store.register({
+			id:    "com.revistamoto.revista03",
+			type:  store.NON_CONSUMABLE
+		});
+		
 		store.refresh();
-		store.when("com.revistamoto.revista02").updated(function(p) {
+		store.when("com.revistamoto.revista03").updated(function(p) {
 			alert("product is " + p.state + ", title is " + p.title);
 		});
 		
 		store.error(function(error) {
+			alert("Ocurrió un error");
 			if (error.message == 'Cannot connect to iTunes Store'){
 				// they just cancelled out of the iTunes connection...
 				console.log('Please connect to your app store account to subscribe.');
 				return;
 			}
-
+		
 			console.log('ERROR [' + error.code + '] : ' + error.message);
 		});
 		
