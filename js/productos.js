@@ -192,15 +192,24 @@ function onDeviceReady(){
         alias: "rev002",
         type:  store.NON_CONSUMABLE
     });
-    
-	store.refresh();
 	
 	store.when("rev002").approved(function (order) {
 		alert("Producto rev002");
 		order.finish();
 	});
 	
-	 store.when("product").updated(function (p) {
-	 	alert(p.alias + " " + (p.valid?"Valido":"Inválido"));
-	 });
+	store.when("rev002").verified(function(p) {
+		alert("subscription verified");
+		p.finish();
+	});
+
+	store.when("rev002").unverified(function(p) {
+    	alert("subscription unverified");
+    });
+	
+	store.refresh();
+	
+	store.error(function(error) {
+	    alert('ERROR ' + error.code + ': ' + error.message);
+	});
 }
