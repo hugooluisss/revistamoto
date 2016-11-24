@@ -208,12 +208,12 @@ var app = {
 	    //    alias: "rev002",
 	    
 	    store.register({
-		    id:    "com.revistamoto.revista03",
+		    id:    "com.revistamoto.revista02",
 		    type:  store.NON_CONSUMABLE
         });
     
 		store.refresh();
-		store.when("com.revistamoto.revista03").updated(function(p) {
+		store.when("com.revistamoto.revista02").updated(function(p) {
 			alert("product is " + p.state + ", title is " + p.title);
 		});
 		
