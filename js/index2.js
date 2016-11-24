@@ -210,6 +210,10 @@ var app = {
 		store.when("rev002").updated(function(p) {
 			alert("product is " + p.state + ", title is " + p.title);
 		});
+		
+		var product = store.get("cc.fovea.test1");
+		alert(product.state + ' ' + product.title);
+		
 	}
 };
 
