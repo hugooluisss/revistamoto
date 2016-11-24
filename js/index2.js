@@ -201,30 +201,11 @@ var app = {
 		
 		//store.verbosity = store.INFO;
 		store.verbosity = store.DEBUG;
-		store.register({
-	        id:    "com.revistamoto.revista02",
-	        alias: "rev002",
-	        type:  store.NON_CONSUMABLE
-	    });
-		
-		store.when("rev002").approved(function (order) {
-			alert("Producto rev002");
-			order.finish();
-		});
-		
-		store.when("rev002").verified(function(p) {
-			alert("subscription verified");
-			p.finish();
-		});
-	
-		store.when("rev002").unverified(function(p) {
-	    	alert("subscription unverified");
-	    });
-		
+		//"com.revistamoto.revista02",
+	    //    alias: "rev002",
 		store.refresh();
-		
-		store.error(function(error) {
-		    alert('ERROR ' + error.code + ': ' + error.message);
+		store.when("rev002").updated(function(p) {
+			alert("product is " + p.state + ", title is " + p.title);
 		});
 	}
 };
