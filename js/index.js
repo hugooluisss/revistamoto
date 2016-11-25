@@ -414,3 +414,13 @@ function createDataBase(){
 		}, errorDB);
 	});
 }
+
+/*
+*
+* Error en la base de datos
+*
+*/
+
+function errorDB(tx, res){
+	console.log("Error: " + res.message);
+}
