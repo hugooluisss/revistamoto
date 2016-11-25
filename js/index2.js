@@ -1,6 +1,6 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
-var sistemaPago = "https://10.0.0.5/revistaPago/openpay.php";
+var sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
 
 var app = {
 	// Application Constructor
@@ -157,6 +157,8 @@ var app = {
 							plantilla.find("a.ver").hide();
 							plantilla.find("a.comprar").hide();
 							
+							plantilla.find("a.comprar").attr("edicion", revista.edicion);
+							
 							if (revista.estatus == "gratis")
 								plantilla.find("a.ver").show();
 							else{					
@@ -183,7 +185,10 @@ var app = {
 							
 							plantilla.find("a.comprar").click(function(){
 								//store.order("com.revistamoto.revista02");
-								$("#winPago").modal();
+								var el = $(this);
+								$("#txtOrden").val(el.attr("edicion"));
+								$("#revista").attr("src", portadas + revista.edicion + ".jpg");
+								$("#winPago").modal({backdrop: false});
 							});
 						});
 					});
@@ -265,7 +270,9 @@ function submitPago(){
 			},
 			card_number: {
 				required: true,
-			 	number: true
+			 	number: true,
+			 	maxlength: 16,
+			 	minlength: 16
 			},
 			expiration_month: {
 				min: 1,
@@ -280,7 +287,8 @@ function submitPago(){
 			cvv2: {
 				required: true,
 				number: true,
-				maxlength: 3
+				maxlength: 3,
+				minlength:3
 			},
 			txtLinea1: "required",
 			txtCP: {
@@ -300,7 +308,9 @@ function submitPago(){
 			},
 			card_number: {
 				required: "Este campo es requerido",
-			 	number: "Solo números"
+			 	number: "Solo números",
+			 	maxlength: "Son 16 números",
+			 	minlength: "Son 16 números"
 			},
 			expiration_month: {
 				min: "No es un mes válido",
@@ -315,7 +325,8 @@ function submitPago(){
 			cvv2: {
 				required:  "Este campo es requerido",
 				number: "Solo números",
-				maxlength: "Deben de ser 3 números"
+				maxlength: "Deben de ser 3 números",
+				minlength: "Deben de ser 3 números"
 			},
 			txtLinea1: "Este campo es requerido",
 			txtCP: "Este campo es requerido y son cinco números",
@@ -343,28 +354,21 @@ function submitPago(){
 				$('#token_id').val(response.data.id);
 				band = true;
 				console.log("validado");
-				//$('#payment-card').submit();      
 				
-				//$(form).submit();
 				$.post(sistemaPago, $(form).serialize(), function(resp){
 					$('#payment-card').find("[type=submit]").prop("disabled", false);
 					
 					if (resp.band)
-						alert("Autorizado");
+						alertify.success("Muchas gracias por su pago");
 					else{
-						alert('El pago fue rechazado, verifique sus datos<br />');
+						alertify.error("El pago fue rechazado, por favor verifique sus datos");
 					}
 				}, "json");
 
 		    }, function(response){
 		    	$('#payment-card').find("[type=submit]").prop("disabled", false);
 		    	band = false;
-				var content = '', results = $('#resultDetail');
-				content += 'Estatus del error: ' + response.data.status + '<br />';
-				content += 'Error: ' + response.message + '<br />';
-				content += 'Descripción: ' + response.data.description + '<br />';
-				content += 'ID de la petición: ' + response.data.request_id + '<br />';
-				alert(content);
+				alertify.error("Ocurrió un error en la transacción: " + response.data.description);
 			});
 		}
 	});

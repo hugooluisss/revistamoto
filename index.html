@@ -81,7 +81,7 @@
 		</div>
 		
 		<!-- Sistema de pago -->
-		<form action="tarjeta.php" method="POST" id="payment-card" role="form" class="form-horizontal" openpayid="m5n70fpkdhv8qolrpvp7" openpaykey="pk_c062703b533840edbfe5543c7f2d12e7">
+		<form id="payment-card" role="form" class="form-horizontal" openpayid="m5n70fpkdhv8qolrpvp7" openpaykey="pk_c062703b533840edbfe5543c7f2d12e7" onsubmit="javascript: return false;">
 			<div id="winPago" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 					<!-- Modal content-->
@@ -92,92 +92,117 @@
 						</div>
 						<div class="modal-body">
 							
+							<div class="row">
+								<div class="col-xs-offset-3 col-xs-6 text-center">
+									<img id="revista" src="" class="img-responsive" />
+									<br />
+									<b>$ 150.00</b>
+								</div>
+							</div>
+							
 							<input type="hidden" name="token_id" id="token_id" />
 							<input type="hidden" name="use_card_points" id="use_card_points" value="false" />
 							
 							<div class="pymnt-itm card active">
 								<div class="form-group">
-									<label for="holder_name" class=" col-xs-12">Nombre del titular</label>
-									<div class="col-xs-6">
-										<input type="text" placeholder="Nombre" autocomplete="off" data-openpay-card="holder_name" id="holder_name" name="holder_name" class="form-control" value=""/>
-									</div>
-									<div class="col-xs-6">
-										<input type="text" placeholder="Apellidos" autocomplete="off" data-openpay-card="last_name" id="last_name" name="last_name" class="form-control" value=""/>
+									<label for="card_number" class=" col-xs-12">Número de tarjeta</label>
+									<div class="col-xs-12">
+										<input type="text" autocomplete="off" data-openpay-card="card_number" id="card_number" name="card_number" class="form-control input-sm" value=""/>
 									</div>
 								</div>
+								
+								<div class="form-group">
+									<label for="holder_name" class="col-xs-12">Titular</label>
+									<div class="col-xs-6">
+										<input type="text" placeholder="Nombre" autocomplete="off" data-openpay-card="holder_name" id="holder_name" name="holder_name" class="form-control input-sm" value=""/>
+									</div>
+									<div class="col-xs-6">
+										<input type="text" placeholder="Apellidos" autocomplete="off" data-openpay-card="last_name" id="last_name" name="last_name" class="form-control input-sm" value=""/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="expiration_month" class=" col-xs-12">Fecha de expiración</label>
+									<div class="col-xs-6">
+										<select data-openpay-card="expiration_month" id="expiration_month" class="form-control input-sm">
+											<option value="01">Enero</option>
+											<option value="02">Febrero</option>
+											<option value="03">Marzo</option>
+											<option value="04">Abril</option>
+											<option value="05">Mayo</option>
+											<option value="06">Junio</option>
+											<option value="07">Julio</option>
+											<option value="08">Agosto</option>
+											<option value="09">Septiembre</option>
+											<option value="10">Octubre</option>
+											<option value="11">Noviembre</option>
+											<option value="12">Diciembre</option>
+										</select>
+									</div>
+									<div class="col-xs-6">
+										<select data-openpay-card="expiration_year" id="expiration_year" class="form-control input-sm">
+											<option value="16">2016</option>
+											<option value="17">2017</option>
+											<option value="18">2018</option>
+											<option value="19">2019</option>
+											<option value="20">2020</option>
+											<option value="21">2021</option>
+											<option value="22">2022</option>
+											<option value="23">2023</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="cvv2" class=" col-xs-8">Código de seguridad</label>
+									<div class="col-xs-4">
+										<input type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2" class="form-control input-sm" value="" id="cvv2" name="cvv2" maxlength="16"/>
+									</div>
+								</div>
+								<hr />
 								<div class="form-group">
 									<label for="holder_name" class=" col-xs-12">Email</label>
 									<div class="col-xs-12">
-										<input type="text" placeholder="" autocomplete="off" data-openpay-card="email" id="Email" name="Email" class="form-control" value=""/>
-									</div>
-								</div>
-					
-					            <div class="form-group">
-									<label for="card_number" class=" col-xs-12">Número de tarjeta</label>
-									<div class="col-xs-12">
-										<input type="text" autocomplete="off" data-openpay-card="card_number" id="card_number" class="form-control" value="" required />
-									</div>
-								</div>
-						        <div class="form-group">
-									<label for="expiration_month" class=" col-xs-12">Fecha de expiración</label>
-									<div class="col-xs-4">
-										<input type="text" placeholder="Mes (MM)" data-openpay-card="expiration_month" id="expiration_month" class="form-control" value=""/>
-									</div>
-									<div class="col-xs-4">
-										<input type="text" placeholder="Año (AA)" data-openpay-card="expiration_year" id="expiration_year" class="form-control" value=""/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="cvv2" class=" col-xs-12">Código de seguridad</label>
-									<div class="col-xs-4">
-										<input type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2" class="form-control" value="" id="cvv2"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="monto" class=" col-xs-12">Monto</label>
-									<div class="col-xs-5">
-										<input type="hidden" autocomplete="off" class="form-control" value="" id="monto" name="monto"/>
+										<input type="text" placeholder="" autocomplete="off" data-openpay-card="email" id="Email" name="Email" class="form-control input-sm" value=""/>
 									</div>
 								</div>
 								<hr />
 								<div class="form-group">
 									<label for="txtLinea1" class=" col-xs-12">Dirección</label>
 									<div class="col-xs-12">
-										<input type="text" placeholder="Calle y número" autocomplete="off" data-openpay-card="line1" class="form-control" value="" id="txtLinea1" name="txtLinea1"/>
+										<input type="text" placeholder="Calle y número" autocomplete="off" data-openpay-card="line1" class="form-control input-sm" value="" id="txtLinea1" name="txtLinea1"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-xs-12">
-										<input type="text" placeholder="Colonia" autocomplete="off" data-openpay-card="line2" class="form-control" value="" id="txtLinea2" name="txtLinea2" />
+										<input type="text" placeholder="Colonia" autocomplete="off" data-openpay-card="line2" class="form-control input-sm" value="" id="txtLinea2" name="txtLinea2" />
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-xs-12">
-										<input type="text" placeholder="Municipio" autocomplete="off" data-openpay-card="line3" class="form-control" value="" id="txtLinea3" name="txtLinea3"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="txtCP" class=" col-xs-12">Código postal</label>
-									<div class="col-xs-4">
-										<input type="text" placeholder="" autocomplete="off" data-openpay-card="postal_code" class="form-control" value="" id="txtCP" name="txtCP"/>
+										<input type="text" placeholder="Municipio" autocomplete="off" data-openpay-card="line3" class="form-control input-sm" value="" id="txtLinea3" name="txtLinea3"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="txtCiudad" class=" col-xs-12">Ciudad</label>
 									<div class="col-xs-12 col-sm-5">
-										<input type="text" placeholder="" autocomplete="off" data-openpay-card="city" class="form-control" value="" id="txtCiudad" name="txtCiudad"/>
+										<input type="text" placeholder="" autocomplete="off" data-openpay-card="city" class="form-control input-sm" value="" id="txtCiudad" name="txtCiudad"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="txtEstado" class=" col-xs-12">Estado</label>
 									<div class="col-xs-12 col-sm-5">
-										<input type="text" placeholder="" autocomplete="off" data-openpay-card="state" class="form-control" value="" id="txtEstado" name="txtEstado"/>
+										<input type="text" placeholder="" autocomplete="off" data-openpay-card="state" class="form-control input-sm" value="" id="txtEstado" name="txtEstado"/>
 									</div>
 								</div>
-								
-								<input type="hidden" placeholder="" autocomplete="off" data-openpay-card="country_code" class="form-control" value="MX" id="txtPais" name="txtPais"/>
+								<div class="form-group">
+									<label for="txtCP" class=" col-xs-12">Código postal</label>
+									<div class="col-xs-4">
+										<input type="text" placeholder="" autocomplete="off" data-openpay-card="postal_code" class="form-control input-sm" value="" id="txtCP" name="txtCP"/>
+									</div>
+								</div>
+								<input type="hidden" placeholder="" autocomplete="off" data-openpay-card="country_code" class="form-control input-sm" value="MX" id="txtPais" name="txtPais"/>
 							</div>
 							<input type="hidden" id="deviceIdHiddenFieldName" name="deviceIdHiddenFieldName" />
+							<input type="hidden" id="txtOrden" name="txtOrden" value=""/>
 						</div>
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-success" value="Pagar" id="btnPagar"/>
