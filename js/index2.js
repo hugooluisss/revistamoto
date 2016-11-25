@@ -250,7 +250,7 @@ function download(fileEntry, uri, readBinaryData) {
 			console.log("Successful download...");
 			console.log("download complete: " + entry.toURL());
 			
-			window.open(fileURL, '_system', 'location=no');
+			window.open(fileEntry.nativeURL, '_system', 'location=no');
 			console.log(fileURL);
 			console.log(fileEntry);
 			alertify.success("Se abrió");
