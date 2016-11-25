@@ -1,5 +1,6 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
+var sistemaPago = "https://10.0.0.5/revistaPago/openpay.php";
 
 var app = {
 	// Application Constructor
@@ -28,18 +29,18 @@ var app = {
 			$.get("vistas/contacto.html", function(resp){
 				$("#modulo").html(resp);
 				
-				$("form").submit(function(){
+				$("#frmContacto").submit(function(){
 					alertify.log("Espera un momento en lo que enviamos tu mensaje");
-					$("form").find("[type=submit]").prop("disabled", true);
+					$("#frmContacto").find("[type=submit]").prop("disabled", true);
 					$.post(server + "contacto.php", {
 						"correo": $("#txtCorreo").val(),
 						"nombre": $("#txtNombre").val(),
 						"asunto": $("#txtAsunto").val(),
 						"mensaje": $("#txtMensaje").val()
 					}, function(resp){
-						$("form").find("[type=submit]").prop("disabled", false);
+						$("#frmContacto").find("[type=submit]").prop("disabled", false);
 						if (resp.band){
-							$("form")[0].reset();
+							$("#frmContacto")[0].reset();
 							alertify.success("El mensaje se envió con éxito... espera respuesta muy pronto");
 						}else
 							alertify.error("Lamentablemente el mensaje no pudo ser enviado, por favor intentalo más tarde");
@@ -52,15 +53,15 @@ var app = {
 			$.get("vistas/login.html", function(resp){
 				$("#modulo").html(resp);
 				
-				$("form").submit(function(){
+				$("#modulo form").submit(function(){
 					alertify.log("Estamos validando tus datos");
-					$("form").find("[type=submit]").prop("disabled", true);
+					$("#modulo form").find("[type=submit]").prop("disabled", true);
 					
 					$.post(server + "login.php", {
 						"usuario": $("#txtCorreo").val(),
 						"contrasena": $("#txtPass").val()
 					}, function(resp){
-						$("form").find("[type=submit]").prop("disabled", false);
+						$("#modulo form").find("[type=submit]").prop("disabled", false);
 						
 						if (resp.band){
 							alertify.success("Bienvenido");
@@ -182,7 +183,7 @@ var app = {
 							
 							plantilla.find("a.comprar").click(function(){
 								//store.order("com.revistamoto.revista02");
-								alert("Aun no se puede comprar");
+								$("#winPago").modal();
 							});
 						});
 					});
@@ -203,42 +204,14 @@ var app = {
 			});
 		}
 		
-		//store.verbosity = store.INFO;
-		store.verbosity = store.DEBUG;
-		//"com.revistamoto.revista02",
-		//    alias: "rev002",
-		
-		store.register({
-			id:    "com.revistamoto.revista03",
-			type:  store.NON_CONSUMABLE
-		});
-		
-		store.refresh();
-		store.when("com.revistamoto.revista03").updated(function(p) {
-			alert("product is " + p.state + ", title is " + p.title);
-		});
-		
-		store.error(function(error) {
-			alert("Ocurrió un error");
-			if (error.message == 'Cannot connect to iTunes Store'){
-				// they just cancelled out of the iTunes connection...
-				console.log('Please connect to your app store account to subscribe.');
-				return;
-			}
-		
-			console.log('ERROR [' + error.code + '] : ' + error.message);
-		});
-		
-		//var product = store.get("com.revistamoto.revista03");
-		//alert(product.state + ' ' + product.title);
-		
+		submitPago();
 	}
 };
 
-app.initialize();
+//app.initialize();
 
 $(document).ready(function(){
-	//app.onDeviceReady();
+	app.onDeviceReady();
 });
 
 
@@ -267,4 +240,132 @@ function download(uri, nombre){
 			console.log("upload error code" + error.code);
 		}
 	);
+}
+
+function submitPago(){
+	OpenPay.setId($("#payment-card").attr("openpayid"));
+    OpenPay.setApiKey($("#payment-card").attr("openpaykey"));
+    OpenPay.setSandboxMode(true);
+    var deviceSessionId = OpenPay.deviceData.setup("payment-card", "deviceIdHiddenFieldName");
+    //OpenPay.setProductionMode(true);
+    
+    $("#deviceIdHiddenFieldName").val(deviceSessionId);
+	
+	$("#card_number").change(function(){
+		$("#card_number").val($("#card_number").val().replace(/\s/g, ""));
+	});
+	
+	$("#payment-card").validate({
+		rules: {
+			holder_name: "required",
+			last_name: "required",
+			Email: {
+				required: true,
+				email: true
+			},
+			card_number: {
+				required: true,
+			 	number: true
+			},
+			expiration_month: {
+				min: 1,
+				max: 12,
+				number: true,
+				required: true
+			},
+			expiration_year: {
+				required: true,
+				number: true,
+			},
+			cvv2: {
+				required: true,
+				number: true,
+				maxlength: 3
+			},
+			txtLinea1: "required",
+			txtCP: {
+				required: true,
+				maxlength: 5,
+				minlength: 5
+			},
+			txtCiudad: "required",
+			txtEstado: "required"
+		},
+		messages: {
+			holder_name: "Este campo es requerido",
+			last_name: "Este campo es requerido",
+			Email: {
+				required: "Este campo es requerido",
+				email: "Este no es un email válido"
+			},
+			card_number: {
+				required: "Este campo es requerido",
+			 	number: "Solo números"
+			},
+			expiration_month: {
+				min: "No es un mes válido",
+				max: "No es un mes válido",
+				number: "Solo números",
+				required: "Este campo es requerido"
+			},
+			expiration_year: {
+				required: "Este campo es requerido",
+				number: "Solo números",
+			},
+			cvv2: {
+				required:  "Este campo es requerido",
+				number: "Solo números",
+				maxlength: "Deben de ser 3 números"
+			},
+			txtLinea1: "Este campo es requerido",
+			txtCP: "Este campo es requerido y son cinco números",
+			txtCiudad: "Este campo es requerido",
+			txtEstado: "Este campo es requerido"
+		},
+		submitHandler: function(form) {
+		    //$('#payment-card').find("[type=submit]").prop("disabled", true);
+		    OpenPay.token.create({
+				"card_number": $("#payment-card").find("#card_number").val(),
+				"holder_name": $("#payment-card").find("#holder_name").val() + ' ' + $("#payment-card").find("#last_name").val(),
+				"expiration_year":$("#payment-card").find("#expiration_year").val(),
+				"expiration_month": $("#payment-card").find("#expiration_month").val(),
+				"cvv2": $("#payment-card").find("#cvv2").val(),
+				"address":{
+					"city": $("#payment-card").find("#txtCiudad").val(),
+					"line3": $("#payment-card").find("#txtLinea3").val(),
+					"postal_code": $("#payment-card").find("#txtCP").val(),
+					"line1": $("#payment-card").find("#txtLinea1").val(),
+					"line2": $("#payment-card").find("#txtLinea2").val(),
+					"state": $("#payment-card").find("#txtEstado").val(),
+					"country_code":"MX"
+				}
+			}, function(response){
+				$('#token_id').val(response.data.id);
+				band = true;
+				console.log("validado");
+				//$('#payment-card').submit();      
+				
+				//$(form).submit();
+				$.post(sistemaPago, $(form).serialize(), function(resp){
+					$('#payment-card').find("[type=submit]").prop("disabled", false);
+					
+					if (resp.band)
+						alert("Autorizado");
+					else{
+						alert('El pago fue rechazado, verifique sus datos<br />');
+					}
+				}, "json");
+
+		    }, function(response){
+		    	$('#payment-card').find("[type=submit]").prop("disabled", false);
+		    	band = false;
+				var content = '', results = $('#resultDetail');
+				content += 'Estatus del error: ' + response.data.status + '<br />';
+				content += 'Error: ' + response.message + '<br />';
+				content += 'Descripción: ' + response.data.description + '<br />';
+				content += 'ID de la petición: ' + response.data.request_id + '<br />';
+				alert(content);
+			});
+		}
+	});
 }
