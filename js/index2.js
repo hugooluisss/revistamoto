@@ -171,6 +171,7 @@ var app = {
 							plantilla.find("a.ver").click(function(){
 								window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
 									var nombre = fs.root.nativeURL + revista.edicion + ".pdf";
+									alert(nombre);
 									try{
 										fs.root.getFile(nombre, { create: false }, function(){
 											window.open(nombre, '_system', 'location=no');
@@ -233,9 +234,10 @@ function download(uri, nombre){
 			alertify.log("La descarga está completa");
 			try{
 				window.open(nombre, '_system', 'location=no');
-				alert("Se abrió");
+				alertify.success("Se abrió");
+				alertr(nombre);
 			}catch(err){
-				alert(err.menssage);
+				alertify.error(err.menssage);
 			}
 			
 		},
