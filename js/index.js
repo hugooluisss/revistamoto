@@ -2,7 +2,7 @@ var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/openpay.php";
 
-server = "http://192.168.2.4/webservicesmotos/";
+server = "http://10.0.0.4/webservicesmotos/";
 //sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
 
 var db = null;
