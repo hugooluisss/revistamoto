@@ -174,7 +174,7 @@ var app = {
 							plantilla.find("a.comprar").attr("edicion", revista.edicion);
 							
 							db.transaction(function(tx){
-								tx.executeSql("select * from revista where edicion = ", [revista.edicion], function(tx, res){
+								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 									if (res.rows.length > 0)
 										window.openFileNative.open(res.rows[0].ruta);
 									else{
