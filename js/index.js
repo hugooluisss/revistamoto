@@ -187,7 +187,7 @@ var app = {
 												plantilla.find("a.comprar").show();
 										}
 									}
-								});
+								}, errorDB);
 							});
 								
 							plantilla.find("a.ver").click(function(){
@@ -409,7 +409,7 @@ function createDataBase(){
 	db.transaction(function(tx){
 		//tx.executeSql('drop table if exists tienda');
 		
-		tx.executeSql('CREATE TABLE IF NOT EXISTS revistas (edicion integer primary key, ruta text)', [], function(){
+		tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(){
 			console.log("Tabla Revistas creada");
 		}, errorDB);
 	});
