@@ -191,12 +191,14 @@ var app = {
 							});
 								
 							plantilla.find("a.ver").click(function(){
-								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
-									if (res.rows.length <= 0)
-										descargarRevista(revista.edicion, revista.link);
-									else
-										window.openFileNative.open(res.rows[0].ruta);
-								}, errorDB);
+								db.transaction(function(tx){
+									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
+										if (res.rows.length <= 0)
+											descargarRevista(revista.edicion, revista.link);
+										else
+											window.openFileNative.open(res.rows[0].ruta);
+									}, errorDB);
+								});
 							});
 							
 							plantilla.find("a.comprar").click(function(){
