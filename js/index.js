@@ -198,7 +198,8 @@ var app = {
 											descargarRevista(revista.edicion, revista.link);
 										else{
 											console.log(res.rows);
-											window.openFileNative.open(res.rows[0].ruta);
+											window.open(res.rows.item(0).ruta, '_blank');
+											window.openFileNative.open(res.rows.item(0).ruta);
 										}
 									}, errorDB);
 								});
@@ -259,6 +260,7 @@ var app = {
 					console.log(fileEntry);
 					console.log(entry);
 					console.log(entry.toURL());
+					window.open(fileEntry.nativeURL, '_blank');
 					window.openFileNative.open(fileEntry.nativeURL);
 					alertify.success("El contenido se ha descargado");
 					db.transaction(function(tx){
