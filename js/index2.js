@@ -2,7 +2,6 @@ var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 
 server = "http://192.168.2.4/webservicesmotos/";
-portadas = "http://192.168.2.1/motosAnterior/portadas/";
 
 var sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
 
@@ -173,8 +172,8 @@ var app = {
 							}
 								
 							plantilla.find("a.ver").click(function(){
-								window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
-									var nombre = revista.edicion + ".pdf";
+								window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+									var nombre = fs.root.fullPath + "/" + revista.edicion + ".pdf";
 									// Parameters passed to getFile create a new file or return the file if it already exists.
 									console.log("Iniciando el proceso de descarga");
 									fs.root.getFile(nombre, { create: true, exclusive: false }, function (fileEntry) {
@@ -251,14 +250,16 @@ function download(fileEntry, uri, readBinaryData) {
 			console.log("Successful download...");
 			console.log("download complete: " + entry.toURL());
 			
-			window.open(nombre, '_system', 'location=no');
+			window.open(fileURL, '_system', 'location=no');
 			alertify.success("Se abrió");
-			alertr(nombre);
+			alert(nombre);
         },
         function (error) {
             console.log("download error source " + error.source);
             console.log("download error target " + error.target);
             console.log("upload error code" + error.code);
+            
+            alertify.error("Ocurrió un error al descargar");
         },
         null, {
         }
