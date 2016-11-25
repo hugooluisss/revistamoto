@@ -169,7 +169,22 @@ var app = {
 							}
 								
 							plantilla.find("a.ver").click(function(){
+								window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
+									var nombre = revista.edicion + ".pdf";
+									// Parameters passed to getFile create a new file or return the file if it already exists.
+
+									fs.root.getFile(nombre, { create: true, exclusive: false }, function (fileEntry) {
+										download(nombre, revista.link, true);
+									}, function(){
+										console.log("error al crear el archivo");
+									});
+								}, function(){
+									console.log("Error en requestFileSystem");
+								});
+								
+								/*
 								window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+									
 									var nombre = fs.root.nativeURL + revista.edicion + ".pdf";
 									alert(nombre);
 									try{
@@ -182,6 +197,7 @@ var app = {
 										alert(err.message);
 									}
 								});
+								*/
 							});
 							
 							plantilla.find("a.comprar").click(function(){
@@ -220,7 +236,31 @@ $(document).ready(function(){
 	app.onDeviceReady();
 });
 
+function download(fileEntry, uri, readBinaryData) {
+	var fileTransfer = new FileTransfer();
+	var fileURL = fileEntry.toURL();
 
+	fileTransfer.download(
+		uri,
+		fileURL,
+		function (entry) {
+			console.log("Successful download...");
+			console.log("download complete: " + entry.toURL());
+			
+			window.open(nombre, '_system', 'location=no');
+			alertify.success("Se abrió");
+			alertr(nombre);
+        },
+        function (error) {
+            console.log("download error source " + error.source);
+            console.log("download error target " + error.target);
+            console.log("upload error code" + error.code);
+        },
+        null, {
+        }
+    );
+}
+/*
 function download(uri, nombre){
 	var fileTransfer = new FileTransfer();
 	var uri = encodeURI(uri);
@@ -248,7 +288,7 @@ function download(uri, nombre){
 		}
 	);
 }
-
+*/
 function submitPago(){
 	OpenPay.setId($("#payment-card").attr("openpayid"));
     OpenPay.setApiKey($("#payment-card").attr("openpaykey"));
