@@ -1,9 +1,10 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
+var sistemaPago = "http://revistamoto.com/m/www/app/openpay.php";
 
-server = "http://192.168.2.4/webservicesmotos/";
+//server = "http://192.168.2.4/webservicesmotos/";
+//sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
 
-var sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
 var db = null;
 var app = {
 	// Application Constructor
@@ -195,8 +196,10 @@ var app = {
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
 											descargarRevista(revista.edicion, revista.link);
-										else
+										else{
+											console.log(res.rows);
 											window.openFileNative.open(res.rows[0].ruta);
+										}
 									}, errorDB);
 								});
 							});
