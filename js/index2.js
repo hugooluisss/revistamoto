@@ -1,5 +1,9 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
+
+server = "http://192.168.2.4/webservicesmotos/";
+portadas = "http://192.168.2.1/motosAnterior/portadas/";
+
 var sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
 
 var app = {
@@ -172,9 +176,9 @@ var app = {
 								window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
 									var nombre = revista.edicion + ".pdf";
 									// Parameters passed to getFile create a new file or return the file if it already exists.
-
+									console.log("Iniciando el proceso de descarga");
 									fs.root.getFile(nombre, { create: true, exclusive: false }, function (fileEntry) {
-										download(nombre, revista.link, true);
+										download(fileEntry, revista.link, true);
 									}, function(){
 										console.log("error al crear el archivo");
 									});
