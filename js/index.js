@@ -227,207 +227,208 @@ var app = {
 		}
 		
 		submitPago();
+
+		function descargarRevista(edicion, link){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				var nombre = fs.root.fullPath + "/" + edicion + ".pdf";
+				// Parameters passed to getFile create a new file or return the file if it already exists.
+				alertify.log("Iniciando el proceso de descarga");
+				fs.root.getFile(nombre, { create: true, exclusive: false }, function (fileEntry) {
+					download(fileEntry, link, edicion);
+				}, function(){
+					console.log("Error al crear el archivo");
+				});
+			}, function(){
+				console.log("Error en requestFileSystem");
+			});
+		}
+		
+		function download(fileEntry, uri, edicion) {
+			var fileTransfer = new FileTransfer();
+			var fileURL = fileEntry.toURL();
+		
+			fileTransfer.download(
+				uri,
+				fileURL,
+				function (entry) {
+					console.log("Successful download...");
+					console.log("download complete: " + entry.toURL());
+					
+					window.openFileNative.open(fileEntry.nativeURL);
+					alertify.success("El contenido se ha descargado");
+					db.transaction(function(tx){
+						tx.executeSql("insert into revista (edicion, ruta) values (?, ?)", [edicion, fileEntry.nativeURL], function(){
+							home();
+						});
+					});
+					
+		        },
+		        function (error) {
+		            console.log("download error source " + error.source);
+		            console.log("download error target " + error.target);
+		            console.log("upload error code" + error.code);
+		            
+		            alertify.error("Ocurrió un error al descargar");
+		        },
+		        null, {
+		        }
+		    );
+		}
+		
+		function submitPago(){
+			OpenPay.setId($("#payment-card").attr("openpayid"));
+		    OpenPay.setApiKey($("#payment-card").attr("openpaykey"));
+		    OpenPay.setSandboxMode(true);
+		    var deviceSessionId = OpenPay.deviceData.setup("payment-card", "deviceIdHiddenFieldName");
+		    //OpenPay.setProductionMode(true);
+		    
+		    $("#deviceIdHiddenFieldName").val(deviceSessionId);
+			
+			$("#card_number").change(function(){
+				$("#card_number").val($("#card_number").val().replace(/\s/g, ""));
+			});
+			
+			$("#payment-card").validate({
+				rules: {
+					holder_name: "required",
+					last_name: "required",
+					Email: {
+						required: true,
+						email: true
+					},
+					card_number: {
+						required: true,
+					 	number: true,
+					 	maxlength: 16,
+					 	minlength: 16
+					},
+					expiration_month: {
+						min: 1,
+						max: 12,
+						number: true,
+						required: true
+					},
+					expiration_year: {
+						required: true,
+						number: true,
+					},
+					cvv2: {
+						required: true,
+						number: true,
+						maxlength: 3,
+						minlength:3
+					},
+					txtLinea1: "required",
+					txtCP: {
+						required: true,
+						maxlength: 5,
+						minlength: 5
+					},
+					txtCiudad: "required",
+					txtEstado: "required"
+				},
+				messages: {
+					holder_name: "Este campo es requerido",
+					last_name: "Este campo es requerido",
+					Email: {
+						required: "Este campo es requerido",
+						email: "Este no es un email válido"
+					},
+					card_number: {
+						required: "Este campo es requerido",
+					 	number: "Solo números",
+					 	maxlength: "Son 16 números",
+					 	minlength: "Son 16 números"
+					},
+					expiration_month: {
+						min: "No es un mes válido",
+						max: "No es un mes válido",
+						number: "Solo números",
+						required: "Este campo es requerido"
+					},
+					expiration_year: {
+						required: "Este campo es requerido",
+						number: "Solo números",
+					},
+					cvv2: {
+						required:  "Este campo es requerido",
+						number: "Solo números",
+						maxlength: "Deben de ser 3 números",
+						minlength: "Deben de ser 3 números"
+					},
+					txtLinea1: "Este campo es requerido",
+					txtCP: "Este campo es requerido y son cinco números",
+					txtCiudad: "Este campo es requerido",
+					txtEstado: "Este campo es requerido"
+				},
+				submitHandler: function(form) {
+				    //$('#payment-card').find("[type=submit]").prop("disabled", true);
+				    OpenPay.token.create({
+						"card_number": $("#payment-card").find("#card_number").val(),
+						"holder_name": $("#payment-card").find("#holder_name").val() + ' ' + $("#payment-card").find("#last_name").val(),
+						"expiration_year":$("#payment-card").find("#expiration_year").val(),
+						"expiration_month": $("#payment-card").find("#expiration_month").val(),
+						"cvv2": $("#payment-card").find("#cvv2").val(),
+						"address":{
+							"city": $("#payment-card").find("#txtCiudad").val(),
+							"line3": $("#payment-card").find("#txtLinea3").val(),
+							"postal_code": $("#payment-card").find("#txtCP").val(),
+							"line1": $("#payment-card").find("#txtLinea1").val(),
+							"line2": $("#payment-card").find("#txtLinea2").val(),
+							"state": $("#payment-card").find("#txtEstado").val(),
+							"country_code":"MX"
+						}
+					}, function(response){
+						$('#token_id').val(response.data.id);
+						band = true;
+						console.log("validado");
+						
+						$.post(sistemaPago, $(form).serialize(), function(resp){
+							$('#payment-card').find("[type=submit]").prop("disabled", false);
+							
+							if (resp.band){
+								alertify.success("Muchas gracias por su pago, la revista se descargará en un momento");
+								
+								descargarRevista($("#txtOrden").val());
+								$("#winPago").modal("hide");
+							}else{
+								alertify.error("El pago fue rechazado, por favor verifique sus datos");
+							}
+						}, "json");
+		
+				    }, function(response){
+				    	$('#payment-card').find("[type=submit]").prop("disabled", false);
+				    	band = false;
+						alertify.error("Ocurrió un error en la transacción: " + response.data.description);
+					});
+				}
+			});
+		}
+		
+		function createDataBase(){
+			db.transaction(function(tx){
+				//tx.executeSql('drop table if exists tienda');
+				
+				tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(){
+					console.log("Tabla Revistas creada");
+				}, errorDB);
+			});
+		}
+		
+		/*
+		*
+		* Error en la base de datos
+		*
+		*/
+		
+		function errorDB(tx, res){
+			console.log("Error: " + res.message);
+		}
 	}
 };
 
-//app.initialize();
+app.initialize();
 
 $(document).ready(function(){
-	app.onDeviceReady();
+	//app.onDeviceReady();
 });
-
-function descargarRevista(edicion, link){
-	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-		var nombre = fs.root.fullPath + "/" + edicion + ".pdf";
-		// Parameters passed to getFile create a new file or return the file if it already exists.
-		console.log("Iniciando el proceso de descarga");
-		fs.root.getFile(nombre, { create: true, exclusive: false }, function (fileEntry) {
-			download(fileEntry, link, edicion);
-		}, function(){
-			console.log("Error al crear el archivo");
-		});
-	}, function(){
-		console.log("Error en requestFileSystem");
-	});
-}
-
-function download(fileEntry, uri, edicion) {
-	var fileTransfer = new FileTransfer();
-	var fileURL = fileEntry.toURL();
-
-	fileTransfer.download(
-		uri,
-		fileURL,
-		function (entry) {
-			console.log("Successful download...");
-			console.log("download complete: " + entry.toURL());
-			
-			window.openFileNative.open(fileEntry.nativeURL);
-			alertify.success("El contenido se ha descargado");
-			db.transaction(function(tx){
-				tx.executeSql("insert into revista (edicion, ruta) values (?, ?)", [edicion, fileEntry.nativeURL]);
-			});
-			
-			home();
-        },
-        function (error) {
-            console.log("download error source " + error.source);
-            console.log("download error target " + error.target);
-            console.log("upload error code" + error.code);
-            
-            alertify.error("Ocurrió un error al descargar");
-        },
-        null, {
-        }
-    );
-}
-
-function submitPago(){
-	OpenPay.setId($("#payment-card").attr("openpayid"));
-    OpenPay.setApiKey($("#payment-card").attr("openpaykey"));
-    OpenPay.setSandboxMode(true);
-    var deviceSessionId = OpenPay.deviceData.setup("payment-card", "deviceIdHiddenFieldName");
-    //OpenPay.setProductionMode(true);
-    
-    $("#deviceIdHiddenFieldName").val(deviceSessionId);
-	
-	$("#card_number").change(function(){
-		$("#card_number").val($("#card_number").val().replace(/\s/g, ""));
-	});
-	
-	$("#payment-card").validate({
-		rules: {
-			holder_name: "required",
-			last_name: "required",
-			Email: {
-				required: true,
-				email: true
-			},
-			card_number: {
-				required: true,
-			 	number: true,
-			 	maxlength: 16,
-			 	minlength: 16
-			},
-			expiration_month: {
-				min: 1,
-				max: 12,
-				number: true,
-				required: true
-			},
-			expiration_year: {
-				required: true,
-				number: true,
-			},
-			cvv2: {
-				required: true,
-				number: true,
-				maxlength: 3,
-				minlength:3
-			},
-			txtLinea1: "required",
-			txtCP: {
-				required: true,
-				maxlength: 5,
-				minlength: 5
-			},
-			txtCiudad: "required",
-			txtEstado: "required"
-		},
-		messages: {
-			holder_name: "Este campo es requerido",
-			last_name: "Este campo es requerido",
-			Email: {
-				required: "Este campo es requerido",
-				email: "Este no es un email válido"
-			},
-			card_number: {
-				required: "Este campo es requerido",
-			 	number: "Solo números",
-			 	maxlength: "Son 16 números",
-			 	minlength: "Son 16 números"
-			},
-			expiration_month: {
-				min: "No es un mes válido",
-				max: "No es un mes válido",
-				number: "Solo números",
-				required: "Este campo es requerido"
-			},
-			expiration_year: {
-				required: "Este campo es requerido",
-				number: "Solo números",
-			},
-			cvv2: {
-				required:  "Este campo es requerido",
-				number: "Solo números",
-				maxlength: "Deben de ser 3 números",
-				minlength: "Deben de ser 3 números"
-			},
-			txtLinea1: "Este campo es requerido",
-			txtCP: "Este campo es requerido y son cinco números",
-			txtCiudad: "Este campo es requerido",
-			txtEstado: "Este campo es requerido"
-		},
-		submitHandler: function(form) {
-		    //$('#payment-card').find("[type=submit]").prop("disabled", true);
-		    OpenPay.token.create({
-				"card_number": $("#payment-card").find("#card_number").val(),
-				"holder_name": $("#payment-card").find("#holder_name").val() + ' ' + $("#payment-card").find("#last_name").val(),
-				"expiration_year":$("#payment-card").find("#expiration_year").val(),
-				"expiration_month": $("#payment-card").find("#expiration_month").val(),
-				"cvv2": $("#payment-card").find("#cvv2").val(),
-				"address":{
-					"city": $("#payment-card").find("#txtCiudad").val(),
-					"line3": $("#payment-card").find("#txtLinea3").val(),
-					"postal_code": $("#payment-card").find("#txtCP").val(),
-					"line1": $("#payment-card").find("#txtLinea1").val(),
-					"line2": $("#payment-card").find("#txtLinea2").val(),
-					"state": $("#payment-card").find("#txtEstado").val(),
-					"country_code":"MX"
-				}
-			}, function(response){
-				$('#token_id').val(response.data.id);
-				band = true;
-				console.log("validado");
-				
-				$.post(sistemaPago, $(form).serialize(), function(resp){
-					$('#payment-card').find("[type=submit]").prop("disabled", false);
-					
-					if (resp.band){
-						alertify.success("Muchas gracias por su pago, la revista se descargará en un momento");
-						
-						descargarRevista($("#txtOrden").val());
-						$("#winPago").modal("hide");
-					}else{
-						alertify.error("El pago fue rechazado, por favor verifique sus datos");
-					}
-				}, "json");
-
-		    }, function(response){
-		    	$('#payment-card').find("[type=submit]").prop("disabled", false);
-		    	band = false;
-				alertify.error("Ocurrió un error en la transacción: " + response.data.description);
-			});
-		}
-	});
-}
-
-function createDataBase(){
-	db.transaction(function(tx){
-		//tx.executeSql('drop table if exists tienda');
-		
-		tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(){
-			console.log("Tabla Revistas creada");
-		}, errorDB);
-	});
-}
-
-/*
-*
-* Error en la base de datos
-*
-*/
-
-function errorDB(tx, res){
-	console.log("Error: " + res.message);
-}
