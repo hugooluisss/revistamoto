@@ -256,7 +256,9 @@ var app = {
 				function (entry) {
 					console.log("Successful download...");
 					console.log("download complete: " + entry.toURL());
-					
+					console.log(fileEntry);
+					console.log(entry);
+					console.log(entry.toURL());
 					window.openFileNative.open(fileEntry.nativeURL);
 					alertify.success("El contenido se ha descargado");
 					db.transaction(function(tx){
@@ -410,9 +412,9 @@ var app = {
 		
 		function createDataBase(){
 			db.transaction(function(tx){
-				//tx.executeSql('drop table if exists tienda');
+				tx.executeSql('drop table if exists revista');
 				
-				tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(){
+				tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(ts, res){
 					console.log("Tabla Revistas creada");
 				}, errorDB);
 			});
