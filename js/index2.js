@@ -251,8 +251,9 @@ function download(fileEntry, uri, readBinaryData) {
 			console.log("download complete: " + entry.toURL());
 			
 			window.open(fileURL, '_system', 'location=no');
+			console.log(fileURL);
+			console.log(fileEntry);
 			alertify.success("Se abrió");
-			alert(nombre);
         },
         function (error) {
             console.log("download error source " + error.source);
