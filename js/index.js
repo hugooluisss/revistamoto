@@ -176,7 +176,7 @@ var app = {
 							db.transaction(function(tx){
 								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 									if (res.rows.length > 0)
-										window.openFileNative.open(res.rows[0].ruta);
+										plantilla.find("a.ver").show();
 									else{
 										if (revista.estatus == "gratis")
 											plantilla.find("a.ver").show();
@@ -191,7 +191,12 @@ var app = {
 							});
 								
 							plantilla.find("a.ver").click(function(){
-								descargarRevista(revista.edicion);
+								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
+									if (res.rows.length <= 0)
+										descargarRevista(revista.edicion, revista.link);
+									else
+										window.openFileNative.open(res.rows[0].ruta);
+								}, errorDB);
 							});
 							
 							plantilla.find("a.comprar").click(function(){
@@ -229,13 +234,13 @@ $(document).ready(function(){
 	app.onDeviceReady();
 });
 
-function descargarRevista(edicion){
+function descargarRevista(edicion, link){
 	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
 		var nombre = fs.root.fullPath + "/" + edicion + ".pdf";
 		// Parameters passed to getFile create a new file or return the file if it already exists.
 		console.log("Iniciando el proceso de descarga");
 		fs.root.getFile(nombre, { create: true, exclusive: false }, function (fileEntry) {
-			download(fileEntry, revista.link, edicion);
+			download(fileEntry, link, edicion);
 		}, function(){
 			console.log("Error al crear el archivo");
 		});
