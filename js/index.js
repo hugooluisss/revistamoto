@@ -25,10 +25,10 @@ var app = {
 		try{
 			db = openDatabase({name: "motos.db"});
 			console.log("Conexión desde phonegap OK");
-			crearBD(db);
+			createDataBase(db);
 		}catch(err){
 			db = window.openDatabase("motos.db", "1.0", "Just a Dummy DB", 200000);
-			crearBD(db);
+			createDataBase(db);
 			console.log("Se inicio la conexión a la base para web");
 		}
 		
