@@ -219,7 +219,7 @@ var app = {
 							
 							plantilla.find("img[imagen]").attr("src", portadas + revista.edicion + ".jpg");
 							if (banderaRevistas){
-								banderaRevistas = true;
+								banderaRevistas = false;
 								$("#modulo").html("");
 							}
 							
