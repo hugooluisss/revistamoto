@@ -1,11 +1,14 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
-var sistemaPago = "http://revistamoto.com/m/www/app/openpay.php";
+var sistemaPago = "http://revistamoto.com/m/www/app/";
 
-server = "http://10.0.0.5/webservicesmotos/";
-//sistemaPago = "http://192.168.2.4/revistaPago/openpay.php";
+//server = "http://192.168.2.4/webservicesmotos/";
+//sistemaPago = "http://192.168.2.4/webservicesmotos/";
 
 var db = null;
+var precioRevista = "26.00";
+var precioSuscripcion = "179.00";
+
 var app = {
 	// Application Constructor
 	initialize: function() {
@@ -68,20 +71,20 @@ var app = {
 			$.get("vistas/login.html", function(resp){
 				$("#modulo").html(resp);
 				
-				$("#modulo form").submit(function(){
+				$("#modulo #frmLogin").submit(function(){
 					alertify.log("Estamos validando tus datos");
 					$("#modulo form").find("[type=submit]").prop("disabled", true);
 					
 					$.post(server + "login.php", {
-						"usuario": $("#txtCorreo").val(),
-						"contrasena": $("#txtPass").val()
+						"usuario": $("#frmLogin").find("#txtCorreo").val(),
+						"contrasena": $("#frmLogin").find("#txtPass").val()
 					}, function(resp){
-						$("#modulo form").find("[type=submit]").prop("disabled", false);
+						$("#modulo #frmLogin").find("[type=submit]").prop("disabled", false);
 						
 						if (resp.band){
 							alertify.success("Bienvenido");
 							window.localStorage.removeItem("usuario");
-							window.localStorage.setItem("usuario", $("#txtCorreo").val());
+							window.localStorage.setItem("usuario", $("#frmLogin").find("#txtCorreo").val());
 							window.localStorage.removeItem("suscripcion");
 							window.localStorage.setItem("suscripcion", resp.suscripcion);
 							
@@ -94,6 +97,41 @@ var app = {
 							$("#txtCorreo").focus();
 						}
 					}, "json");
+				});
+				
+				$("#modulo #frmRegistro").submit(function(){
+					alertify.log("Estamos validando tus datos");
+					$("#frmRegistro").find("[type=submit]").prop("disabled", true);
+					
+					$.post(server + "registro.php", {
+						"usuario": $("#frmRegistro").find("#txtCorreo").val(),
+						"contrasena": $("#frmRegistro").find("#txtPass").val()
+					}, function(resp){
+						$("#frmRegistro").find("[type=submit]").prop("disabled", false);
+						
+						if (resp.band){
+							alertify.success("Sus datos fueron registrados con éxito... a continuación inicie sesión");
+							
+							$("#frmLogin").find("#txtCorreo").val($("#frmRegistro").find("#txtCorreo").val());
+							$("#winRegistro").modal("hide");
+						}else{
+							alertify.error("Tu cuenta de correo ya está registrada, intenta iniciando sesión o con otra cuenta");
+							$("#txtCorreo").focus();
+						}
+					}, "json");
+				});
+				
+				$("#btnRecuperarPass").click(function(){
+					alertify.prompt("Introducce tu correo electrónico", function (e, str) { 
+						if (e){
+							alertify.log("Estamos consultando tus datos en el servidor, por favor espera");
+							$.post(server + "recuperarPass.php", {
+								"usuario": str
+							}, function(resp){
+								alertify.success("Enviamos un correo electrónico a tu cuenta con tus datos de acceso");
+							});
+						}
+					});
 				});
 			});
 		});
@@ -114,6 +152,20 @@ var app = {
 					$("#btnMembresia").hide();
 					
 				$("#winDatos").modal();
+				
+				$("#btnMembresia").click(function(){
+					$("#revista").hide();
+					
+					$("#winPago").find("#txtMonto").text("$ " + precioSuscripcion);
+					$("#winPago").find(".modal-title").text("Compra de suscripción");
+					$("#winPago").find("#txtOrden").val("");
+					$("#winPago").find("#email2").val(window.localStorage.getItem("usuario"));
+					$("#winPago").find("#Email").val(window.localStorage.getItem("usuario"));
+					$("#winPago").modal({backdrop: false});
+					
+					
+					$("#winRegistro").modal();
+				});
 			});
 		});
 		
@@ -207,8 +259,14 @@ var app = {
 							
 							plantilla.find("a.comprar").click(function(){
 								var el = $(this);
+								
+								
 								$("#txtOrden").val(el.attr("edicion"));
+								$("#revista").show();
 								$("#revista").attr("src", portadas + revista.edicion + ".jpg");
+								$("#winPago").find("#txtMonto").text("$ " + precioRevista);
+								$("#winPago").find(".modal-title").val("Comprar revista");
+								
 								$("#winPago").modal({backdrop: false});
 							});
 						});
@@ -369,7 +427,7 @@ var app = {
 					txtEstado: "Este campo es requerido"
 				},
 				submitHandler: function(form) {
-				    //$('#payment-card').find("[type=submit]").prop("disabled", true);
+				    $('#payment-card').find("[type=submit]").prop("disabled", true);
 				    OpenPay.token.create({
 						"card_number": $("#payment-card").find("#card_number").val(),
 						"holder_name": $("#payment-card").find("#holder_name").val() + ' ' + $("#payment-card").find("#last_name").val(),
@@ -389,19 +447,47 @@ var app = {
 						$('#token_id').val(response.data.id);
 						band = true;
 						console.log("validado");
-						
-						$.post(sistemaPago, $(form).serialize(), function(resp){
-							$('#payment-card').find("[type=submit]").prop("disabled", false);
-							
-							if (resp.band){
-								alertify.success("Muchas gracias por su pago, la revista se descargará en un momento");
+						alertify.log("Estamos realizando el cobro, por favor espera");
+						if ($("#txtOrden").val() == ''){ //va a pagar una suscripcion
+							$.post(sistemaPago + "suscripcion.php", $(form).serialize(), function(resp){
+								$('#payment-card').find("[type=submit]").prop("disabled", false);
 								
-								descargarRevista($("#txtOrden").val());
-								$("#winPago").modal("hide");
-							}else{
-								alertify.error("El pago fue rechazado, por favor verifique sus datos");
-							}
-						}, "json");
+								if (resp.band){
+									alertify.success("Muchas gracias por su pago, inicia sesión para confirmar tu suscripcion");
+									
+									$("#winPago").modal("hide");
+									$("#winDatos").modal("hide");
+									window.localStorage.removeItem("suscripcion");
+									window.localStorage.setItem("suscripcion", resp.suscripcion);
+								}else{
+									if (resp.mensaje == '')
+										alertify.error("El pago fue rechazado, por favor verifique sus datos");
+									else
+										alertify.error(resp.mensaje);
+								}
+								
+								$('#payment-card').find("[type=submit]").prop("disabled", false);
+							}, "json");
+							
+						}else{ //va a pagar una revista
+							$.post(sistemaPago + "revista.php", $(form).serialize(), function(resp){
+								$('#payment-card').find("[type=submit]").prop("disabled", false);
+								
+								if (resp.band){
+									alertify.success("Muchas gracias por su pago, la revista se descargará en un momento");
+									
+									descargarRevista($("#txtOrden").val());
+									$("#winPago").modal("hide");
+								}else{
+									if (resp.mensaje == '')
+										alertify.error("El pago fue rechazado, por favor verifique sus datos");
+									else
+										alertify.error(resp.mensaje);
+								}
+								
+								$('#payment-card').find("[type=submit]").prop("disabled", false);
+							}, "json");
+						}
 		
 				    }, function(response){
 				    	$('#payment-card').find("[type=submit]").prop("disabled", false);

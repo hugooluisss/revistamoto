@@ -96,7 +96,7 @@
 								<div class="col-xs-offset-3 col-xs-6 text-center">
 									<img id="revista" src="" class="img-responsive" />
 									<br />
-									<b>$ 150.00</b>
+									<b id="txtMonto">$ 150.00</b>
 								</div>
 							</div>
 							
@@ -159,9 +159,15 @@
 								</div>
 								<hr />
 								<div class="form-group">
-									<label for="holder_name" class=" col-xs-12">Email</label>
+									<label for="Email" class=" col-xs-12">Email</label>
 									<div class="col-xs-12">
 										<input type="text" placeholder="" autocomplete="off" data-openpay-card="email" id="Email" name="Email" class="form-control input-sm" value=""/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="txtPass" class="col-xs-12">Contraseña</label>
+									<div class="col-xs-12">
+										<input type="password" placeholder="" autocomplete="off" data-openpay-card="email" id="txtPass" name="txtPass" class="form-control input-sm" value=""/>
 									</div>
 								</div>
 								<hr />
@@ -203,6 +209,7 @@
 							</div>
 							<input type="hidden" id="deviceIdHiddenFieldName" name="deviceIdHiddenFieldName" />
 							<input type="hidden" id="txtOrden" name="txtOrden" value=""/>
+							<input type="hidden" id="email2" name="email2" value=""/>
 						</div>
 						<div class="modal-footer">
 							<input type="submit" class="btn btn-success" value="Pagar" id="btnPagar"/>
