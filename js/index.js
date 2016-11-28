@@ -174,8 +174,6 @@ var app = {
 		});
 		
 		function home(){
-			//storekit.restore();
-			
 			var i= 0;
 			var usuario = window.localStorage.getItem("usuario");
 			if (usuario == undefined){
@@ -207,8 +205,10 @@ var app = {
 				//Se obtienen todas las revistas
 				$.get(server + 'getRevistas.php', function(revistas){
 					$.get("vistas/revista.html", function(resp){
-						var suscripcion = window.localStorage.getItem("suscripcion");
 						
+						var suscripcion = window.localStorage.getItem("suscripcion");
+						$("#modulo").html('<i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i><span class="sr-only">Actualizando lista de revistas...</span>');
+						banderaRevistas = true;
 						$.each(revistas, function(i, revista){
 							var plantilla = resp;
 							plantilla = $(plantilla);
@@ -218,6 +218,10 @@ var app = {
 							})
 							
 							plantilla.find("img[imagen]").attr("src", portadas + revista.edicion + ".jpg");
+							if (banderaRevistas){
+								banderaRevistas = true;
+								$("#modulo").html("");
+							}
 							
 							$("#modulo").append(plantilla);
 							
@@ -453,7 +457,10 @@ var app = {
 								$('#payment-card').find("[type=submit]").prop("disabled", false);
 								
 								if (resp.band){
-									alertify.success("Muchas gracias por su pago, inicia sesión para confirmar tu suscripcion");
+									alertify.success("Muchas gracias por su pago");
+									home();
+									
+									$("#payment-card")[0].reset();
 									
 									$("#winPago").modal("hide");
 									$("#winDatos").modal("hide");
@@ -477,6 +484,8 @@ var app = {
 									alertify.success("Muchas gracias por su pago, la revista se descargará en un momento");
 									
 									descargarRevista($("#txtOrden").val());
+									$("#payment-card")[0].reset();
+
 									$("#winPago").modal("hide");
 								}else{
 									if (resp.mensaje == '')
