@@ -207,8 +207,7 @@ var app = {
 					$.get("vistas/revista.html", function(resp){
 						
 						var suscripcion = window.localStorage.getItem("suscripcion");
-						$("#modulo").html('<i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i><span class="sr-only">Actualizando lista de revistas...</span>');
-						banderaRevistas = true;
+						
 						$.each(revistas, function(i, revista){
 							var plantilla = resp;
 							plantilla = $(plantilla);
@@ -218,10 +217,6 @@ var app = {
 							})
 							
 							plantilla.find("img[imagen]").attr("src", portadas + revista.edicion + ".jpg");
-							if (banderaRevistas){
-								banderaRevistas = false;
-								$("#modulo").html("");
-							}
 							
 							$("#modulo").append(plantilla);
 							
