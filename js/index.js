@@ -526,7 +526,7 @@ var app = {
 		
 		
 		
-		inAppPurchase.getProducts(['com.revistamoto.revista03', 'revista03']).then(function (products) {
+		inAppPurchase.getProducts(['com.revistamoto.revista03', 'revista03', 'com.revistamoto.revista02', 'rev002']).then(function (products) {
 			console.log(products);
 		}).catch(function (err) {
 			console.log(err);
@@ -539,6 +539,18 @@ var app = {
 		});
 		
 		inAppPurchase.buy('revista03').then(function (data) {
+			console.log(data);
+		}).catch(function (err) {
+			console.log(err);
+		});
+		
+		inAppPurchase.buy('com.revistamoto.revista02').then(function (data) {
+			console.log(data);
+		}).catch(function (err) {
+			console.log(err);
+		});
+		
+		inAppPurchase.buy('rev002').then(function (data) {
 			console.log(data);
 		}).catch(function (err) {
 			console.log(err);
