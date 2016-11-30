@@ -521,6 +521,16 @@ var app = {
 		function errorDB(tx, res){
 			console.log("Error: " + res.message);
 		}
+		
+		
+		
+		
+		
+		inAppPurchase.getProducts(['com.revistamoto.revista03']).then(function (products) {
+			console.log(products);
+		}).catch(function (err) {
+			console.log(err);
+		});
 	}
 };
 
