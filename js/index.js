@@ -531,6 +531,18 @@ var app = {
 		}).catch(function (err) {
 			console.log(err);
 		});
+		
+		inAppPurchase.buy('com.revistamoto.revista03').then(function (data) {
+			console.log(data);
+		}).catch(function (err) {
+			console.log(err);
+		});
+		
+		inAppPurchase.buy('revista03').then(function (data) {
+			console.log(data);
+		}).catch(function (err) {
+			console.log(err);
+		});
 	}
 };
 
