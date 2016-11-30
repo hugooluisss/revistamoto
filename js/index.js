@@ -526,7 +526,7 @@ var app = {
 		
 		
 		
-		inAppPurchase.getProducts(['com.revistamoto.revista03']).then(function (products) {
+		inAppPurchase.getProducts(['com.revistamoto.revista03', 'revista03']).then(function (products) {
 			console.log(products);
 		}).catch(function (err) {
 			console.log(err);
