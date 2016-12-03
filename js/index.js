@@ -526,22 +526,42 @@ var app = {
 		
 		
 		
-		inAppPurchase.getProducts(['com.revistamoto.app.revista04', 'com.revistamoto.revista03']).then(function (products) {
-			console.log(products);
-			console.log("Todo ok");
-			alert("Todo ok");
-		}).catch(function (err) {
-			console.log(err);
-			alert(err);
+		
+		storekit.init({
+			debug: true,
+			purchase: function (transactionId, productId) {
+				console.log('purchased: ' + productId);
+			},
+			restore: function (transactionId, productId) {
+				console.log('restored: ' + productId);
+			},
+			restoreCompleted: function () {
+				console.log('restoreCompleted');
+			},
+			restoreFailed: function (errCode) {
+				console.log('Restore Failed: ' + errCode);
+			},
+			error: function (errno, errtext) {
+				console.log('Failed: ' + errtext);
+			},
+			ready: function () {
+				var productIds = [
+					"com.revistamoto.app.revista04"
+				];
+				window.storekit.load(productIds, function(validProducts, invalidProductIds) {
+					$.each(validProducts, function (i, val) {
+						console.log("id: " + val.id + " title: " + val.title + " val: " + val.description + " price: " + val.price);
+					});
+					if(invalidProductIds.length) {
+						console.log("Invalid Product IDs: " + JSON.stringify(invalidProductIds));
+					}
+				});
+			}
 		});
 		
-		inAppPurchase.buy('com.revistamoto.app.revista04').then(function (data) {
-			console.log(data);
-		}).catch(function (err) {
-			console.log(err);
-			alert(err);
-		});
-	}
+		
+		window.storekit.restore();
+		window.storekit.purchase("com.revistamoto.app.revista04", 1);
 };
 
 app.initialize();
