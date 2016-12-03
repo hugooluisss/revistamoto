@@ -529,22 +529,18 @@ var app = {
 		inAppPurchase.getProducts(['com.revistamoto.app.revista04', 'com.revistamoto.revista03']).then(function (products) {
 			console.log(products);
 			console.log("Todo ok");
+			alert("Todo ok");
 		}).catch(function (err) {
 			console.log(err);
+			alert(err);
 		});
 		
 		inAppPurchase.buy('com.revistamoto.app.revista04').then(function (data) {
 			console.log(data);
 		}).catch(function (err) {
 			console.log(err);
+			alert(err);
 		});
-		
-		inAppPurchase.buy('com.revistamoto.revista03').then(function (data) {
-			console.log(data);
-		}).catch(function (err) {
-			console.log(err);
-		});
-
 	}
 };
 
