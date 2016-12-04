@@ -533,18 +533,15 @@ var app = {
 		});
 		
 		var p = store.get("edicion160");
-		console.log(p);
-		if (p.state === store.REGISTERED)
-			console.log("Edicion 160 Válida");
-			
-		var p = store.get("com.revistamoto.appios.edicion160");
-		console.log(p);
 		if (p.state === store.REGISTERED)
 			console.log("Edicion 160 Válida");
 			
 			
 		store.order("edicion160");
-		store.order("com.revistamoto.appios.edicion160");
+		
+		store.when("product").updated(function (p) {
+			store.renderIAP(p);
+		});
 		
 		// Log all errors
 		store.error(function(error) {
