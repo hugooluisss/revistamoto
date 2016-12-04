@@ -551,6 +551,14 @@ var app = {
 		store.error(function(error) {
 			alert('ERROR ' + error.code + ': ' + error.message);
 		});
+		
+		
+		store.when("com.revistamoto.appios.edicion160").approved(function(product){
+			// synchronous
+			product.finish();
+			
+			console.log(product);
+		});
 	}
 };
 
@@ -559,3 +567,5 @@ app.initialize();
 $(document).ready(function(){
 	//app.onDeviceReady();
 });
+
+
