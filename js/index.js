@@ -529,11 +529,20 @@ var app = {
 		store.register({
 			id: "com.revistamoto.app.revista04",
 			alias: "revista04",
+			type: store.NON_CONSUMABLE
+		});
+		
+		store.register({
+			id: "com.revistamoto.app.revista05",
+			alias: "revista05",
 			type: store.CONSUMABLE
 		});
 		
 		var p = store.get("revista04");
 		console.log(p);
+		
+		var pp = store.get("revista04");
+		console.log(pp);
 	}
 };
 
