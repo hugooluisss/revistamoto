@@ -562,6 +562,7 @@ var app = {
 		
 		window.storekit.restore();
 		window.storekit.purchase("com.revistamoto.app.revista04", 1);
+	}
 };
 
 app.initialize();
