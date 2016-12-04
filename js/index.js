@@ -556,7 +556,7 @@ var app = {
 		store.when("com.revistamoto.appios.edicion160").approved(function(product){
 			// synchronous
 			product.finish();
-			
+			console.log("Probando");
 			console.log(product);
 		});
 	}
