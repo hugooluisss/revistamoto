@@ -527,18 +527,24 @@ var app = {
 		store.refresh();
 		
 		store.register({
-			id: "com.revistamoto.app.revista04",
-			alias: "revista04",
+			id: "com.revistamoto.appios.edicion160",
+			alias: "edicion160",
 			type: store.NON_CONSUMABLE
 		});
 		
-		var p = store.get("revista04");
+		var p = store.get("edicion160");
 		console.log(p);
 		if (p.state === store.REGISTERED)
-			console.log("Revista04 Válida");
+			console.log("Edicion 160 Válida");
+			
+		var p = store.get("com.revistamoto.appios.edicion160");
+		console.log(p);
+		if (p.state === store.REGISTERED)
+			console.log("Edicion 160 Válida");
 			
 			
-		store.order("revista04");
+		store.order("edicion160");
+		store.order("com.revistamoto.appios.edicion160");
 		
 		// Log all errors
 		store.error(function(error) {
