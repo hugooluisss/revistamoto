@@ -540,17 +540,17 @@ var app = {
 		store.order("edicion160");
 		
 		store.when("product").updated(function (p) {
-			app.renderIAP(p);
+			console.log(p);
+		});
+		
+		store.when("edicion160").updated(function (p) {
+			console.log(p);
 		});
 		
 		// Log all errors
 		store.error(function(error) {
 			alert('ERROR ' + error.code + ': ' + error.message);
 		});
-	}
-	
-	renderIAP: function(p){
-		console.log(p);
 	}
 };
 
