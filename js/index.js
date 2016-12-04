@@ -532,24 +532,13 @@ var app = {
 			type: store.NON_CONSUMABLE
 		});
 		
-		store.register({
-			id: "com.revistamoto.app.revista05",
-			alias: "revista05",
-			type: store.CONSUMABLE
-		});
-		
 		var p = store.get("revista04");
 		console.log(p);
 		if (p.state === store.REGISTERED)
 			console.log("Revista04 Válida");
-		
-		var pp = store.get("revista05");
-		console.log(pp);
-		if (pp.state === store.REGISTERED)
-			console.log("Revista05 Válida");
 			
 			
-		store.order(pid);
+		store.order("revista04");
 		
 		// Log all errors
 		store.error(function(error) {
