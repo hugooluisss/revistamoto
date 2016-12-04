@@ -549,7 +549,7 @@ var app = {
 		});
 	}
 	
-	app.renderIAP = function(p){
+	renderIAP = function(p){
 		console.log(p);
 	}
 };
