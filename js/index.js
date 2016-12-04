@@ -522,7 +522,7 @@ var app = {
 			console.log("Error: " + res.message);
 		}
 		
-		
+		store.verbosity = store.DEBUG;
 		
 		store.refresh();
 		
@@ -547,6 +547,14 @@ var app = {
 		console.log(pp);
 		if (pp.state === store.REGISTERED)
 			console.log("Revista05 Válida");
+			
+			
+		store.order(pid);
+		
+		// Log all errors
+		store.error(function(error) {
+			alert('ERROR ' + error.code + ': ' + error.message);
+		});
 	}
 };
 
