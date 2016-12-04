@@ -526,42 +526,14 @@ var app = {
 		
 		
 		
-		
-		storekit.init({
-			debug: true,
-			purchase: function (transactionId, productId) {
-				console.log('purchased: ' + productId);
-			},
-			restore: function (transactionId, productId) {
-				console.log('restored: ' + productId);
-			},
-			restoreCompleted: function () {
-				console.log('restoreCompleted');
-			},
-			restoreFailed: function (errCode) {
-				console.log('Restore Failed: ' + errCode);
-			},
-			error: function (errno, errtext) {
-				console.log('Failed: ' + errtext);
-			},
-			ready: function () {
-				var productIds = [
-					"com.revistamoto.app.revista04"
-				];
-				window.storekit.load(productIds, function(validProducts, invalidProductIds) {
-					$.each(validProducts, function (i, val) {
-						console.log("id: " + val.id + " title: " + val.title + " val: " + val.description + " price: " + val.price);
-					});
-					if(invalidProductIds.length) {
-						console.log("Invalid Product IDs: " + JSON.stringify(invalidProductIds));
-					}
-				});
-			}
+		store.register({
+			id: "com.revistamoto.app.revista04",
+			alias: "revista04",
+			type: store.CONSUMABLE
 		});
 		
-		
-		window.storekit.restore();
-		window.storekit.purchase("com.revistamoto.app.revista04", 1);
+		var p = store.get("revista04");
+		console.log(p);
 	}
 };
 
