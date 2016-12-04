@@ -541,7 +541,7 @@ var app = {
 		var p = store.get("revista04");
 		console.log(p);
 		
-		var pp = store.get("revista04");
+		var pp = store.get("revista05");
 		console.log(pp);
 	}
 };
