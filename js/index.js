@@ -352,17 +352,12 @@ var app = {
 		comprarRevista();
 		
 		function comprarRevista(){
-			inAppPurchase
-				.getProducts(['com.revistamoto.appios.edicion160', 'com.yourapp.prod2', ...])
-				.then(function (products) {
-					console.log(products);
-					/*
-					[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
-					*/
-				});
-  .catch(function (err) {
-    console.log(err);
-  });
+			inAppPurchase.getProducts(['com.revistamoto.appios.edicion160', 'com.yourapp.prod2']).then(function (products) {
+				console.log(products);
+				/*
+				[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
+				*/
+			});
 			/*
 			store.verbosity = store.DEBUG;
 			
