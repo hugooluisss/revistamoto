@@ -357,7 +357,7 @@ var app = {
 		comprarRevista();
 		
 		function comprarRevista(){
-			inAppPurchase.getProducts(['com.revistamoto.appios.edicion160']).then(function (products) {
+			inAppPurchase.getProducts(['com.revistamoto.appios.edicion160', '1182826181']).then(function (products) {
 				console.log(products);
 				/*
 				[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
