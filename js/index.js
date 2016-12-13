@@ -352,6 +352,18 @@ var app = {
 		comprarRevista();
 		
 		function comprarRevista(){
+			inAppPurchase
+				.getProducts(['com.revistamoto.appios.edicion160', 'com.yourapp.prod2', ...])
+				.then(function (products) {
+					console.log(products);
+					/*
+					[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
+					*/
+				});
+  .catch(function (err) {
+    console.log(err);
+  });
+			/*
 			store.verbosity = store.DEBUG;
 			
 			store.register({
@@ -365,7 +377,7 @@ var app = {
 			});
 			
 			store.refresh();
-			
+			*/
 			/*
 			var p = store.get("edicion160");
 			if (p.state === store.REGISTERED)
