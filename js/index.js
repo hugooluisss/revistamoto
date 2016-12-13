@@ -259,6 +259,12 @@ var app = {
 							plantilla.find("a.comprar").click(function(){
 								var el = $(this);
 								alert(el.attr("edicion"));
+								
+								inAppPurchase.buy('com.revistamoto.appios.edicion160').then(function (data){
+									console.log(data);
+								}).catch(function(err){
+									console.log(err);
+								});
 							});
 						});
 					});
@@ -344,7 +350,6 @@ var app = {
 		* Error en la base de datos
 		*
 		*/
-		
 		function errorDB(tx, res){
 			console.log("Error: " + res.message);
 		}
@@ -352,12 +357,13 @@ var app = {
 		comprarRevista();
 		
 		function comprarRevista(){
-			inAppPurchase.getProducts(['com.revistamoto.appios.edicion160', 'com.yourapp.prod2']).then(function (products) {
+			inAppPurchase.getProducts(['com.revistamoto.appios.edicion160']).then(function (products) {
 				console.log(products);
 				/*
 				[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
 				*/
 			});
+			
 			/*
 			store.verbosity = store.DEBUG;
 			
