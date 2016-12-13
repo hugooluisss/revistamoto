@@ -2,8 +2,8 @@ var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/";
 
-//server = "http://192.168.2.4/webservicesmotos/";
-//sistemaPago = "http://192.168.2.4/webservicesmotos/";
+server = "http://192.168.2.4/webservicesmotos/";
+sistemaPago = "http://192.168.2.4/webservicesmotos/";
 
 var db = null;
 var precioRevista = "26.00";
@@ -258,15 +258,7 @@ var app = {
 							
 							plantilla.find("a.comprar").click(function(){
 								var el = $(this);
-								
-								
-								$("#txtOrden").val(el.attr("edicion"));
-								$("#revista").show();
-								$("#revista").attr("src", portadas + revista.edicion + ".jpg");
-								$("#winPago").find("#txtMonto").text("$ " + precioRevista);
-								$("#winPago").find(".modal-title").val("Comprar revista");
-								
-								$("#winPago").modal({backdrop: false});
+								alert(el.attr("edicion"));
 							});
 						});
 					});
@@ -286,8 +278,6 @@ var app = {
 				}
 			});
 		}
-		
-		submitPago();
 
 		function descargarRevista(edicion, link){
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
@@ -339,169 +329,6 @@ var app = {
 		    );
 		}
 		
-		function submitPago(){
-			OpenPay.setId($("#payment-card").attr("openpayid"));
-		    OpenPay.setApiKey($("#payment-card").attr("openpaykey"));
-		    OpenPay.setSandboxMode(true);
-		    var deviceSessionId = OpenPay.deviceData.setup("payment-card", "deviceIdHiddenFieldName");
-		    //OpenPay.setProductionMode(true);
-		    
-		    $("#deviceIdHiddenFieldName").val(deviceSessionId);
-			
-			$("#card_number").change(function(){
-				$("#card_number").val($("#card_number").val().replace(/\s/g, ""));
-			});
-			
-			$("#payment-card").validate({
-				rules: {
-					holder_name: "required",
-					last_name: "required",
-					Email: {
-						required: true,
-						email: true
-					},
-					card_number: {
-						required: true,
-					 	number: true,
-					 	maxlength: 16,
-					 	minlength: 16
-					},
-					expiration_month: {
-						min: 1,
-						max: 12,
-						number: true,
-						required: true
-					},
-					expiration_year: {
-						required: true,
-						number: true,
-					},
-					cvv2: {
-						required: true,
-						number: true,
-						maxlength: 3,
-						minlength:3
-					},
-					txtLinea1: "required",
-					txtCP: {
-						required: true,
-						maxlength: 5,
-						minlength: 5
-					},
-					txtCiudad: "required",
-					txtEstado: "required"
-				},
-				messages: {
-					holder_name: "Este campo es requerido",
-					last_name: "Este campo es requerido",
-					Email: {
-						required: "Este campo es requerido",
-						email: "Este no es un email válido"
-					},
-					card_number: {
-						required: "Este campo es requerido",
-					 	number: "Solo números",
-					 	maxlength: "Son 16 números",
-					 	minlength: "Son 16 números"
-					},
-					expiration_month: {
-						min: "No es un mes válido",
-						max: "No es un mes válido",
-						number: "Solo números",
-						required: "Este campo es requerido"
-					},
-					expiration_year: {
-						required: "Este campo es requerido",
-						number: "Solo números",
-					},
-					cvv2: {
-						required:  "Este campo es requerido",
-						number: "Solo números",
-						maxlength: "Deben de ser 3 números",
-						minlength: "Deben de ser 3 números"
-					},
-					txtLinea1: "Este campo es requerido",
-					txtCP: "Este campo es requerido y son cinco números",
-					txtCiudad: "Este campo es requerido",
-					txtEstado: "Este campo es requerido"
-				},
-				submitHandler: function(form) {
-				    $('#payment-card').find("[type=submit]").prop("disabled", true);
-				    OpenPay.token.create({
-						"card_number": $("#payment-card").find("#card_number").val(),
-						"holder_name": $("#payment-card").find("#holder_name").val() + ' ' + $("#payment-card").find("#last_name").val(),
-						"expiration_year":$("#payment-card").find("#expiration_year").val(),
-						"expiration_month": $("#payment-card").find("#expiration_month").val(),
-						"cvv2": $("#payment-card").find("#cvv2").val(),
-						"address":{
-							"city": $("#payment-card").find("#txtCiudad").val(),
-							"line3": $("#payment-card").find("#txtLinea3").val(),
-							"postal_code": $("#payment-card").find("#txtCP").val(),
-							"line1": $("#payment-card").find("#txtLinea1").val(),
-							"line2": $("#payment-card").find("#txtLinea2").val(),
-							"state": $("#payment-card").find("#txtEstado").val(),
-							"country_code":"MX"
-						}
-					}, function(response){
-						$('#token_id').val(response.data.id);
-						band = true;
-						console.log("validado");
-						alertify.log("Estamos realizando el cobro, por favor espera");
-						if ($("#txtOrden").val() == ''){ //va a pagar una suscripcion
-							$.post(sistemaPago + "suscripcion.php", $(form).serialize(), function(resp){
-								$('#payment-card').find("[type=submit]").prop("disabled", false);
-								
-								if (resp.band){
-									alertify.success("Muchas gracias por su pago");
-									home();
-									
-									$("#payment-card")[0].reset();
-									
-									$("#winPago").modal("hide");
-									$("#winDatos").modal("hide");
-									window.localStorage.removeItem("suscripcion");
-									window.localStorage.setItem("suscripcion", resp.suscripcion);
-								}else{
-									if (resp.mensaje == '')
-										alertify.error("El pago fue rechazado, por favor verifique sus datos");
-									else
-										alertify.error(resp.mensaje);
-								}
-								
-								$('#payment-card').find("[type=submit]").prop("disabled", false);
-							}, "json");
-							
-						}else{ //va a pagar una revista
-							$.post(sistemaPago + "revista.php", $(form).serialize(), function(resp){
-								$('#payment-card').find("[type=submit]").prop("disabled", false);
-								
-								if (resp.band){
-									alertify.success("Muchas gracias por su pago, la revista se descargará en un momento");
-									
-									descargarRevista($("#txtOrden").val());
-									$("#payment-card")[0].reset();
-
-									$("#winPago").modal("hide");
-								}else{
-									if (resp.mensaje == '')
-										alertify.error("El pago fue rechazado, por favor verifique sus datos");
-									else
-										alertify.error(resp.mensaje);
-								}
-								
-								$('#payment-card').find("[type=submit]").prop("disabled", false);
-							}, "json");
-						}
-		
-				    }, function(response){
-				    	$('#payment-card').find("[type=submit]").prop("disabled", false);
-				    	band = false;
-						alertify.error("Ocurrió un error en la transacción: " + response.data.description);
-					});
-				}
-			});
-		}
-		
 		function createDataBase(){
 			db.transaction(function(tx){
 				tx.executeSql('drop table if exists revista');
@@ -522,43 +349,53 @@ var app = {
 			console.log("Error: " + res.message);
 		}
 		
-		store.verbosity = store.DEBUG;
+		comprarRevista();
 		
-		store.refresh();
-		
-		store.register({
-			id: "com.revistamoto.appios.edicion160",
-			alias: "edicion160",
-			type: store.NON_CONSUMABLE
-		});
-		
-		var p = store.get("edicion160");
-		if (p.state === store.REGISTERED)
-			console.log("Edicion 160 Válida");
+		function comprarRevista(){
+			store.verbosity = store.DEBUG;
+			
+			store.register({
+				id: "com.revistamoto.appios.edicion160",
+				alias: "edicion160",
+				type: store.NON_CONSUMABLE
+			});
+			
+			store.ready(function() {
+				console.log("\\o/ STORE READY \\o/");
+			});
+			
+			store.refresh();
+			
+			/*
+			var p = store.get("edicion160");
+			if (p.state === store.REGISTERED)
+				console.log("Edicion 160 Válida");
+				
+				
+			store.order("edicion160");
+			
+			store.when("product").updated(function (p) {
+				console.log(p);
+			});
+			
+			store.when("edicion160").updated(function (p) {
+				console.log(p);
+			});
+			
+			// Log all errors
+			store.error(function(error) {
+				alert('ERROR ' + error.code + ': ' + error.message);
+			});
 			
 			
-		store.order("edicion160");
-		
-		store.when("product").updated(function (p) {
-			console.log(p);
-		});
-		
-		store.when("edicion160").updated(function (p) {
-			console.log(p);
-		});
-		
-		// Log all errors
-		store.error(function(error) {
-			alert('ERROR ' + error.code + ': ' + error.message);
-		});
-		
-		
-		store.when("com.revistamoto.appios.edicion160").approved(function(product){
-			// synchronous
-			product.finish();
-			console.log("Probando");
-			console.log(product);
-		});
+			store.when("com.revistamoto.appios.edicion160").approved(function(product){
+				// synchronous
+				product.finish();
+				console.log("Probando");
+				console.log(product);
+			});
+			*/
+		}
 	}
 };
 
