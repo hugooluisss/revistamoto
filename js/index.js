@@ -2,8 +2,8 @@ var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/";
 
-server = "http://192.168.2.4/webservicesmotos/";
-sistemaPago = "http://192.168.2.4/webservicesmotos/";
+//server = "http://192.168.2.4/webservicesmotos/";
+//sistemaPago = "http://192.168.2.4/webservicesmotos/";
 
 var db = null;
 var precioRevista = "26.00";
