@@ -260,11 +260,7 @@ var app = {
 								var el = $(this);
 								alert(el.attr("edicion"));
 								
-								inAppPurchase.buy('com.revistamoto.appios.edicion160').then(function (data){
-									console.log(data);
-								}).catch(function(err){
-									console.log(err);
-								});
+								storekit.purchase('com.revistamoto.appios.edicion160');
 							});
 						});
 					});
@@ -354,61 +350,31 @@ var app = {
 			console.log("Error: " + res.message);
 		}
 		
-		comprarRevista();
-		
-		function comprarRevista(){
-			inAppPurchase.getProducts(['com.revistamoto.appios.edicion160', '1182826181']).then(function (products) {
-				console.log(products);
-				/*
-				[{ productId: 'com.yourapp.prod1', 'title': '...', description: '...', price: '...' }, ...]
-				*/
-			});
-			
-			/*
-			store.verbosity = store.DEBUG;
-			
-			store.register({
-				id: "com.revistamoto.appios.edicion160",
-				alias: "edicion160",
-				type: store.NON_CONSUMABLE
-			});
-			
-			store.ready(function() {
-				console.log("\\o/ STORE READY \\o/");
-			});
-			
-			store.refresh();
-			*/
-			/*
-			var p = store.get("edicion160");
-			if (p.state === store.REGISTERED)
-				console.log("Edicion 160 Válida");
-				
-				
-			store.order("edicion160");
-			
-			store.when("product").updated(function (p) {
-				console.log(p);
-			});
-			
-			store.when("edicion160").updated(function (p) {
-				console.log(p);
-			});
-			
-			// Log all errors
-			store.error(function(error) {
-				alert('ERROR ' + error.code + ': ' + error.message);
-			});
-			
-			
-			store.when("com.revistamoto.appios.edicion160").approved(function(product){
-				// synchronous
-				product.finish();
-				console.log("Probando");
-				console.log(product);
-			});
-			*/
-		}
+		storekit.init({
+			debug:    true, // Enable IAP messages on the console
+			ready:    function(){ 
+				 /*puede ser un array de strings ['pro1',['prod2'],...*/
+				storekit.load('com.revistamoto.appios.edicion160', function (products, invalidIds) {
+					//se deben cargar los productos de la tienda para poder usarlos después			     
+					console.log(products,invalidIds)
+				});
+			},
+			purchase: function (transactionId, productId, receipt){
+				//esta función se ejecuta cuando el usuario realizar una compra
+				if(productId == 'com.revistamoto.appios.edicion160'){
+					//validamos que el ID del producto proveniente de iTunes Connect sea igual a los que hay en la aplicación
+					console.info("Producto Ok");
+				}
+			},
+			restore: function (transactionId, productId, transactionReceipt) {
+				//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
+				console.info("El producto ya habia sido comprado");
+			},
+			error:    function (errorCode, errorMessage) {
+				//callback de un error ocurrido
+				alert('Error: ' + errorMessage);
+			}
+		});
 	}
 };
 
@@ -417,5 +383,3 @@ app.initialize();
 $(document).ready(function(){
 	//app.onDeviceReady();
 });
-
-
