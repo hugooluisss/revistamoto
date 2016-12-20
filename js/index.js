@@ -356,7 +356,7 @@ var app = {
 				 /*puede ser un array de strings ['pro1',['prod2'],...*/
 				storekit.load('com.revistamoto.appios.edicion160', function (products, invalidIds) {
 					//se deben cargar los productos de la tienda para poder usarlos después			     
-					console.log(products,invalidIds)
+					console.log(products, invalidIds)
 				});
 			},
 			purchase: function (transactionId, productId, receipt){
