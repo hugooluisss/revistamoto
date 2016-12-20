@@ -3,7 +3,7 @@
 	<widget xmlns="http://www.w3.org/ns/widgets"  
 		xmlns:gap="http://phonegap.com/ns/1.0"  
 		id="com.revistamoto.appios"
-		version="1.0.6">  
+		version="1.0.7">  
 		
 		<name>Revista Moto</name>  
 		<description>App RevistaMoto</description>  
@@ -96,7 +96,7 @@
 		<gap:splash src="res/screen/ios/screen-ipad-landscape.png"     gap:platform="ios"   width="1024" height="768" />  
 		<gap:splash src="res/screen/windows-phone/screen-portrait.jpg"   gap:platform="winphone" />  
 		<gap:config-file platform="ios" parent="CFBundleShortVersionString">  
-			<string>102</string>  
+			<string>103</string>  
 		</gap:config-file>  
 		<!--  
 		 Define access to external domains.  
