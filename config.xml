@@ -2,7 +2,7 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->  
 	<widget xmlns="http://www.w3.org/ns/widgets"  
 		xmlns:gap="http://phonegap.com/ns/1.0"  
-		id="Z2PM8BRBU8.com.revistamoto.appios"
+		id="com.revistamoto.appios"
 		versionCode="1.0.0"
 		version="1.0.7">  
 		
@@ -60,7 +60,7 @@
 		<plugin name="cordova-plugin-file-transfer" source="npm"/>
 		<plugin name="cordova-plugin-whitelist" source="npm"/>
 		<plugin name="cordova-plugin-openfilenative" source="npm"/>
-		<plugin name="cc.fovea.cordova.purchase" source="npm"/>
+		<plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0"/>
 		<!--<plugin name="cordova-plugin-inapppurchase" source="npm"/>-->
 		
 		<!--<plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0"/>-->
