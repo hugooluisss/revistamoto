@@ -354,7 +354,7 @@ var app = {
 			debug:    true, // Enable IAP messages on the console
 			ready:    function(){ 
 				 /*puede ser un array de strings ['pro1',['prod2'],...*/
-				storekit.load(['com.revistamoto.appios.edicion159'], function (products, invalidIds) {
+				storekit.load(['com.revistamoto.appios.edicion159', 'edicion159'], function (products, invalidIds) {
 					//se deben cargar los productos de la tienda para poder usarlos después			     
 					console.log(products, invalidIds)
 				});
