@@ -260,7 +260,7 @@ var app = {
 								var el = $(this);
 								alert(el.attr("edicion"));
 								
-								storekit.purchase('com.revistamoto.appios.com.revistamoto.appios.edicion160');
+								storekit.purchase('com.revistamoto.appios.edicion159');
 							});
 						});
 					});
@@ -354,14 +354,14 @@ var app = {
 			debug:    true, // Enable IAP messages on the console
 			ready:    function(){ 
 				 /*puede ser un array de strings ['pro1',['prod2'],...*/
-				storekit.load(['com.revistamoto.appios.com.revistamoto.appios.edicion160'], function (products, invalidIds) {
+				storekit.load(['com.revistamoto.appios.edicion159'], function (products, invalidIds) {
 					//se deben cargar los productos de la tienda para poder usarlos después			     
 					console.log(products, invalidIds)
 				});
 			},
 			purchase: function (transactionId, productId, receipt){
 				//esta función se ejecuta cuando el usuario realizar una compra
-				if(productId == 'com.revistamoto.appios.com.revistamoto.appios.edicion160'){
+				if(productId == 'com.revistamoto.appios.edicion159'){
 					//validamos que el ID del producto proveniente de iTunes Connect sea igual a los que hay en la aplicación
 					console.info("Producto Ok");
 				}
