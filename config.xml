@@ -61,7 +61,7 @@
 		<plugin name="cordova-plugin-whitelist" source="npm"/>
 		<plugin name="cordova-plugin-openfilenative" source="npm"/>
 		<!--<plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0"/>-->
-		<gap:plugin name="cc.fovea.cordova.purchase" source="npm"/>
+		<gap:plugin name="cc.fovea.cordova.purchase" source="npm" version="3.11.0" />
 
 		<!--<plugin name="cordova-plugin-inapppurchase" source="npm"/>-->
 		
