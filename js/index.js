@@ -260,6 +260,7 @@ var app = {
 								var el = $(this);
 								alert(el.attr("edicion"));
 								
+								storekit.purchase('edicion159');
 								storekit.purchase('com.revistamoto.appios.edicion159');
 							});
 						});
