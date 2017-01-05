@@ -239,6 +239,8 @@ var app = {
 												//plantilla.find("a.comprar").show();
 												plantilla.addClass("edicion" + revista.edicion);
 												plantilla.find("a.comprar").attr("edicion", "edicion" + revista.edicion);
+												plantilla.find("a.comprar").attr("direccion", revista.link);
+												
 												ediciones.push("edicion" + revista.edicion);
 											}
 										}
@@ -268,7 +270,7 @@ var app = {
 											purchase: function (transactionId, productId, receipt){
 												//esta función se ejecuta cuando el usuario realizar una compra
 												console.info("Producto comprado " + productId);
-												descargarRevista(productId.substring(7, productId.length));
+												descargarRevista(productId.substring(7, productId.length), $("." + productId).find("a.comprar").attr(direccion));
 											},
 											restore: function (transactionId, productId, transactionReceipt) {
 												//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
