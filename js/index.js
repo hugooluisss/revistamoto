@@ -251,12 +251,13 @@ var app = {
 											debug:    true, // Enable IAP messages on the console
 											ready:    function(){ 
 												 /*puede ser un array de strings ['pro1',['prod2'],...*/
+												console.log(ediciones);
 												storekit.load(ediciones, function (products, invalidIds) {
 													//se deben cargar los productos de la tienda para poder usarlos después			     
 													console.log(products, invalidIds);
 													
 													$.each(products, function(i, product){
-														$("." + products).find("a.comprar").show();
+														$("." + product.id).find("a.comprar").show();
 													});
 												});
 											},
