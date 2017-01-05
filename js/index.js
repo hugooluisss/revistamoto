@@ -177,11 +177,11 @@ var app = {
 			var i= 0;
 			var usuario = window.localStorage.getItem("usuario");
 			if (usuario == undefined){
-				$("#btnLogin").show();
+				$("#btnLogin").hide();
 				$("#btnPerfil").hide();
 			}else{
 				$("#btnLogin").hide();
-				$("#btnPerfil").show();
+				$("#btnPerfil").hide();
 			}
 			
 			$.get("vistas/inicio.html", function(resp){
@@ -267,7 +267,8 @@ var app = {
 											},
 											purchase: function (transactionId, productId, receipt){
 												//esta función se ejecuta cuando el usuario realizar una compra
-												console.info("Producto comprado " + productID);
+												console.info("Producto comprado " + productId);
+												descargarRevista(productId.substring(7, productId.length - 1));
 											},
 											restore: function (transactionId, productId, transactionReceipt) {
 												//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
