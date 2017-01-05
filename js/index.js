@@ -345,7 +345,7 @@ var app = {
 			
 			statusDom = $("<div />");
 			
-			$("." + productId).append(statusDom);
+			$(".edicion" + edicion).append(statusDom);
 			
 			fileTransfer.onprogress(function(){
 				if (progressEvent.lengthComputable) {
