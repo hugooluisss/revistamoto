@@ -259,6 +259,10 @@ var app = {
 													$.each(products, function(i, product){
 														$("." + product.id).find("a.comprar").show();
 													});
+													
+													$.each(invalidIds, function(i, product){
+														$("." + product.id).hide();
+													});
 												});
 											},
 											purchase: function (transactionId, productId, receipt){
@@ -294,7 +298,7 @@ var app = {
 							
 							plantilla.find("a.comprar").click(function(){
 								var el = $(this);
-								console.info("Comprando " + el.attr("productId"));
+								console.info("Comprando " + el.attr("edicion"));
 								
 								storekit.purchase(el.attr("productId"));
 							});
