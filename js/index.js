@@ -222,7 +222,7 @@ var app = {
 							
 							plantilla.find("a.ver").hide();
 							plantilla.find("a.comprar").hide();
-							
+							plantilla.hide();
 							plantilla.find("a.comprar").attr("productId", revista.edicion);
 							
 							db.transaction(function(tx){
@@ -230,12 +230,14 @@ var app = {
 									if (res.rows.length > 0)
 										plantilla.find("a.ver").show();
 									else{
-										if (revista.estatus == "gratis")
+										if (revista.estatus == "gratis"){
 											plantilla.find("a.ver").show();
-										else{					
-											if (suscripcion != '' && suscripcion != null)
+											plantilla.show();
+										}else{					
+											if (suscripcion != '' && suscripcion != null){
 												plantilla.find("a.ver").show();
-											else{
+												plantilla.show();
+											}else{
 												//plantilla.find("a.comprar").show();
 												plantilla.addClass("edicion" + revista.edicion);
 												plantilla.find("a.comprar").attr("edicion", "edicion" + revista.edicion);
@@ -259,6 +261,7 @@ var app = {
 													console.log(products, invalidIds);
 													
 													$.each(products, function(i, product){
+														$("." + product.id).show();
 														$("." + product.id).find("a.comprar").show();
 													});
 													
@@ -274,6 +277,7 @@ var app = {
 											},
 											restore: function (transactionId, productId, transactionReceipt) {
 												//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
+												console.info("Restauracion: " + productId);
 												console.info("El producto ya habia sido comprado");
 											},
 											error:    function (errorCode, errorMessage) {
@@ -351,12 +355,16 @@ var app = {
 				if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
 					statusDom.innerHTML = perc + "% Leido...";
+					
+					console.log(perc);
 				} else {
 					if(statusDom.innerHTML == "") {
 						statusDom.innerHTML = "Leyendo";
 					} else {
 						statusDom.innerHTML += ".";
 					}
+					
+					console.log(statusDom.innerHTML);
 				}
 			}
 			
@@ -397,6 +405,7 @@ var app = {
 				tx.executeSql('drop table if exists revista');
 				
 				tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(ts, res){
+					tx.executeSql('delete from revista');
 					console.log("Tabla Revistas creada");
 				}, errorDB);
 			});
