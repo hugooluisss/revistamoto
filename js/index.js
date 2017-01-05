@@ -285,6 +285,8 @@ var app = {
 												alert('Error: ' + errorMessage);
 											}
 										});
+										
+										storekit.restore();
 									}
 								}, errorDB);
 							});
