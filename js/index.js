@@ -208,6 +208,9 @@ var app = {
 						var ediciones = new Array;
 						var suscripcion = window.localStorage.getItem("suscripcion");
 						var contRevistas = 0;
+						
+						ediciones.push("suscripcion");
+						
 						$.each(revistas, function(i, revista){
 							var plantilla = resp;
 							plantilla = $(plantilla);
@@ -237,40 +240,7 @@ var app = {
 								ediciones.push("edicion" + revista.edicion);
 								plantilla.find("a.comprar").show();
 							}
-								
-							
-							/*
-							db.transaction(function(tx){
-								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
-									if (res.rows.length > 0)
-										plantilla.find("a.ver").show();
-									else{
-										if (revista.estatus == "gratis"){
-											plantilla.find("a.ver").show();
-											plantilla.show();
-										}else{					
-											if (suscripcion != '' && suscripcion != null){
-												plantilla.find("a.ver").show();
-												plantilla.show();
-											}else{
-												//plantilla.find("a.comprar").show();
-												plantilla.addClass("edicion" + revista.edicion);
-												plantilla.find("a.comprar").attr("edicion", "edicion" + revista.edicion);
-												plantilla.find("a.comprar").attr("direccion", revista.link);
-												
-												ediciones.push("edicion" + revista.edicion);
-											}
-										}
-									}
-									
-									contRevistas++;
-									
-									if (contRevistas >= revistas.length){										
-										storekit.restore();
-									}
-								}, errorDB);
-							});
-							*/
+
 							plantilla.find("a.ver").click(function(){
 								db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
@@ -293,6 +263,7 @@ var app = {
 							});
 						});
 						
+						var bandSuscripcion = false;
 						storekit.init({
 							debug:    true, // Enable IAP messages on the console
 							ready:    function(){ 
@@ -313,6 +284,13 @@ var app = {
 								});
 							},
 							purchase: function (transactionId, productId, receipt){
+								if (productId == 'suscripcion'){
+									bandSuscripcion = false;
+									
+									$("a.ver").show();
+									$("a.comprar").hide();
+								}
+								
 								//esta función se ejecuta cuando el usuario realizar una compra
 								console.info("Producto comprado " + productId);
 								var edicion = productId.substring(7, productId.length);
@@ -398,24 +376,6 @@ var app = {
 			var fileURL = fileEntry.toURL();
 			$(".edicion" + edicion).find(".fa-spin").show();
 			
-			/*
-			var statusDom = $("div");
-			
-			$(".edicion" + edicion).append(statusDom);
-			
-			fileTransfer.onprogress = function(progressEvent){
-				if (progressEvent.lengthComputable) {
-					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
-					statusDom.innerHTML = perc + "% Leido...";
-				} else {
-					if(statusDom.innerHTML == "") {
-						statusDom.innerHTML = "Leyendo";
-					} else {
-						statusDom.innerHTML += ".";
-					}
-				}
-			}
-			*/
 			fileTransfer.download(
 				uri,
 				fileURL,
