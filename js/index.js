@@ -395,11 +395,11 @@ var app = {
 		function download(fileEntry, uri, edicion) {
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
-			
+			/*
 			var statusDom = $("div");
 			
 			$(".edicion" + edicion).append(statusDom);
-			/*
+			
 			fileTransfer.onprogress = function(progressEvent){
 				if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
@@ -413,7 +413,6 @@ var app = {
 				}
 			}
 			*/
-			//console.log(fileTransfer, fileURL);
 			fileTransfer.download(
 				uri,
 				fileURL,
@@ -431,7 +430,9 @@ var app = {
 					
 					db.transaction(function(tx){
 						tx.executeSql("insert into revista (edicion, ruta) values (?, ?)", [edicion, fileEntry.nativeURL], function(){
-							home();
+							$(".edicion" + edicion).find("a.comprar").hide();
+							$(".edicion" + edicion).find("a.ver").show();
+							//home();
 						});
 					});
 					
