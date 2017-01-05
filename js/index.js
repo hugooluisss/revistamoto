@@ -314,28 +314,35 @@ var app = {
 							},
 							restore: function (transactionId, productId, transactionReceipt) {
 								//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
-								console.info("Restauracion: " + productId);
-								
-								var edicion = productId.substring(7, productId.length);
-								var link = $("." + productId).find("a.comprar").attr("direccion");
-								
-								if (link == "" || link === undefined)
-									console.log("Error, no se tiene la dirección de descarga de " + productId);
-								else{
-									db.transaction(function(tx){
-										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
-											if (res.rows.length <= 0)
-												alertify.confirm("Se encontró que la edición " + edicion + " ya la compraste pero no está descargada en el dispositivo ¿Deseas iniciar su descarga?", function(e){
-													if (e){
-														console.info(edicion, link);
-														descargarRevista(edicion, link);
-													}
-												});
-										}, errorDB);
-									});
+								if (productId == "suscripcion"){
+									suscripcionGeneral = true;
+									
+									$("a.ver").show();
+									$("a.comprar").hide();
+								}else{
+									console.info("Restauracion: " + productId);
+									
+									var edicion = productId.substring(7, productId.length);
+									var link = $("." + productId).find("a.comprar").attr("direccion");
+									
+									if (link == "" || link === undefined)
+										console.log("Error, no se tiene la dirección de descarga de " + productId);
+									else{
+										db.transaction(function(tx){
+											tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
+												if (res.rows.length <= 0)
+													alertify.confirm("Se encontró que la edición " + edicion + " ya la compraste pero no está descargada en el dispositivo ¿Deseas iniciar su descarga?", function(e){
+														if (e){
+															console.info(edicion, link);
+															descargarRevista(edicion, link);
+														}
+													});
+											}, errorDB);
+										});
+									}
 								}
 							},
-							error:    function (errorCode, errorMessage) {
+							error: function (errorCode, errorMessage) {
 								//callback de un error ocurrido
 								alert('Error: ' + errorMessage);
 							}
