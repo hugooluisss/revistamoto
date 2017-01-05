@@ -342,8 +342,10 @@ var app = {
 										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
 											if (res.rows.length <= 0)
 												alertify.confirm("Se encontró que la edición " + edicion + " ya la compraste pero no está descargada en el dispositivo ¿Deseas iniciar su descarga?", function(e){
-													if (e)
+													if (e){
+														console.info(edicion, link);
 														descargarRevista(edicion, link);
+													}
 												});
 										}, errorDB);
 									});
