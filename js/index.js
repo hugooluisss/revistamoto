@@ -177,7 +177,7 @@ var app = {
 		
 		function home(){
 			var i= 0;
-			//var usuario = window.localStorage.getItem("usuario");
+			var usuario = window.localStorage.getItem("usuario");
 			if (suscripcionGeneral){
 				$("#btnLogin").show();
 				$("#btnPerfil").hide();
@@ -289,26 +289,28 @@ var app = {
 								if (productId == 'suscripcion'){
 									bandSuscripcion = false;
 									
-									$("a.ver").show();
-									$("a.comprar").hide();
+									//$("a.ver").show();
+									//$("a.comprar").hide();
 									suscripcionGeneral = true;
+									
+									$("#winDatos").modal("hide");
+								}else{
+									//esta función se ejecuta cuando el usuario realizar una compra
+									console.info("Producto comprado " + productId);
+									var edicion = productId.substring(7, productId.length);
+									var link = $("." + productId).find("a.comprar").attr("direccion");
+									
+									db.transaction(function(tx){
+										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
+											if (res.rows.length <= 0)
+												descargarRevista(edicion, link);
+											else{
+												window.open(res.rows.item(0).ruta, '_blank');
+												window.openFileNative.open(res.rows.item(0).ruta);
+											}
+										}, errorDB);
+									});
 								}
-								
-								//esta función se ejecuta cuando el usuario realizar una compra
-								console.info("Producto comprado " + productId);
-								var edicion = productId.substring(7, productId.length);
-								var link = $("." + productId).find("a.comprar").attr("direccion");
-								
-								db.transaction(function(tx){
-									tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
-										if (res.rows.length <= 0)
-											descargarRevista(edicion, link);
-										else{
-											window.open(res.rows.item(0).ruta, '_blank');
-											window.openFileNative.open(res.rows.item(0).ruta);
-										}
-									}, errorDB);
-								});
 							},
 							restore: function (transactionId, productId, transactionReceipt) {
 								//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
