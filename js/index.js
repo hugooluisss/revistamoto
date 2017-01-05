@@ -154,7 +154,7 @@ var app = {
 				$("#btnMembresia").click(function(){
 					$("#revista").hide();
 					
-					storekit.purchase("suscripcion");
+					//storekit.purchase("suscripcion");
 					/*
 					
 					$("#winPago").find("#txtMonto").text("$ " + precioSuscripcion);
@@ -303,8 +303,7 @@ var app = {
 									db.transaction(function(tx){
 										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
 											if (res.rows.length <= 0)
-												alert(edicion);
-												//descargarRevista(edicion, link);
+												descargarRevista(edicion, link);
 											else{
 												window.open(res.rows.item(0).ruta, '_blank');
 												window.openFileNative.open(res.rows.item(0).ruta);
