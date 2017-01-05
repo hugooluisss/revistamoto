@@ -225,6 +225,16 @@ var app = {
 							plantilla.hide();
 							plantilla.find("a.comprar").attr("productId", revista.edicion);
 							
+							if (revista.estatus == "gratis"){
+								plantilla.find("a.ver").show();
+								plantilla.show();
+							}else{
+								ediciones.push("edicion" + revista.edicion);
+								plantilla.find("a.comprar").show();
+							}
+								
+							
+							/*
 							db.transaction(function(tx){
 								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 									if (res.rows.length > 0)
@@ -250,47 +260,12 @@ var app = {
 									
 									contRevistas++;
 									
-									if (contRevistas >= revistas.length){
-										storekit.init({
-											debug:    true, // Enable IAP messages on the console
-											ready:    function(){ 
-												 /*puede ser un array de strings ['pro1',['prod2'],...*/
-												console.log(ediciones);
-												storekit.load(ediciones, function (products, invalidIds) {
-													//se deben cargar los productos de la tienda para poder usarlos después			     
-													console.log(products, invalidIds);
-													
-													$.each(products, function(i, product){
-														$("." + product.id).show();
-														$("." + product.id).find("a.comprar").show();
-													});
-													
-													$.each(invalidIds, function(i, product){
-														$("." + product).hide();
-													});
-												});
-											},
-											purchase: function (transactionId, productId, receipt){
-												//esta función se ejecuta cuando el usuario realizar una compra
-												console.info("Producto comprado " + productId);
-												descargarRevista(productId.substring(7, productId.length), $("." + productId).find("a.comprar").attr("direccion"));
-											},
-											restore: function (transactionId, productId, transactionReceipt) {
-												//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
-												console.info("Restauracion: " + productId);
-												console.info("El producto ya habia sido comprado");
-											},
-											error:    function (errorCode, errorMessage) {
-												//callback de un error ocurrido
-												alert('Error: ' + errorMessage);
-											}
-										});
-										
+									if (contRevistas >= revistas.length){										
 										storekit.restore();
 									}
 								}, errorDB);
 							});
-							
+							*/
 							plantilla.find("a.ver").click(function(){
 								db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
@@ -312,6 +287,73 @@ var app = {
 								storekit.purchase(el.attr("edicion"));
 							});
 						});
+						
+						storekit.init({
+							debug:    true, // Enable IAP messages on the console
+							ready:    function(){ 
+								 /*puede ser un array de strings ['pro1',['prod2'],...*/
+								console.log(ediciones);
+								storekit.load(ediciones, function (products, invalidIds) {
+									//se deben cargar los productos de la tienda para poder usarlos después			     
+									console.log(products, invalidIds);
+									
+									$.each(products, function(i, product){
+										$("." + product.id).show();
+										$("." + product.id).find("a.comprar").show();
+									});
+									
+									$.each(invalidIds, function(i, product){
+										$("." + product).hide();
+									});
+								});
+							},
+							purchase: function (transactionId, productId, receipt){
+								//esta función se ejecuta cuando el usuario realizar una compra
+								console.info("Producto comprado " + productId);
+								var edicion = productId.substring(7, productId.length);
+								var link = $("." + productId).find("a.comprar").attr("direccion");
+								
+								db.transaction(function(tx){
+									tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
+										if (res.rows.length <= 0)
+											descargarRevista(edicion, link);
+										else{
+											window.open(res.rows.item(0).ruta, '_blank');
+											window.openFileNative.open(res.rows.item(0).ruta);
+										}
+									}, errorDB);
+								});
+							},
+							restore: function (transactionId, productId, transactionReceipt) {
+								//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
+								console.info("Restauracion: " + productId);
+								console.info("El producto ya habia sido comprado");
+								
+								var edicion = productId.substring(7, productId.length);
+								var link = $("." + productId).find("a.comprar").attr("direccion");
+								
+								if (link == "" || link === undefined)
+									console.log("Error, no se tiene la dirección de descarga de " + productId);
+								else{
+									db.transaction(function(tx){
+										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
+											if (res.rows.length <= 0)
+												alertify.confirm("Se encontró que la edición " + edicion + " ya la compraste pero no está descargada en el dispositivo ¿Deseas iniciar su descarga?", function(e){
+													if (e)
+														descargarRevista(edicion, link);
+												});
+										}, errorDB);
+									});
+								}
+							},
+							error:    function (errorCode, errorMessage) {
+								//callback de un error ocurrido
+								alert('Error: ' + errorMessage);
+							}
+						});
+						
+						storekit.restore();
+						
 					});
 				}, "json");
 			});
@@ -371,14 +413,17 @@ var app = {
 				uri,
 				fileURL,
 				function (entry) {
+					/*
 					console.log("Successful download...");
 					console.log("download complete: " + entry.toURL());
 					console.log(fileEntry);
 					console.log(entry);
 					console.log(entry.toURL());
+					*/
 					window.open(fileEntry.nativeURL, '_blank');
 					window.openFileNative.open(fileEntry.nativeURL);
-					alertify.success("El contenido se ha descargado");
+					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
+					
 					db.transaction(function(tx){
 						tx.executeSql("insert into revista (edicion, ruta) values (?, ?)", [edicion, fileEntry.nativeURL], function(){
 							home();
