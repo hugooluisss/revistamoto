@@ -347,7 +347,7 @@ var app = {
 			
 			$(".edicion" + edicion).append(statusDom);
 			
-			fileTransfer.onprogress(function(){
+			fileTransfer.onprogress = function(progressEvent){
 				if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
 					statusDom.innerHTML = perc + "% Leido...";
@@ -358,7 +358,7 @@ var app = {
 						statusDom.innerHTML += ".";
 					}
 				}
-			});
+			}
 			
 			//console.log(fileTransfer, fileURL);
 			fileTransfer.download(
