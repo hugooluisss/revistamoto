@@ -224,6 +224,8 @@ var app = {
 							plantilla.find("a.comprar").hide();
 							plantilla.hide();
 							plantilla.find("a.comprar").attr("productId", revista.edicion);
+							plantilla.find("a.comprar").attr("edicion", "edicion" + revista.edicion);
+							plantilla.find("a.comprar").attr("direccion", revista.link);
 							
 							if (revista.estatus == "gratis"){
 								plantilla.find("a.ver").show();
@@ -327,7 +329,6 @@ var app = {
 							restore: function (transactionId, productId, transactionReceipt) {
 								//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
 								console.info("Restauracion: " + productId);
-								console.info("El producto ya habia sido comprado");
 								
 								var edicion = productId.substring(7, productId.length);
 								var link = $("." + productId).find("a.comprar").attr("direccion");
