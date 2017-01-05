@@ -347,7 +347,7 @@ var app = {
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
 			
-			statusDom = $("<div />");
+			var statusDom = $("div");
 			
 			$(".edicion" + edicion).append(statusDom);
 			
@@ -355,16 +355,12 @@ var app = {
 				if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
 					statusDom.innerHTML = perc + "% Leido...";
-					
-					console.log(perc);
 				} else {
 					if(statusDom.innerHTML == "") {
 						statusDom.innerHTML = "Leyendo";
 					} else {
 						statusDom.innerHTML += ".";
 					}
-					
-					console.log(statusDom.innerHTML);
 				}
 			}
 			
