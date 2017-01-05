@@ -263,7 +263,7 @@ var app = {
 													});
 													
 													$.each(invalidIds, function(i, product){
-														$("." + product.id).hide();
+														$("." + product).hide();
 													});
 												});
 											},
@@ -343,7 +343,24 @@ var app = {
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
 			
-			console.log(fileTransfer, fileURL);
+			statusDom = $("<div />");
+			
+			$("." + productId).append(statusDom);
+			
+			fileTransfer.onprogress(function(){
+				if (progressEvent.lengthComputable) {
+					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
+					statusDom.innerHTML = perc + "% Leido...";
+				} else {
+					if(statusDom.innerHTML == "") {
+						statusDom.innerHTML = "Leyendo";
+					} else {
+						statusDom.innerHTML += ".";
+					}
+				}
+			});
+			
+			//console.log(fileTransfer, fileURL);
 			fileTransfer.download(
 				uri,
 				fileURL,
