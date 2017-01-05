@@ -300,7 +300,7 @@ var app = {
 								var el = $(this);
 								console.info("Comprando " + el.attr("edicion"));
 								
-								storekit.purchase(el.attr("productId"));
+								storekit.purchase(el.attr("edicion"));
 							});
 						});
 					});
