@@ -223,6 +223,8 @@ var app = {
 							plantilla.find("a.ver").hide();
 							plantilla.find("a.comprar").hide();
 							plantilla.hide();
+							
+							plantilla.addClass("edicion" + revista.edicion);
 							plantilla.find("a.comprar").attr("productId", revista.edicion);
 							plantilla.find("a.comprar").attr("edicion", "edicion" + revista.edicion);
 							plantilla.find("a.comprar").attr("direccion", revista.link);
