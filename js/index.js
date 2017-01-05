@@ -303,7 +303,8 @@ var app = {
 									db.transaction(function(tx){
 										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
 											if (res.rows.length <= 0)
-												descargarRevista(edicion, link);
+												alert(edicion);
+												//descargarRevista(edicion, link);
 											else{
 												window.open(res.rows.item(0).ruta, '_blank');
 												window.openFileNative.open(res.rows.item(0).ruta);
