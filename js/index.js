@@ -1,9 +1,7 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/";
-
-//server = "http://192.168.2.4/webservicesmotos/";
-//sistemaPago = "http://192.168.2.4/webservicesmotos/";
+var suscripcionGeneral = true;
 
 var db = null;
 var precioRevista = "26.00";
@@ -143,10 +141,10 @@ var app = {
 				var suscripcion = window.localStorage.getItem("suscripcion");
 				
 				resp.find("[campo=usuario]").html(usuario);
-				resp.find("[campo=suscripcion]").html(suscripcion == ''?"Sin suscripción":suscripcion);
+				//resp.find("[campo=suscripcion]").html(suscripcion == ''?"Sin suscripción":suscripcion);
 				
 				$("#winDatos").find(".modal-body").html(resp);
-				if (suscripcion == '')
+				if (suscripcionGeneral == '')
 					$("#btnMembresia").show();
 				else
 					$("#btnMembresia").hide();
@@ -155,6 +153,9 @@ var app = {
 				
 				$("#btnMembresia").click(function(){
 					$("#revista").hide();
+					
+					storekit.purchase("suscripcion");
+					/*
 					
 					$("#winPago").find("#txtMonto").text("$ " + precioSuscripcion);
 					$("#winPago").find(".modal-title").text("Compra de suscripción");
@@ -165,6 +166,7 @@ var app = {
 					
 					
 					$("#winRegistro").modal();
+					*/
 				});
 			});
 		});
@@ -177,11 +179,11 @@ var app = {
 			var i= 0;
 			var usuario = window.localStorage.getItem("usuario");
 			if (usuario == undefined){
-				$("#btnLogin").hide();
+				$("#btnLogin").show();
 				$("#btnPerfil").hide();
 			}else{
 				$("#btnLogin").hide();
-				$("#btnPerfil").hide();
+				$("#btnPerfil").show();
 			}
 			
 			$.get("vistas/inicio.html", function(resp){
@@ -206,7 +208,7 @@ var app = {
 				$.get(server + 'getRevistas.php', function(revistas){
 					$.get("vistas/revista.html", function(resp){
 						var ediciones = new Array;
-						var suscripcion = window.localStorage.getItem("suscripcion");
+						//var suscripcion = window.localStorage.getItem("suscripcion");
 						var contRevistas = 0;
 						
 						ediciones.push("suscripcion");
@@ -289,6 +291,7 @@ var app = {
 									
 									$("a.ver").show();
 									$("a.comprar").hide();
+									suscripcionGeneral = true;
 								}
 								
 								//esta función se ejecuta cuando el usuario realizar una compra
@@ -438,5 +441,5 @@ var app = {
 app.initialize();
 
 $(document).ready(function(){
-	//app.onDeviceReady();
+	app.onDeviceReady();
 });
