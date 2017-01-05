@@ -222,6 +222,7 @@ var app = {
 							
 							plantilla.find("a.ver").hide();
 							plantilla.find("a.comprar").hide();
+							plantilla.find(".fa-spin").hide();
 							plantilla.hide();
 							
 							plantilla.addClass("edicion" + revista.edicion);
@@ -395,6 +396,8 @@ var app = {
 		function download(fileEntry, uri, edicion) {
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
+			$(".edicion" + edicion).find(".fa-spin").show();
+			
 			/*
 			var statusDom = $("div");
 			
@@ -427,7 +430,7 @@ var app = {
 					window.open(fileEntry.nativeURL, '_blank');
 					window.openFileNative.open(fileEntry.nativeURL);
 					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
-					
+					$(".edicion" + edicion).find(".fa-spin").hide();
 					db.transaction(function(tx){
 						tx.executeSql("insert into revista (edicion, ruta) values (?, ?)", [edicion, fileEntry.nativeURL], function(){
 							$(".edicion" + edicion).find("a.comprar").hide();
@@ -438,6 +441,7 @@ var app = {
 					
 		        },
 		        function (error) {
+		        	$(".edicion" + edicion).find(".fa-spin").hide();
 		            console.log("download error source " + error.source);
 		            console.log("download error target " + error.target);
 		            console.log("upload error code" + error.code);
@@ -471,8 +475,8 @@ var app = {
 	}
 };
 
-//app.initialize();
+app.initialize();
 
 $(document).ready(function(){
-	app.onDeviceReady();
+	//app.onDeviceReady();
 });
