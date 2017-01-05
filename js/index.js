@@ -399,7 +399,7 @@ var app = {
 			var statusDom = $("div");
 			
 			$(".edicion" + edicion).append(statusDom);
-			
+			/*
 			fileTransfer.onprogress = function(progressEvent){
 				if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
@@ -412,7 +412,7 @@ var app = {
 					}
 				}
 			}
-			
+			*/
 			//console.log(fileTransfer, fileURL);
 			fileTransfer.download(
 				uri,
