@@ -1,7 +1,7 @@
 var server = "http://revistamoto.com/m/www/app/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/";
-var suscripcionGeneral = true;
+var suscripcionGeneral = false;
 
 var db = null;
 var precioRevista = "26.00";
@@ -177,8 +177,8 @@ var app = {
 		
 		function home(){
 			var i= 0;
-			var usuario = window.localStorage.getItem("usuario");
-			if (usuario == undefined){
+			//var usuario = window.localStorage.getItem("usuario");
+			if (suscripcionGeneral){
 				$("#btnLogin").show();
 				$("#btnPerfil").hide();
 			}else{
