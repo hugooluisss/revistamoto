@@ -340,7 +340,8 @@ var app = {
 		function download(fileEntry, uri, edicion) {
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
-		
+			
+			console.log(fileTransfer, fileURL);
 			fileTransfer.download(
 				uri,
 				fileURL,
