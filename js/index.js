@@ -205,7 +205,7 @@ var app = {
 				//Se obtienen todas las revistas
 				$.get(server + 'getRevistas.php', function(revistas){
 					$.get("vistas/revista.html", function(resp){
-						
+						var ediciones = new Array;
 						var suscripcion = window.localStorage.getItem("suscripcion");
 						
 						$.each(revistas, function(i, revista){
@@ -223,7 +223,7 @@ var app = {
 							plantilla.find("a.ver").hide();
 							plantilla.find("a.comprar").hide();
 							
-							plantilla.find("a.comprar").attr("edicion", revista.edicion);
+							plantilla.find("a.comprar").attr("productId", revista.edicion);
 							
 							db.transaction(function(tx){
 								tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
@@ -235,8 +235,12 @@ var app = {
 										else{					
 											if (suscripcion != '' && suscripcion != null)
 												plantilla.find("a.ver").show();
-											else
-												plantilla.find("a.comprar").show();
+											else{
+												//plantilla.find("a.comprar").show();
+												plantilla..addClass("edicion" + revista.edicion);
+												plantilla.find("a.comprar").attr("edicion", "edicion" + revista.edicion);
+												ediciones.push("edicion" + revista.edicion);
+											}
 										}
 									}
 								}, errorDB);
@@ -258,11 +262,38 @@ var app = {
 							
 							plantilla.find("a.comprar").click(function(){
 								var el = $(this);
-								alert(el.attr("edicion"));
+								console.info("Comprando " + el.attr("productId"));
 								
-								storekit.purchase('edicion159');
-								storekit.purchase('com.revistamoto.appios.edicion159');
+								storekit.purchase(el.attr("productId"));
 							});
+							
+							storekit.init({
+								debug:    true, // Enable IAP messages on the console
+								ready:    function(){ 
+									 /*puede ser un array de strings ['pro1',['prod2'],...*/
+									storekit.load(ediciones, function (products, invalidIds) {
+										//se deben cargar los productos de la tienda para poder usarlos después			     
+										console.log(products, invalidIds);
+										
+										$.each(products, function(i, product){
+											$("." + products).find("a.comprar").show();
+										});
+									});
+								},
+								purchase: function (transactionId, productId, receipt){
+									//esta función se ejecuta cuando el usuario realizar una compra
+									console.info("Producto comprado " + productID);
+								},
+								restore: function (transactionId, productId, transactionReceipt) {
+									//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
+									console.info("El producto ya habia sido comprado");
+								},
+								error:    function (errorCode, errorMessage) {
+									//callback de un error ocurrido
+									alert('Error: ' + errorMessage);
+								}
+							});
+
 						});
 					});
 				}, "json");
@@ -350,37 +381,11 @@ var app = {
 		function errorDB(tx, res){
 			console.log("Error: " + res.message);
 		}
-		
-		storekit.init({
-			debug:    true, // Enable IAP messages on the console
-			ready:    function(){ 
-				 /*puede ser un array de strings ['pro1',['prod2'],...*/
-				storekit.load(["com.revistamoto.appios.edicion160", "com.revistamoto.appios.edicion159", "edicion159", "edicion160", '1190032144'], function (products, invalidIds) {
-					//se deben cargar los productos de la tienda para poder usarlos después			     
-					console.log(products, invalidIds);
-				});
-			},
-			purchase: function (transactionId, productId, receipt){
-				//esta función se ejecuta cuando el usuario realizar una compra
-				if(productId == 'com.revistamoto.appios.edicion159'){
-					//validamos que el ID del producto proveniente de iTunes Connect sea igual a los que hay en la aplicación
-					console.info("Producto Ok");
-				}
-			},
-			restore: function (transactionId, productId, transactionReceipt) {
-				//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
-				console.info("El producto ya habia sido comprado");
-			},
-			error:    function (errorCode, errorMessage) {
-				//callback de un error ocurrido
-				alert('Error: ' + errorMessage);
-			}
-		});
 	}
 };
 
-app.initialize();
+//app.initialize();
 
 $(document).ready(function(){
-	//app.onDeviceReady();
+	app.onDeviceReady();
 });
