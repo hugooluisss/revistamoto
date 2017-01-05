@@ -268,7 +268,7 @@ var app = {
 											purchase: function (transactionId, productId, receipt){
 												//esta función se ejecuta cuando el usuario realizar una compra
 												console.info("Producto comprado " + productId);
-												descargarRevista(productId.substring(7, productId.length - 1));
+												descargarRevista(productId.substring(7, productId.length));
 											},
 											restore: function (transactionId, productId, transactionReceipt) {
 												//esta función obtiene los productos anteriormente consumidos, así el usuario no paga nuevamente por algo que ya compró
@@ -282,7 +282,7 @@ var app = {
 									}
 								}, errorDB);
 							});
-								
+							
 							plantilla.find("a.ver").click(function(){
 								db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
