@@ -168,8 +168,8 @@ var app = {
 			var i= 0;
 			var usuario = window.localStorage.getItem("usuario");
 			var suscripcion = window.localStorage.getItem("suscripcion");
-			console.log("Usuario: " + usuario);
-			if (usuario == ''){
+			
+			if (usuario == '' || usuario == null || usuario === undefined){
 				$("#btnLogin").show();
 				$("#btnPerfil").hide();
 			}else{
