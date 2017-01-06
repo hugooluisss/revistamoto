@@ -97,6 +97,10 @@ var app = {
 					}, "json");
 				});
 				
+				$("#modulo #btnRegistro").click(function(){
+					$("#winRegistro").modal();
+				});
+				
 				$("#modulo #frmRegistro").submit(function(){
 					alertify.log("Estamos validando tus datos");
 					$("#frmRegistro").find("[type=submit]").prop("disabled", true);
@@ -435,7 +439,7 @@ var app = {
 				tx.executeSql('drop table if exists revista');
 				
 				tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(ts, res){
-					//tx.executeSql('delete from revista');
+					tx.executeSql('delete from revista');
 					console.log("Tabla Revistas creada");
 				}, errorDB);
 			});
@@ -452,8 +456,8 @@ var app = {
 	}
 };
 
-app.initialize();
+//app.initialize();
 
 $(document).ready(function(){
-	//app.onDeviceReady();
+	app.onDeviceReady();
 });
