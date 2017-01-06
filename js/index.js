@@ -378,18 +378,18 @@ var app = {
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
 			$(".edicion" + edicion).find(".fa-spin").show();
-			$(".edicion" + edicion).find(".fa-spin").html("0%");
+			$(".edicion" + edicion).find(".avance").html("0%");
 			
+			statusDom = $(".edicion" + edicion).find(".avance").html("0%");
 			
 			fileTransfer.onprogress = function(progressEvent) {
-				statusDom = $(".edicion" + edicion).find(".fa-spin").html("0%");
 				if (progressEvent.lengthComputable) {
 					var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
 					statusDom.html(perc + "%");
 					console.log(perc);
 				} else {
-				    if(statusDom.innerHTML == "") {
-				    statusDom.html("Descargando");
+				    if(statusDom.html() == "") {
+				    	statusDom.html("Descargando");
 					} else {
 						statusDom.html(statusDom.html() + ".");
 					}
@@ -412,6 +412,7 @@ var app = {
 						});
 					});
 					
+					statusDom.html("");
 		        },
 		        function (error) {
 		        	$(".edicion" + edicion).find(".fa-spin").hide();
@@ -420,6 +421,8 @@ var app = {
 		            console.log("upload error code" + error.code);
 		            
 		            alertify.error("Ocurrió un error al descargar");
+		            
+		            statusDom.html("");
 		        },
 		        null, {
 		        }
