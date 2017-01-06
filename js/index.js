@@ -139,12 +139,13 @@ var app = {
 				resp = $(resp);
 				var usuario = window.localStorage.getItem("usuario");
 				var suscripcion = window.localStorage.getItem("suscripcion");
+				suscripcion = suscripcionGeneral;
 				
 				resp.find("[campo=usuario]").html(usuario);
-				//resp.find("[campo=suscripcion]").html(suscripcion == ''?"Sin suscripción":suscripcion);
+				resp.find("[campo=suscripcion]").html(suscripcionGeneral == ''?"Sin suscripción":suscripcion);
 				
 				$("#winDatos").find(".modal-body").html(resp);
-				if (suscripcionGeneral == '')
+				if (suscripcionGeneral == false)
 					$("#btnMembresia").show();
 				else
 					$("#btnMembresia").hide();
@@ -166,7 +167,9 @@ var app = {
 		function home(){
 			var i= 0;
 			var usuario = window.localStorage.getItem("usuario");
-			if (suscripcionGeneral){
+			var suscripcion = window.localStorage.getItem("suscripcion");
+			
+			if (usuario == ''){
 				$("#btnLogin").show();
 				$("#btnPerfil").hide();
 			}else{
