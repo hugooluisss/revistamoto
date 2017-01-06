@@ -1,10 +1,69 @@
-body{
-	margin: 0px 0px 0px 0px;
+nav.navbar {
+  background: black;
+  min-height: 70px;
+}
+nav.navbar .brand {
+  position: absolute;
+  left: 50%;
+  margin-left: -70px !important;
+  /* 50% of your logo width */
+  display: block;
+}
+nav.navbar .brand #logo {
+  width: 160px;
+  margin-top: 5px;
+}
+#menu {
+  border-bottom: 1px solid #D8D8D8;
+  position: fixed;
+  top: 69px;
+  z-index: 9;
+}
+#menu a[role=button] {
+  border: none;
+  border-right: 1px solid #D8D8D8;
+}
+#menu a[role=button]:last-child {
+  border: none;
+}
+#modulo {
+  margin-top: 120px;
+  margin-bottom: 60px;
+}
+#modulo #frmFiltro {
+  margin-bottom: 10px;
+}
+#modulo #frmFiltro .input-group-addon {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+#modulo #frmFiltro #txtFiltro {
+  border: 1px solid #D8D8D8;
+  border-left-radius: 100px;
+}
+#modulo .revista h1 {
+  font-size: 18px;
+  margin-top: 1px;
+}
+#modulo .revista p {
+  font-size: 14px;
+  text-align: justify;
+}
+#modulo .revista [campo=contenido] br {
+  margin-bottom: 10px;
+}
+footer.navbar-fixed-bottom {
+  background: #1C1C1C;
+  color: white;
+  text-align: center;
+}
+footer.navbar-fixed-bottom h4 {
+  font-size: 12px;
+}
+#payment-card label.error {
+  color: red;
+  font-size: 10px;
+  font-weight: normal;
 }
 
-iframe{
-	width: 100%;
-	height: 100%;
-	margin: 0px 0px 0px 0px;
-	border: 0px;
-}
+/*# sourceMappingURL=style.css.map */
