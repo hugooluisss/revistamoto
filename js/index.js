@@ -154,19 +154,7 @@ var app = {
 				$("#btnMembresia").click(function(){
 					$("#revista").hide();
 					
-					//storekit.purchase("suscripcion");
-					/*
-					
-					$("#winPago").find("#txtMonto").text("$ " + precioSuscripcion);
-					$("#winPago").find(".modal-title").text("Compra de suscripción");
-					$("#winPago").find("#txtOrden").val("");
-					$("#winPago").find("#email2").val(window.localStorage.getItem("usuario"));
-					$("#winPago").find("#Email").val(window.localStorage.getItem("usuario"));
-					$("#winPago").modal({backdrop: false});
-					
-					
-					$("#winRegistro").modal();
-					*/
+					storekit.purchase("suscripcion");
 				});
 			});
 		});
@@ -392,13 +380,6 @@ var app = {
 				uri,
 				fileURL,
 				function (entry) {
-					/*
-					console.log("Successful download...");
-					console.log("download complete: " + entry.toURL());
-					console.log(fileEntry);
-					console.log(entry);
-					console.log(entry.toURL());
-					*/
 					window.open(fileEntry.nativeURL, '_blank');
 					window.openFileNative.open(fileEntry.nativeURL);
 					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
@@ -450,5 +431,5 @@ var app = {
 app.initialize();
 
 $(document).ready(function(){
-	app.onDeviceReady();
+	//app.onDeviceReady();
 });
