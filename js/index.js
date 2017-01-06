@@ -268,7 +268,8 @@ var app = {
 									
 									$.each(products, function(i, product){
 										$("." + product.id).show();
-										$("." + product.id).find("a.comprar").show();
+										if($("." + product.id).find("a.ver:hidden").length > 0)
+											$("." + product.id).find("a.comprar").show();
 									});
 									
 									$.each(invalidIds, function(i, product){
