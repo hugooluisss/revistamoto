@@ -439,7 +439,7 @@ var app = {
 				tx.executeSql('drop table if exists revista');
 				
 				tx.executeSql('CREATE TABLE IF NOT EXISTS revista (edicion integer primary key, ruta text)', [], function(ts, res){
-					tx.executeSql('delete from revista');
+					//tx.executeSql('delete from revista');
 					console.log("Tabla Revistas creada");
 				}, errorDB);
 			});
