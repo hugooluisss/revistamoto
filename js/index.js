@@ -467,7 +467,7 @@ $(document).ready(function(){
 	$.ajaxSetup({
 		error: function(jqXHR, textStatus, errorThrown) {
 			if (navigator.connection.type == Connection.NONE)
-				alertify.error("No existe conexión a internet");
+				alertify.error("No existe conexión a internet, para el correcto funcionamiento de la aplicación es necesario contar con internet");
 			else
 				alertify.error("No se pudo establecer conexión con el servidor, verifica tu conexión a internet");
 			
