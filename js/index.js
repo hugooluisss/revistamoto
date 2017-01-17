@@ -4,8 +4,6 @@ var sistemaPago = "http://revistamoto.com/m/www/app/";
 var suscripcionGeneral = false;
 
 var db = null;
-var precioRevista = "26.00";
-var precioSuscripcion = "179.00";
 
 var app = {
 	// Application Constructor
@@ -160,6 +158,10 @@ var app = {
 					$("#revista").hide();
 					
 					storekit.purchase("suscripcion");
+				});
+				
+				$("#terminosCondiciones").click(function(){
+					$("#winTerminosCondiciones").modal("show");
 				});
 			});
 		});
@@ -339,8 +341,9 @@ var app = {
 								}
 							},
 							error: function (errorCode, errorMessage) {
-								//callback de un error ocurrido
-								alert('Error: ' + errorMessage);
+								//callback de un error< ocurrido
+								alertify.error("<b>No se pudo conectar con la tienda de iTunes</b><br />");
+								//alert('Error: ' + errorMessage);
 							}
 						});
 						
@@ -460,4 +463,16 @@ app.initialize();
 
 $(document).ready(function(){
 	//app.onDeviceReady();
+	
+	$.ajaxSetup({
+		error: function(jqXHR, textStatus, errorThrown) {
+			if (navigator.connection.type == Connection.NONE)
+				alertify.error("No existe conexión a internet");
+			else
+				alertify.error("No se pudo establecer conexión con el servidor, verifica tu conexión a internet");
+			
+			$("#over").css("display", 'none');
+			$("#fade").css("display", 'none');
+		}
+	});
 });
