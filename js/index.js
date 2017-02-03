@@ -459,10 +459,26 @@ var app = {
 	}
 };
 
-app.initialize();
+//app.initialize();
 
 $(document).ready(function(){
-	//app.onDeviceReady();
+	$("a").click(function(){
+		$("#menuConfig").hide("slow");
+	});
+	
+	$("#menuConfig").hide();
+	
+	$(".menuConfiguracion").click(function(){
+		if ($("#menuConfig").css("display") == 'none')
+			$("#menuConfig").show("slow");
+		else
+			$("#menuConfig").hide("slow");
+	});
+	
+	$("#menuConfig").find(".politica").click(function(){
+		$("#winTerminosCondiciones").modal("show");
+		$("#menuConfig").hide("slow");
+	});
 	
 	$.ajaxSetup({
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -475,4 +491,6 @@ $(document).ready(function(){
 			$("#fade").css("display", 'none');
 		}
 	});
+	
+	app.onDeviceReady();
 });

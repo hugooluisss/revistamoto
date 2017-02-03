@@ -4,14 +4,13 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="css/style.css">
 		
 		<title>.:: Revista Moto ::.</title>
 		<script type="text/javascript" src="cordova.js"></script>
 		
 		<link href="librerias/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<script src="librerias/jquery.js"></script>
-		
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" href="librerias/awesome/css/font-awesome.min.css" />
 		<!--<link rel="stylesheet/less" type="text/css" href="css/style.less"/>-->
 	</head>
@@ -25,6 +24,10 @@
 					</a>
 				</div>
 			</div>
+			
+			<ul class="nav pull-right">
+                <li><a href="#" class="menuConfiguracion" onclick="javascript: return false;"><i class="fa fa-cog fa-2x fa-fw"></i></a></li>
+            </ul>
 		</nav>
 		
 		<div id="menu" class="btn-group btn-group-justified">
@@ -52,6 +55,12 @@
 					<i class="fa fa-info fa-stack-1x" aria-hidden="true"></i> 
 				</span> Mi sesión
 			</a>
+		</div>
+		
+		<div id="menuConfig">
+			<ul class="list-group">
+				<li class="list-group-item politica">Política de privacidad</li>
+			</ul>
 		</div>
 		<div id="modulo" class="container">
 		</div>

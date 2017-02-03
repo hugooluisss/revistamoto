@@ -1,6 +1,7 @@
 nav.navbar {
   background: black;
   min-height: 70px;
+  color: white;
 }
 nav.navbar .brand {
   position: absolute;
@@ -13,15 +14,32 @@ nav.navbar .brand #logo {
   width: 160px;
   margin-top: 5px;
 }
+nav.navbar ul.nav li {
+  float: left;
+  margin-top: 10px;
+}
+nav.navbar ul.nav li a {
+  color: white;
+}
+nav.navbar ul.nav li a:hover {
+  background: black;
+}
+#menuConfig {
+  z-index: 9999999;
+  width: 200px;
+  position: fixed;
+  top: 60px;
+  right: 40px;
+}
 #menu {
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid #d8d8d8;
   position: fixed;
   top: 69px;
   z-index: 9;
 }
 #menu a[role=button] {
   border: none;
-  border-right: 1px solid #D8D8D8;
+  border-right: 1px solid #d8d8d8;
 }
 #menu a[role=button]:last-child {
   border: none;
@@ -38,7 +56,7 @@ nav.navbar .brand #logo {
   border-bottom-left-radius: 20px;
 }
 #modulo #frmFiltro #txtFiltro {
-  border: 1px solid #D8D8D8;
+  border: 1px solid #d8d8d8;
   border-left-radius: 100px;
 }
 #modulo .revista h1 {
@@ -53,7 +71,7 @@ nav.navbar .brand #logo {
   margin-bottom: 10px;
 }
 footer.navbar-fixed-bottom {
-  background: #1C1C1C;
+  background: #1c1c1c;
   color: white;
   text-align: center;
 }

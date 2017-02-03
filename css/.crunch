@@ -11,8 +11,8 @@
 						"strictMath": false,
 						"strictUnits": false,
 						"javascriptEnabled": false,
-						"sourceMap": true,
-						"sourcemap": true
+						"sourcemap": true,
+						"sourceMap": true
 					}
 				}
 			],
