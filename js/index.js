@@ -346,9 +346,6 @@ var app = {
 								//alert('Error: ' + errorMessage);
 							}
 						});
-						
-						storekit.restore();
-						
 					});
 				}, "json");
 			});
@@ -478,6 +475,12 @@ $(document).ready(function(){
 	$("#menuConfig").find(".politica").click(function(){
 		$("#winTerminosCondiciones").modal("show");
 		$("#menuConfig").hide("slow");
+	});
+	
+	$("#menuConfig").find(".restaurarCompras").click(function(){
+		$("#menuConfig").hide("slow");
+		
+		storekit.restore();
 	});
 	
 	$.ajaxSetup({
