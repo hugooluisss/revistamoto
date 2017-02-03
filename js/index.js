@@ -274,8 +274,10 @@ var app = {
 									
 									$.each(products, function(i, product){
 										$("." + product.id).show();
-										if($("." + product.id).find("a.ver:hidden").length > 0)
+										if($("." + product.id).find("a.ver:hidden").length > 0){
+											$("." + product.id).find("a.comprar").html($("." + product.id).find("a.comprar").html() + "(" + product.price + ")");
 											$("." + product.id).find("a.comprar").show();
+										}
 									});
 									
 									$.each(invalidIds, function(i, product){
