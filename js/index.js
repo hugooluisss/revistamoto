@@ -191,12 +191,15 @@ var app = {
 					
 					$(".revista").each(function(){
 						el = $(this);
-						if (texto == '')
-							el.show();
-						else if (el.find("[campo=descripción]").text().toUpperCase().search(texto) >= 1)
-							el.show();
-						else
-							el.hide();
+						
+						if (el.attr("busqueda") == 1){
+							if (texto == '')
+								el.show();
+							else if (el.find("[campo=descripción]").text().toUpperCase().search(texto) >= 1)
+								el.show();
+							else
+								el.hide();
+						}
 					});
 				});
 				
@@ -235,9 +238,11 @@ var app = {
 							if (revista.estatus == "gratis"){
 								plantilla.find("a.ver").show();
 								plantilla.show();
+								plantilla.attr("busqueda", 1);
 							}else{
 								ediciones.push("edicion" + revista.edicion);
 								plantilla.find("a.comprar").show();
+								plantilla.attr("busqueda", 0);
 							}
 
 							plantilla.find("a.ver").click(function(){
@@ -277,11 +282,13 @@ var app = {
 										if($("." + product.id).find("a.ver:hidden").length > 0){
 											$("." + product.id).find("a.comprar").html($("." + product.id).find("a.comprar").html() + "(" + product.price + ")");
 											$("." + product.id).find("a.comprar").show();
+											$("." + product.id).attr("busqueda", 1);
 										}
 									});
 									
 									$.each(invalidIds, function(i, product){
 										$("." + product).hide();
+										$("." + product.id).attr("busqueda", 0);
 									});
 								});
 							},
