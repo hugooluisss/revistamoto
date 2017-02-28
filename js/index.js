@@ -414,9 +414,13 @@ var app = {
 				uri,
 				fileURL,
 				function (entry) {
-					window.open(fileEntry.nativeURL, '_system', 'location=no');
+					//window.open(fileEntry.nativeURL, '_system', 'location=no');
 					//window.openFileNative.open(fileEntry.nativeURL);
 					//window.fileOpener.open(fileEntry.nativeURL);
+					window.cordova.plugins.FileOpener.canOpenFile(fileEntry.nativeURL, function(){ return true;}, function(){
+						console.log('message: '  + error.message);
+					});
+
 
 					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
 					$(".edicion" + edicion).find(".fa-spin").hide();
