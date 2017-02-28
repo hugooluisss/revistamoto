@@ -414,8 +414,8 @@ var app = {
 				uri,
 				fileURL,
 				function (entry) {
-					window.open(fileEntry.nativeURL, '_blank');
-					//window.openFileNative.open(fileEntry.nativeURL);
+					//window.open(fileEntry.nativeURL, '_blank');
+					window.openFileNative.open(fileEntry.nativeURL);
 					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
 					$(".edicion" + edicion).find(".fa-spin").hide();
 					db.transaction(function(tx){
