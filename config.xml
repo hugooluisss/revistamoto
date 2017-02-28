@@ -61,6 +61,7 @@
 		<plugin name="cordova-plugin-network-information" source="npm"/>
 		<plugin name="cordova-plugin-whitelist" source="npm"/>
 		<plugin name="cordova-plugin-openfilenative" source="npm"/>
+		<plugin name="cordova-plugin-fileopener" source="npm"/>
 		<!--<plugin name="cc.fovea.cordova.purchase" source="npm" version="6.0.0"/>-->
 		<gap:plugin name="cc.fovea.cordova.purchase" source="npm"/>
 
