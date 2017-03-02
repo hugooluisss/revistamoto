@@ -62,7 +62,7 @@ var app = {
 				});
 				
 				$.get("https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/163.pdf", function(resp){
-					$("rev").html(resp);
+					$("#rev").html(resp);
 				});
 			});
 		});
