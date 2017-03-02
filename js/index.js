@@ -61,7 +61,9 @@ var app = {
 					}, "json");
 				});
 				
-				$('a.embed').zohoViewer({width: 600, height: 750});
+				$.get("https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/163.pdf", function(resp){
+					$("rev").html(resp);
+				});
 			});
 		});
 		
