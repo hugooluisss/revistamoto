@@ -420,7 +420,7 @@ var app = {
 					var a = $("<a />", {
 						"src": fileEntry.nativeURL
 					});
-					a<.media({width:500, height:400});
+					a.media({width:500, height:400});
 					
 					window.cordova.plugins.FileOpener.canOpenFile(fileEntry.nativeURL, function(){ return true;}, function(){
 						console.log('message: '  + error.message);
