@@ -120,5 +120,6 @@
 			
 		<allow-navigation href="https://www.google.com/maps/embed/*" />
 		<allow-navigation href="https://docs.google.com/viewer/*" />
+		<allow-navigation href="http://revistamoto.com/*" />
 
 	</widget>
