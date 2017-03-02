@@ -249,13 +249,13 @@ var app = {
 								db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
-											window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + revista.edicion + '.pdf&embedded=true', '_blank', 'location=yes');
+											window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + revista.edicion + '.pdf', '_blank', 'location=yes');
 											//descargarRevista(revista.edicion, revista.link);
 										else{
 											console.log(res.rows);
 											/*window.open(res.rows.item(0).ruta, '_system');
 											window.openFileNative.open(res.rows.item(0).ruta);*/
-											window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + revista.edicion + '.pdf&embedded=true', '_blank', 'location=yes');
+											window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + revista.edicion + '.pdf', '_blank', 'location=yes');
 										}
 									}, errorDB);
 								});
@@ -392,7 +392,7 @@ var app = {
 		
 		function download(fileEntry, uri, edicion) {
 			alertify.success("El contenido de la edición" + edicion + " se cargará en un momento");
-			window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf&embedded=true', '_blank', 'location=yes');
+			window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf', '_blank', 'location=yes');
 			/*
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
