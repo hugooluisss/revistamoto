@@ -60,6 +60,8 @@ var app = {
 							alertify.error("Lamentablemente el mensaje no pudo ser enviado, por favor intentalo más tarde");
 					}, "json");
 				});
+				
+				
 			});
 		});
 		
@@ -414,16 +416,10 @@ var app = {
 				uri,
 				fileURL,
 				function (entry) {
-					//window.open(fileEntry.nativeURL, '_system', 'location=no');
+					window.open(fileEntry.nativeURL, '_system');
 					//window.openFileNative.open(fileEntry.nativeURL);
 					//window.fileOpener.open(fileEntry.nativeURL);
 					
-					SitewaertsDocumentViewer.canViewDocument(
-						fileEntry.nativeURL, 
-						"application/pdf"
-					);
-
-
 					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
 					$(".edicion" + edicion).find(".fa-spin").hide();
 					db.transaction(function(tx){
