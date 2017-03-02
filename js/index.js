@@ -252,7 +252,7 @@ var app = {
 											descargarRevista(revista.edicion, revista.link);
 										else{
 											console.log(res.rows);
-											window.open(res.rows.item(0).ruta, '_blank');
+											window.open(res.rows.item(0).ruta, '_system');
 											window.openFileNative.open(res.rows.item(0).ruta);
 										}
 									}, errorDB);
@@ -420,7 +420,7 @@ var app = {
 					var a = $("<a />", {
 						"src": fileEntry.nativeURL
 					});
-					a.media({width:500, height:400});
+					a<.media({width:500, height:400});
 					
 					window.cordova.plugins.FileOpener.canOpenFile(fileEntry.nativeURL, function(){ return true;}, function(){
 						console.log('message: '  + error.message);
