@@ -60,10 +60,6 @@ var app = {
 							alertify.error("Lamentablemente el mensaje no pudo ser enviado, por favor intentalo más tarde");
 					}, "json");
 				});
-				
-				$.get("https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/163.pdf", function(resp){
-					$("#rev").html(resp);
-				});
 			});
 		});
 		
@@ -253,11 +249,13 @@ var app = {
 								db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
-											descargarRevista(revista.edicion, revista.link);
+											window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + revista.edicion + '.pdf&embedded=true', '_blank', 'location=yes');
+											//descargarRevista(revista.edicion, revista.link);
 										else{
 											console.log(res.rows);
-											window.open(res.rows.item(0).ruta, '_system');
-											window.openFileNative.open(res.rows.item(0).ruta);
+											/*window.open(res.rows.item(0).ruta, '_system');
+											window.openFileNative.open(res.rows.item(0).ruta);*/
+											window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + revista.edicion + '.pdf&embedded=true', '_blank', 'location=yes');
 										}
 									}, errorDB);
 								});
@@ -393,6 +391,9 @@ var app = {
 		}
 		
 		function download(fileEntry, uri, edicion) {
+			alertify.success("El contenido de la edición" + edicion + " se cargará en un momento");
+			window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf&embedded=true', '_blank', 'location=yes');
+			/*
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
 			$(".edicion" + edicion).find(".fa-spin").show();
@@ -446,7 +447,7 @@ var app = {
 		        },
 		        null, {
 		        }
-		    );
+		    );*/
 		}
 		
 		function createDataBase(){
