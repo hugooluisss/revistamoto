@@ -418,7 +418,7 @@ var app = {
 					//window.openFileNative.open(fileEntry.nativeURL);
 					//window.fileOpener.open(fileEntry.nativeURL);
 					
-					cordova.plugins.SitewaertsDocumentViewer.canViewDocument(
+					SitewaertsDocumentViewer.canViewDocument(
 						fileEntry.nativeURL, 
 						"application/pdf"
 					);
