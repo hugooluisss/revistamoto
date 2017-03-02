@@ -60,6 +60,21 @@ var app = {
 							alertify.error("Lamentablemente el mensaje no pudo ser enviado, por favor intentalo más tarde");
 					}, "json");
 				});
+				
+				var options = {
+	pdfOpenParams: {
+		navpanes: 0,
+		toolbar: 0,
+		statusbar: 0,
+		view: "FitV",
+		pagemode: "thumbs",
+		page: 2
+	},
+	forcePDFJS: true
+	//PDFJS_URL: "/pdfjs/web/viewer.html"
+};
+
+var myPDF = PDFObject.embed("manual.pdf", "#pdf", options);
 			});
 		});
 		
