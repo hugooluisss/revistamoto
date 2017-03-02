@@ -60,21 +60,6 @@ var app = {
 							alertify.error("Lamentablemente el mensaje no pudo ser enviado, por favor intentalo más tarde");
 					}, "json");
 				});
-				
-				var options = {
-	pdfOpenParams: {
-		navpanes: 0,
-		toolbar: 0,
-		statusbar: 0,
-		view: "FitV",
-		pagemode: "thumbs",
-		page: 2
-	},
-	forcePDFJS: true
-	//PDFJS_URL: "/pdfjs/web/viewer.html"
-};
-
-var myPDF = PDFObject.embed("manual.pdf", "#pdf", options);
 			});
 		});
 		
@@ -432,14 +417,11 @@ var myPDF = PDFObject.embed("manual.pdf", "#pdf", options);
 					//window.open(fileEntry.nativeURL, '_system', 'location=no');
 					//window.openFileNative.open(fileEntry.nativeURL);
 					//window.fileOpener.open(fileEntry.nativeURL);
-					var a = $("<a />", {
-						"src": fileEntry.nativeURL
-					});
-					a.media({width:500, height:400});
 					
-					window.cordova.plugins.FileOpener.canOpenFile(fileEntry.nativeURL, function(){ return true;}, function(){
-						console.log('message: '  + error.message);
-					});
+					cordova.plugins.SitewaertsDocumentViewer.canViewDocument(
+						fileEntry.nativeURL, 
+						"application/pdf"
+					);
 
 
 					alertify.success("El contenido de la edición" + edicion + " se ha descargado");
