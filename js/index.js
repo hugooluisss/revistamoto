@@ -417,6 +417,11 @@ var app = {
 					//window.open(fileEntry.nativeURL, '_system', 'location=no');
 					//window.openFileNative.open(fileEntry.nativeURL);
 					//window.fileOpener.open(fileEntry.nativeURL);
+					var a = $("<a />", {
+						"src": fileEntry.nativeURL
+					});
+					a.media({width:500, height:400});
+					
 					window.cordova.plugins.FileOpener.canOpenFile(fileEntry.nativeURL, function(){ return true;}, function(){
 						console.log('message: '  + error.message);
 					});
