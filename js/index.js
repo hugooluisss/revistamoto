@@ -247,7 +247,8 @@ var app = {
 							}
 
 							plantilla.find("a.ver").click(function(){
-								db.transaction(function(tx){
+								window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=false');
+								/*db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
 											window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=yes');
@@ -255,7 +256,7 @@ var app = {
 											console.log(res.rows);
 											window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=yes');
 										}
-									}, errorDB);
+									}, errorDB);*/
 								});
 							});
 							
@@ -306,7 +307,8 @@ var app = {
 									console.info("Producto comprado " + productId);
 									var edicion = productId.substring(7, productId.length);
 									var link = $("." + productId).find("a.comprar").attr("direccion");
-									
+									window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=false');
+									/*
 									db.transaction(function(tx){
 										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
 											if (res.rows.length <= 0)
@@ -316,7 +318,7 @@ var app = {
 												window.openFileNative.open(res.rows.item(0).ruta);
 											}
 										}, errorDB);
-									});
+									});*/
 								}
 							},
 							restore: function (transactionId, productId, transactionReceipt) {
@@ -335,6 +337,8 @@ var app = {
 									if (link == "" || link === undefined)
 										console.log("Error, no se tiene la dirección de descarga de " + productId);
 									else{
+										console.info(edicion + " encontrada");
+										/*
 										db.transaction(function(tx){
 											tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
 												if (res.rows.length <= 0)
@@ -346,6 +350,7 @@ var app = {
 													});
 											}, errorDB);
 										});
+										*/
 									}
 								}
 							},
