@@ -247,6 +247,7 @@ var app = {
 							}
 
 							plantilla.find("a.ver").click(function(){
+								console.log(revista);
 								window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=false');
 								/*db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
