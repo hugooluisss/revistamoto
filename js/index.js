@@ -256,8 +256,8 @@ var app = {
 											console.log(res.rows);
 											window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=yes');
 										}
-									}, errorDB);*/
-								});
+									}, errorDB);
+								});*/
 							});
 							
 							plantilla.find("a.comprar").click(function(){
