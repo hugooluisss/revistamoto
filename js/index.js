@@ -476,7 +476,7 @@ var app = {
 	}
 };
 
-//app.initialize();
+app.initialize();
 
 $(document).ready(function(){
 	$("a").click(function(){
@@ -515,5 +515,5 @@ $(document).ready(function(){
 		}
 	});
 	
-	app.onDeviceReady();
+	//app.onDeviceReady();
 });
