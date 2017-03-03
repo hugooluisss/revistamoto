@@ -248,7 +248,7 @@ var app = {
 
 							plantilla.find("a.ver").click(function(){
 								console.log(revista);
-								window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=true');
+								window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=no');
 								/*db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
@@ -308,14 +308,14 @@ var app = {
 									console.info("Producto comprado " + productId);
 									var edicion = productId.substring(7, productId.length);
 									var link = $("." + productId).find("a.comprar").attr("direccion");
-									window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=false');
+									window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=no');
 									/*
 									db.transaction(function(tx){
 										tx.executeSql("select * from revista where edicion = ?", [edicion], function(tx, res){
 											if (res.rows.length <= 0)
 												descargarRevista(edicion, link);
 											else{
-												window.open(res.rows.item(0).ruta, '_blank');
+												(res.rows.item(0).ruta, '_blank');
 												window.openFileNative.open(res.rows.item(0).ruta);
 											}
 										}, errorDB);
@@ -396,7 +396,7 @@ var app = {
 		
 		function download(fileEntry, uri, edicion) {
 			alertify.success("El contenido de la edición" + edicion + " se cargará en un momento");
-			window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf', '_blank', 'location=yes');
+			window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf', '_blank', 'location=no');
 			/*
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
