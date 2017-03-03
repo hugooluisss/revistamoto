@@ -250,13 +250,10 @@ var app = {
 								db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
-											window.open('https://docs.google.com/viewer?url=' + revista.direccion, '_blank', 'location=yes');
-											//descargarRevista(revista.edicion, revista.link);
+											window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=yes');
 										else{
 											console.log(res.rows);
-											/*window.open(res.rows.item(0).ruta, '_system');
-											window.openFileNative.open(res.rows.item(0).ruta);*/
-											window.open('https://docs.google.com/viewer?url=' + revista.direccion, '_blank', 'location=yes');
+											window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=yes');
 										}
 									}, errorDB);
 								});
@@ -473,7 +470,7 @@ var app = {
 	}
 };
 
-app.initialize();
+//app.initialize();
 
 $(document).ready(function(){
 	$("a").click(function(){
@@ -512,5 +509,5 @@ $(document).ready(function(){
 		}
 	});
 	
-	//app.onDeviceReady();
+	app.onDeviceReady();
 });
