@@ -1,4 +1,5 @@
-var server = "http://revistamoto.com/m/www/app/";
+//var server = "http://revistamoto.com/m/www/app/";
+var server = "http://192.168.2.4/webservicesmotos/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/";
 var suscripcionGeneral = false;
@@ -248,7 +249,7 @@ var app = {
 
 							plantilla.find("a.ver").click(function(){
 								console.log(revista);
-								window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=no');
+								//window.open('https://docs.google.com/viewer?url=' + revista.link, '_blank', 'location=no');
 								/*db.transaction(function(tx){
 									tx.executeSql("select * from revista where edicion = ?", [revista.edicion], function(tx, res){
 										if (res.rows.length <= 0)
@@ -396,7 +397,8 @@ var app = {
 		
 		function download(fileEntry, uri, edicion) {
 			alertify.success("El contenido de la edición" + edicion + " se cargará en un momento");
-			window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf', '_blank', 'location=no');
+			
+			//window.open('https://docs.google.com/viewer?url=http://revistamoto.com/m//www/dw/amgss63/' + edicion + '.pdf', '_blank', 'location=no');
 			/*
 			var fileTransfer = new FileTransfer();
 			var fileURL = fileEntry.toURL();
@@ -476,7 +478,7 @@ var app = {
 	}
 };
 
-app.initialize();
+//app.initialize();
 
 $(document).ready(function(){
 	$("a").click(function(){
@@ -515,5 +517,5 @@ $(document).ready(function(){
 		}
 	});
 	
-	//app.onDeviceReady();
+	app.onDeviceReady();
 });
