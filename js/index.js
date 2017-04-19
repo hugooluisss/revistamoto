@@ -1,5 +1,5 @@
-//var server = "http://revistamoto.com/m/www/app/";
-var server = "http://192.168.2.4/webservicesmotos/";
+var server = "http://revistamoto.com/m/www/app/";
+//var server = "http://192.168.2.4/webservicesmotos/";
 var portadas = "http://revistamoto.com/m/www/portadas/";
 var sistemaPago = "http://revistamoto.com/m/www/app/";
 var suscripcionGeneral = false;
